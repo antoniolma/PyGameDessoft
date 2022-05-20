@@ -1,16 +1,17 @@
 # Setup do mapa
-load_map = [
+level_map = [
 '                                                            ',
 '                                                            ',
 '                                                            ',
 '                                                            ',
 '                                                            ',
 '                                                            ',
-'             XX                                             ',
-'XXXXXXXXXXXXXXX   XXXXXX   XXXXXXXXXXXXXX       XXXXXXXXXXXX'
+'  M          XX                                             ',
+'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 ]
 
-tile_size = 0                             # Tamanho do tile (Bloco de chão)
-tile_height = 0                           # Altura do tile
-tile_width = tile_height/tile_size        # Largura do tile
-print(tile_width)
+tile_size = 64                                # Tamanho do tile (Bloco de chão)
+screen_width = 1200                           # Altura do tile
+screen_height = len(level_map) * tile_size    # Largura do tile
+
+print(screen_height)

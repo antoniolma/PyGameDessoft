@@ -2,13 +2,16 @@
 import functions as f     # Importa as funções
 import classes as c       # Importa as Classes
 import pygame             # Importa biblioteca Pygame
+from settings import level_map, tile_size, screen_width, screen_height
 
 # Inicializa o Pygame
 pygame.init()
 
 # ----- Gera tela principal
-window = pygame.display.set_mode((1200, 900))
+window = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Carlos, o macaco')
+clock = pygame.time.Clock()
+level = c.Level(level_map, window)
 
 # ----- Inicia estruturas de dados
 INICIO = 0
