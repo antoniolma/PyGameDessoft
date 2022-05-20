@@ -17,3 +17,17 @@ QUIT = 2
 
 game = INICIO
 
+# ===== Loop principal =====
+while game != QUIT:
+    if game == INICIO:
+        # ----- Trata eventos
+        for event in pygame.event.get():
+            # ----- Verifica consequências
+            if event.type == pygame.KEYUP:
+                if event.key==pygame.K_SPACE:
+                    game = GAME
+            if event.type == pygame.QUIT:
+                game = QUIT
+        
+        # ----- Gera saídas
+        window.fill((0, 100, 0))  # Preenche com a cor verde
