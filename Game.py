@@ -31,3 +31,17 @@ while game != QUIT:
         
         # ----- Gera saídas
         window.fill((0, 100, 0))  # Preenche com a cor verde
+        
+    elif game == GAME:
+        # ----- Trata eventos
+        for event in pygame.event.get():
+            # ----- Verifica consequências
+
+            if event.type == pygame.QUIT:
+                game = QUIT           
+
+        # ----- Gera saídas
+        window.fill((59, 131, 189))  # Preenche com a cor azul
+
+    # ----- Atualiza estado do jogo
+    pygame.display.update()  # Mostra o novo frame para o jogador
