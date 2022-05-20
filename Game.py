@@ -1,8 +1,8 @@
 # Jogo
-import functions as f     # Importa as funções
-import classes as c       # Importa as Classes
-import pygame             # Importa biblioteca Pygame
-from settings import level_map, tile_size, screen_width, screen_height
+from functions import *     # Importa as funções
+from classes import *       # Importa as Classes
+import pygame               # Importa biblioteca Pygame
+from settings import *
 
 # Inicializa o Pygame
 pygame.init()
@@ -11,7 +11,7 @@ pygame.init()
 window = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Carlos, o macaco')
 clock = pygame.time.Clock()
-level = c.Level(level_map, window)
+level = Level(level_map, window)
 
 # ----- Inicia estruturas de dados
 INICIO = 0
@@ -39,12 +39,13 @@ while game != QUIT:
         # ----- Trata eventos
         for event in pygame.event.get():
             # ----- Verifica consequências
-
             if event.type == pygame.QUIT:
                 game = QUIT           
 
         # ----- Gera saídas
         window.fill((59, 131, 189))  # Preenche com a cor azul
+        level.run()
 
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
+    clock.tick(60)

@@ -36,17 +36,26 @@ class Level:
             for tile_index, tile in enumerate(linha): # Coluna
 
                 # Coordenada X do tile no mapa
-                self.x = linha_index
+                x = linha_index * tile_size
                 # Coordenada Y do tile no mapa
-                self.y = tile_index
+                y = tile_index * tile_size
                 
-                if tile == 'X':
+                if tile == 'X':     # Chão
+                    tile = Tile((x,y), tile_size)
+                    self.tiles.add(tile)
+                elif tile == 'M':   # Macaco
                     pass
-                elif tile == 'M':
-                    pass
+                
+            
+    def run(self):
+        self.tiles.draw(self.display_surface)
                     
 
 # Classe Tile (Tijolo/ Bloco do Chão)
 class Tile:
-    def __init__(self):
-        pass
+    def __init__(self, position, size):
+        super().__init__()
+
+        self.image = pygame.Surface( (size, size)  ) # Cria um retângulo
+        self.image.fill('grey')
+        self.rect = self.image.get_rect(topleft = position)
