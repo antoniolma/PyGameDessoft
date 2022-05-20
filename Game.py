@@ -9,3 +9,11 @@ pygame.init()
 # ----- Gera tela principal
 window = pygame.display.set_mode((1200, 900))
 pygame.display.set_caption('Carlos, o macaco')
+
+# ----- Inicia estruturas de dados
+INICIO = 0
+GAME = 1
+QUIT = 2
+
+game = INICIO
+
