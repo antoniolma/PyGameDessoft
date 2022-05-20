@@ -36,9 +36,9 @@ class Level:
             for tile_index, tile in enumerate(linha): # Coluna
 
                 # Coordenada X do tile no mapa
-                x = linha_index * tile_size
+                x = tile_index * tile_size
                 # Coordenada Y do tile no mapa
-                y = tile_index * tile_size
+                y = linha_index * tile_size
                 
                 if tile == 'X':     # Chão
                     tile = Tile((x,y), tile_size)
@@ -52,7 +52,7 @@ class Level:
                     
 
 # Classe Tile (Tijolo/ Bloco do Chão)
-class Tile:
+class Tile(pygame.sprite.Sprite)    :
     def __init__(self, position, size):
         super().__init__()
 
