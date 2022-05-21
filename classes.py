@@ -3,9 +3,15 @@ from settings import level_map, screen_height, tile_size, screen_width
 
 # Classe do Carlos, o Macaco
 class Player(pygame.sprite.Sprite):
-    def __init__(self, img):
+    def __init__(self, pos):
+        super().__init__()
         pygame.sprite.Sprite.__init__(self)
+
+        [player_w, player_h] = [ tile_size, tile_size ]   # player size
         
+        self.image = pygame.image.load('Assets/sprites/personagens/teste_macaco.png')  #player img
+        self.rect = self.image.get_rect(topleft = pos)  
+        self.image = pygame.transform.scale(self.image, (player_w, player_h))   # Rescale the player
 
 # Classe Inimigo: Caracol
 class Snail(pygame.sprite.Sprite):
@@ -30,6 +36,7 @@ class Level:
 
     def setup_level(self, layout):
         self.tiles = pygame.sprite.Group()
+        self.player = pygame.sprite.GroupSingle()
 
         # Verifica lista para criar o setup do mapa
         for linha_index, linha in enumerate(layout):  # Linha
@@ -42,13 +49,18 @@ class Level:
                 
                 if tile == 'X':     # Chão
                     tile = Tile((x,y), tile_size)
-                    self.tiles.add(tile)
+                    self.tiles.add(tile) # Adiciona ao Grupo Tiles
                 elif tile == 'M':   # Macaco
-                    pass
+                    player_sprite = Player((x,y))
+                    self.player.add(player_sprite)
                 
             
     def run(self):
+        # Level Tiles
         self.tiles.draw(self.display_surface)
+
+        # Player
+        self.player.draw(self.display_surface)
                     
 
 # Classe Tile (Tijolo/ Bloco do Chão)
@@ -57,5 +69,5 @@ class Tile(pygame.sprite.Sprite)    :
         super().__init__()
 
         self.image = pygame.Surface( (size, size)  ) # Cria um retângulo
-        self.image.fill('grey')
+        self.image.fill('green')
         self.rect = self.image.get_rect(topleft = position)

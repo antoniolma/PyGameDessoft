@@ -13,6 +13,10 @@ pygame.display.set_caption('Carlos, o macaco')
 clock = pygame.time.Clock()
 level = Level(level_map, window)
 
+# ============ Inicia Assets ===========
+player = Player((192, 576))
+
+
 # ----- Inicia estruturas de dados
 INICIO = 0
 GAME = 1
