@@ -35,6 +35,9 @@ class Player(pygame.sprite.Sprite):
         # Movimento pulo
         if keys[pygame.K_SPACE] or keys[pygame.K_w]:
             self.jump()
+        
+        # if keys[pygame.K_RCTRL]:
+        #     self.draw()
 
     # Gravidade sobre o player
     def apply_gravity(self):
@@ -44,6 +47,14 @@ class Player(pygame.sprite.Sprite):
     def jump(self):
         self.direction.y = self.jump_speed
 
+    # ferramenta de Debug (mostra grid de tiles e macaco)
+    # def draw(self):
+        # for tile in Level.tiles:
+        #     Level.display_surface.blit(tile.image, tile.rect)
+        #     pygame.draw.rect(Level.display_surface, (255, 255, 255), tile.rect, 2)
+        # Level.display_surface.blit(self.image, self.rect)
+        # pygame.draw.rect(Level.__init__.display_surface, (255, 255, 255), self.rect, 2)
+    
     # Atualiza o player
     def update(self):
         self.get_input()
