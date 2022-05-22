@@ -25,9 +25,9 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
 
         # Movimento pros lados
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_d]:
             self.direction.x = 1
-        elif keys[pygame.K_LEFT]:
+        elif keys[pygame.K_a]:
             self.direction.x = -1
         else:
             self.direction.x = 0
@@ -47,7 +47,6 @@ class Player(pygame.sprite.Sprite):
     # Atualiza o player
     def update(self):
         self.get_input()
-        self.rect.x += self.direction.x * self.speedx
         self.apply_gravity()
 
 # Classe Inimigo: Caracol
@@ -67,9 +66,6 @@ class Level:
         self.display_surface = surface
         # Chama a função setup_level (criar mapa)
         self.setup_level(level_data)
-        
-        # Load Images
-        # floor_img = pygame.image.load('')
 
     def setup_level(self, layout):
         # Level Setup
@@ -93,7 +89,36 @@ class Level:
                     player_sprite = Player((x,y))
                     self.player.add(player_sprite)
                 
-            
+    def horizontal_collision(self):
+        player = self.player.sprite
+        player.rect.x += player.direction.x * player.speedx
+
+        for sprite in self.tiles.sprites():
+            # Checa a colisão do player com um sprite
+            if sprite.rect.colliderect(player.rect): 
+                if player.direction.x > 0: 
+                    # Player indo a direita, colide com lado esquerdo do sprite
+                    player.rect.right = sprite.rect.left
+                elif player.direction.x < 0: 
+                    # Player indo a esquerda, colide com lado direito do sprite
+                    player.rect.left = sprite.rect.right
+    
+    def vertical_collision(self):
+        player = self.player.sprite
+        player.apply_gravity()
+
+        for sprite in self.tiles.sprites():
+            # Checa a colisão do player com um sprite
+            if sprite.rect.colliderect(player.rect): 
+                if player.direction.y > 0: 
+                    # Player caindo, colide com o chão
+                    player.rect.bottom = sprite.rect.top
+                    player.direction.y = 0      # Cancela a gravidade (evita uma catástrofe...)
+                elif player.direction.y < 0: 
+                    # Player pulando, colide com o fundo do sprite
+                    player.rect.top = sprite.rect.bottom
+                    player.direction.y = 0      # Macaco não fica preso no teto
+
     def run(self):
         # Level Tiles
         self.tiles.update(self.world_shift)
@@ -101,7 +126,9 @@ class Level:
 
         # Player
         self.player.update()
+        self.horizontal_collision()
         self.player.draw(self.display_surface)
+        self.vertical_collision()
                     
 
 # Classe Tile (Tijolo/ Bloco do Chão)
@@ -109,8 +136,10 @@ class Tile(pygame.sprite.Sprite)    :
     def __init__(self, position, size):
         super().__init__()
 
-        self.image = pygame.image.load('Assets/sprites/teste/tile.png')  # tiles
-        self.image = pygame.transform.scale(self.image, (size,size))
+        self.image = pygame.Surface( (size, size) )
+        self.image.fill('green')
+        # self.image = pygame.image.load('Assets/sprites/teste/tile.png')  # tiles
+        # self.image = pygame.transform.scale(self.image, (size,size))
         self.rect = self.image.get_rect(topleft = position)  
         
 
