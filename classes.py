@@ -12,6 +12,25 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load('Assets/sprites/personagens/teste_macaco.png')  #player img
         self.rect = self.image.get_rect(topleft = pos)  
         self.image = pygame.transform.scale(self.image, (player_w, player_h))   # Rescale the player
+        
+        self.direction = pygame.math.Vector2(0,0)  # Cria um Vetor2 (2 dimensões) (lista de valores x e y)
+        self.speedx = 4
+
+    # Pega as teclas pressionadas relacionadas ao player
+    def get_input(self):
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_RIGHT]:
+            self.direction.x = 1
+        elif keys[pygame.K_LEFT]:
+            self.direction.x = -1
+        else:
+            self.direction.x = 0
+
+    # Atualiza o player
+    def update(self):
+        self.get_input()
+        self.rect.x += self.direction.x * self.speedx
 
 # Classe Inimigo: Caracol
 class Snail(pygame.sprite.Sprite):
@@ -35,8 +54,10 @@ class Level:
         # floor_img = pygame.image.load('')
 
     def setup_level(self, layout):
+        # Level Setup
         self.tiles = pygame.sprite.Group()
         self.player = pygame.sprite.GroupSingle()
+        self.world_shift = 0
 
         # Verifica lista para criar o setup do mapa
         for linha_index, linha in enumerate(layout):  # Linha
@@ -57,9 +78,11 @@ class Level:
             
     def run(self):
         # Level Tiles
+        self.tiles.update(self.world_shift)
         self.tiles.draw(self.display_surface)
 
         # Player
+        self.player.update()
         self.player.draw(self.display_surface)
                     
 
@@ -71,3 +94,6 @@ class Tile(pygame.sprite.Sprite)    :
         self.image = pygame.Surface( (size, size)  ) # Cria um retângulo
         self.image.fill('green')
         self.rect = self.image.get_rect(topleft = position)
+
+    def update(self, x_shift):
+        self.rect.x += x_shift
