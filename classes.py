@@ -14,24 +14,41 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = pos)  
         self.image = pygame.transform.scale(self.image, (player_w, player_h))   # Rescale the player
         
+        # Movimente
         self.direction = pygame.math.Vector2(0,0)  # Cria um Vetor2 (2 dimensões) (lista de valores x e y)
         self.speedx = 4
+        self.gravity = 0.8
+        self.jump_speed = -12
 
     # Pega as teclas pressionadas relacionadas ao player
     def get_input(self):
         keys = pygame.key.get_pressed()
 
+        # Movimento pros lados
         if keys[pygame.K_RIGHT]:
             self.direction.x = 1
         elif keys[pygame.K_LEFT]:
             self.direction.x = -1
         else:
             self.direction.x = 0
+        
+        # Movimento pulo
+        if keys[pygame.K_SPACE] or keys[pygame.K_w]:
+            self.jump()
+
+    # Gravidade sobre o player
+    def apply_gravity(self):
+        self.direction.y += self.gravity  # Todo frame desce 0.8 em Y
+        self.rect.y += self.direction.y   # O retângulo do player se move
+
+    def jump(self):
+        self.direction.y = self.jump_speed
 
     # Atualiza o player
     def update(self):
         self.get_input()
         self.rect.x += self.direction.x * self.speedx
+        self.apply_gravity()
 
 # Classe Inimigo: Caracol
 class Snail(pygame.sprite.Sprite):
@@ -93,7 +110,7 @@ class Tile(pygame.sprite.Sprite)    :
         super().__init__()
 
         self.image = pygame.image.load('Assets/sprites/teste/tile.png')  # tiles
-        self.image = pygame.transform.scale(self.image, (tile_size,tile_size))
+        self.image = pygame.transform.scale(self.image, (size,size))
         self.rect = self.image.get_rect(topleft = position)  
         
 
