@@ -1,6 +1,7 @@
 import pygame
 from settings import level_map, screen_height, tile_size, screen_width
 
+
 # Classe do Carlos, o Macaco
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
@@ -9,7 +10,7 @@ class Player(pygame.sprite.Sprite):
 
         [player_w, player_h] = [ tile_size, tile_size ]   # player size
         
-        self.image = pygame.image.load('Assets/sprites/personagens/teste_macaco.png')  #player img
+        self.image = pygame.image.load('Assets/sprites/teste/el mamaco parado.png')  #player img
         self.rect = self.image.get_rect(topleft = pos)  
         self.image = pygame.transform.scale(self.image, (player_w, player_h))   # Rescale the player
         
@@ -91,9 +92,9 @@ class Tile(pygame.sprite.Sprite)    :
     def __init__(self, position, size):
         super().__init__()
 
-        self.image = pygame.Surface( (size, size)  ) # Cria um retângulo
-        self.image.fill('green')
-        self.rect = self.image.get_rect(topleft = position)
+        self.image = pygame.image.load('Assets/sprites/teste/tile.png')  # tiles
+        self.rect = self.image.get_rect()  
+        #self.image = pygame.transform.scale(self.image, ())
 
     def update(self, x_shift):
         self.rect.x += x_shift
