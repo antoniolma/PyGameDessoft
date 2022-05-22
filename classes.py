@@ -93,8 +93,9 @@ class Tile(pygame.sprite.Sprite)    :
         super().__init__()
 
         self.image = pygame.image.load('Assets/sprites/teste/tile.png')  # tiles
-        self.rect = self.image.get_rect()  
-        #self.image = pygame.transform.scale(self.image, ())
+        self.image = pygame.transform.scale(self.image, (tile_size,tile_size))
+        self.rect = self.image.get_rect(topleft = position)  
+        
 
-    def update(self, x_shift):
+    def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
         self.rect.x += x_shift
