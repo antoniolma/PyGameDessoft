@@ -25,9 +25,9 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
 
         # Movimento pros lados
-        if keys[pygame.K_d] or keys[pygame.K_LEFT]:
+        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             self.direction.x = 1
-        elif keys[pygame.K_a] or keys[pygame.K_RIGHT]:
+        elif keys[pygame.K_a] or keys[pygame.K_LEFT]:
             self.direction.x = -1
         else:
             self.direction.x = 0
@@ -35,6 +35,12 @@ class Player(pygame.sprite.Sprite):
         # Movimento pulo
         if keys[pygame.K_SPACE] or keys[pygame.K_w] or keys[pygame.K_UP]:
             self.jump()
+        
+        # Não permite personagem sair da tela
+        if self.rect.right > screen_width:
+            self.rect.right = screen_width
+        if self.rect.left < 0:
+            self.rect.left = 0
         
         # if keys[pygame.K_RCTRL]:
         #     self.draw()
