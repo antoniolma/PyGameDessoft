@@ -41,8 +41,8 @@ class Player(pygame.sprite.Sprite):
 
     # Gravidade sobre o player
     def apply_gravity(self):
-        if self.direction.y >= 16:
-            self.direction.y = 16
+        if self.direction.y >= 32:
+            self.direction.y = 32
         self.direction.y += self.gravity  # Todo frame desce 0.8 em Y
         self.rect.y += self.direction.y   # O retângulo do player se move
 
@@ -60,7 +60,6 @@ class Player(pygame.sprite.Sprite):
     # Atualiza o player
     def update(self):
         self.get_input()
-        self.apply_gravity()
         # self.draw()
 
 # Classe Inimigo: Caracol
@@ -107,7 +106,8 @@ class Level:
         player = self.player.sprite
         player.rect.x += player.direction.x * player.speedx
 
-        for sprite in self.tiles.sprites():
+        hits = pygame.sprite.spritecollide(player, self.tiles, False)
+        for sprite in hits:
             # Checa a colisão do player com um sprite
             if sprite.rect.colliderect(player.rect): 
                 if player.direction.x > 0: 
@@ -121,7 +121,8 @@ class Level:
         player = self.player.sprite
         player.apply_gravity()
 
-        for sprite in self.tiles.sprites():
+        hits = pygame.sprite.spritecollide(player, self.tiles, False)
+        for sprite in hits:
             # Checa a colisão do player com um sprite
             if sprite.rect.colliderect(player.rect): 
                 if player.direction.y > 0: 
