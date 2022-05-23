@@ -10,9 +10,9 @@ class Player(pygame.sprite.Sprite):
 
         [player_w, player_h] = [ tile_size, tile_size ]   # player size
         
-        self.image = pygame.image.load('Assets/sprites/teste/el mamaco parado.png')  #player img
-        self.rect = self.image.get_rect(topleft = pos)  
+        self.image = pygame.image.load('Assets/sprites/teste/el mamaco parado.png')  #player img 
         self.image = pygame.transform.scale(self.image, (player_w, player_h))   # Rescale the player
+        self.rect = self.image.get_rect(topleft = pos) 
         
         # Movimente
         self.direction = pygame.math.Vector2(0,0)  # Cria um Vetor2 (2 dimensões) (lista de valores x e y)
