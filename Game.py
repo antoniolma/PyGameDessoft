@@ -27,7 +27,7 @@ QUIT = 2
 game = INICIO
 
 # ===== Loop principal =====
-pygame.mixer.music.play()
+pygame.mixer.music.play(loops=-1)
 
 while game != QUIT:
     
