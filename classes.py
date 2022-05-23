@@ -41,6 +41,8 @@ class Player(pygame.sprite.Sprite):
 
     # Gravidade sobre o player
     def apply_gravity(self):
+        if self.direction.y >= 16:
+            self.direction.y = 16
         self.direction.y += self.gravity  # Todo frame desce 0.8 em Y
         self.rect.y += self.direction.y   # O retângulo do player se move
 
@@ -49,16 +51,17 @@ class Player(pygame.sprite.Sprite):
 
     # ferramenta de Debug (mostra grid de tiles e macaco)
     # def draw(self):
-        # for tile in Level.tiles:
-        #     Level.display_surface.blit(tile.image, tile.rect)
-        #     pygame.draw.rect(Level.display_surface, (255, 255, 255), tile.rect, 2)
-        # Level.display_surface.blit(self.image, self.rect)
-        # pygame.draw.rect(Level.__init__.display_surface, (255, 255, 255), self.rect, 2)
+    #     for tile in Level.tiles:
+    #         Level.display_surface.blit(tile.image, tile.rect)
+    #         pygame.draw.rect(Level.display_surface, (255, 255, 255), tile.rect, 2)
+    #     Level.display_surface.blit(self.image, self.rect)
+    #     pygame.draw.rect(Level.display_surface, (255, 255, 255), self.rect, 2)
     
     # Atualiza o player
     def update(self):
         self.get_input()
         self.apply_gravity()
+        # self.draw()
 
 # Classe Inimigo: Caracol
 class Snail(pygame.sprite.Sprite):
