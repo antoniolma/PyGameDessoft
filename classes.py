@@ -78,7 +78,7 @@ class Player(pygame.sprite.Sprite):
             # Marca o tick da nova imagem.
             self.last_shot = now
             # A nova bala vai ser criada logo acima e no centro horizontal da nave
-            bananinha = Banana(self.rect.centery, self.rect.left)
+            bananinha = Banana(self.rect.centery, self.rect.right)
             self.groups['all_sprites'].add(bananinha)
             self.groups['all_bananas'].add(bananinha)
 
@@ -108,7 +108,7 @@ class Snail(pygame.sprite.Sprite):
 
 # Classe do tiro
 class Banana(pygame.sprite.Sprite):
-    def __init__(self, centery, left):
+    def __init__(self, centery, rightplayer):
         pygame.sprite.Sprite.__init__(self)
         
         self.image = pygame.image.load('Assets/sprites/teste/banana munição.png').convert_alpha()  #player img 
@@ -116,7 +116,7 @@ class Banana(pygame.sprite.Sprite):
         self.rect = self.image.get_rect() 
 
         self.rect.centery = centery + 15
-        self.rect.right = left
+        self.rect.left = rightplayer
         self.speedx = 10
 
     def update(self):
