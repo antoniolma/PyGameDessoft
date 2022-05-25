@@ -1,5 +1,5 @@
 # Jogo
-from inspect import getsource
+from turtle import window_height
 from functions import *     # Importa as funções
 from classes import *       # Importa as Classes
 import pygame               # Importa biblioteca Pygame
@@ -54,7 +54,10 @@ while game != QUIT:
                     game = GAME
             if event.type == pygame.QUIT:
                 game = QUIT
-        
+            
+        font = pygame.font.SysFont(None, 48)
+        text = font.render('Aperte SPACE para continuar', True, (255, 255, 255))
+
         # ----- Gera saídas
         window.fill((0, 100, 0))  # Preenche com a cor verdeS
         
@@ -67,7 +70,7 @@ while game != QUIT:
     
 
         # ----- Gera saídas
-        window.fill((59, 131, 189))  # Preenche com a cor azul
+        window.fill((11, 11, 69))  # Preenche com a cor azul
         level.run()
         all_sprites.update() 
         all_sprites.draw(window)         

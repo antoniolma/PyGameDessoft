@@ -34,6 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 4
         self.gravity = 0.8
         self.jump_speed = -12
+        self.j = False
 
     # Pega as teclas pressionadas relacionadas ao player
     def get_input(self):
@@ -61,7 +62,11 @@ class Player(pygame.sprite.Sprite):
             self.rect.right = screen_width
         if self.rect.left < 0:
             self.rect.left = 0
-         
+
+        # Não permite que o personagem pule para além da tela
+        if self.rect.top < 0:
+            self.rect.top = 0
+        
         # if keys[pygame.K_RCTRL]:
         #     self.draw()
 
@@ -73,7 +78,9 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.direction.y   # O retângulo do player se move
 
     def jump(self):
-        self.direction.y = self.jump_speed
+        if not self.j:
+            self.direction.y = self.jump_speed
+            self.j = True
 
     def shoot(self, municao):
         # Verifica se pode atirar
@@ -204,6 +211,7 @@ class Level:
                     # Player caindo, colide com o chão
                     player.rect.bottom = sprite.rect.top
                     player.direction.y = 0      # Cancela a gravidade (evita uma catástrofe...)
+                    player.j = False
                 elif player.direction.y < 0: 
                     # Player pulando, colide com o fundo do sprite
                     player.rect.top = sprite.rect.bottom
