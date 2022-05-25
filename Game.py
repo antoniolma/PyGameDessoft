@@ -15,10 +15,14 @@ clock = pygame.time.Clock()
 level = Level(level_map, window)
 
 # ============ Inicia Assets ===========
+all_bananas = pygame.sprite.Group()
+all_sprites = pygame.sprite.Group()
+groups['all_sprites'] = all_sprites
+groups['all_bananas'] = all_bananas
 player = Player((192, 576))
 pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
 pygame.mixer.music.set_volume(0.4)
-
+ 
 # ----- Inicia estruturas de dados
 INICIO = 0
 GAME = 1
@@ -49,12 +53,16 @@ while game != QUIT:
         for event in pygame.event.get():
             # ----- Verifica consequências
             if event.type == pygame.QUIT:
-                game = QUIT           
+                game = QUIT                  
+    
 
         # ----- Gera saídas
         window.fill((59, 131, 189))  # Preenche com a cor azul
         level.run()
-
+        all_sprites.update() 
+        all_sprites.draw(window)          
+    
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
+    
     clock.tick(60)
