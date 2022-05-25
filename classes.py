@@ -41,6 +41,10 @@ class Player(pygame.sprite.Sprite):
             self.rect.right = screen_width
         if self.rect.left < 0:
             self.rect.left = 0
+
+        # Não permite que o personagem pule para além da tela
+        if self.rect.top < 0:
+            self.rect.top = 0
         
         # if keys[pygame.K_RCTRL]:
         #     self.draw()
