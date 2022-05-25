@@ -1,4 +1,5 @@
 # Jogo
+from inspect import getsource
 from functions import *     # Importa as funções
 from classes import *       # Importa as Classes
 import pygame               # Importa biblioteca Pygame
@@ -21,7 +22,13 @@ groups['all_sprites'] = all_sprites
 groups['all_bananas'] = all_bananas
 player = Player((192, 576))
 pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
-pygame.mixer.music.set_volume(0.4)
+pygame.mixer.music.set_volume(0.6)
+
+x = 10
+for i in range(municao_gasta(groups)):
+        x += 30
+        balas_restantes = Munition(x, 10)
+        all_sprites.add(balas_restantes)
  
 # ----- Inicia estruturas de dados
 INICIO = 0
@@ -34,7 +41,7 @@ game = INICIO
 
 
 # ===== Loop principal =====
-pygame.mixer.music.play(loops=-1)
+pygame.mixer.music.play(loops=-2)
 
 while game != QUIT:
     
@@ -49,7 +56,7 @@ while game != QUIT:
                 game = QUIT
         
         # ----- Gera saídas
-        window.fill((0, 100, 0))  # Preenche com a cor verde
+        window.fill((0, 100, 0))  # Preenche com a cor verdeS
         
     elif game == GAME:
         # ----- Trata eventos

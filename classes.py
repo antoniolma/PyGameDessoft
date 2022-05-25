@@ -8,7 +8,6 @@ def municao_gasta(groups):
 
     for i in range(len( groups['all_bananas'])):
         municao -= 1
-
     return municao
 
 # Classe do Carlos, o Macaco
@@ -55,7 +54,6 @@ class Player(pygame.sprite.Sprite):
         # Atirar
         if keys[pygame.K_SPACE]:
             municao = municao_gasta(groups)
-            print(municao)
             self.shoot(municao)
         
         # Não permite personagem sair da tela
@@ -132,6 +130,17 @@ class Banana(pygame.sprite.Sprite):
     def update(self):
         # A bala só se move no eixo x
         self.rect.x += self.speedx
+
+class Munition(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = pygame.image.load('Assets/sprites/teste/municao.png').convert_alpha()  #player img 
+        self.image = pygame.transform.scale(self.image, (32,32))   # Rescale the player
+        self.rect = self.image.get_rect() 
+
+        self.rect.top = y
+        self.rect.left = x
 
 # Classe Inimigo: Vespa
 class Wasp(pygame.sprite.Sprite):
