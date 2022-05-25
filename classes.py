@@ -186,10 +186,10 @@ class Tile(pygame.sprite.Sprite)    :
     def __init__(self, position, size):
         super().__init__()
 
-        self.image = pygame.Surface( (size, size) )
-        self.image.fill('green')
-        # self.image = pygame.image.load('Assets/sprites/teste/tile.png')  # tiles
-        # self.image = pygame.transform.scale(self.image, (size,size))
+        # self.image = pygame.Surface( (size, size) )
+        # self.image.fill('green')
+        self.image = pygame.image.load('Assets/sprites/teste/tile.png')  # tiles
+        self.image = pygame.transform.scale(self.image, (size,size))
         self.rect = self.image.get_rect(topleft = position)  
         
 
