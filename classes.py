@@ -8,7 +8,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         pygame.sprite.Sprite.__init__(self)
 
-        [player_w, player_h] = [ tile_size * 1.5, tile_size *1.5 ]   # player size
+        [player_w, player_h] = [ tile_size, tile_size ]   # player size
         
         self.image = pygame.image.load('Assets/sprites/teste/el mamaco parado.png').convert_alpha()  #player img 
         self.image = pygame.transform.scale(self.image, (player_w, player_h))   # Rescale the player
