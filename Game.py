@@ -30,6 +30,9 @@ QUIT = 2
 
 game = INICIO
 
+# Inicializando variáveis
+
+
 # ===== Loop principal =====
 pygame.mixer.music.play(loops=-1)
 
@@ -60,7 +63,7 @@ while game != QUIT:
         window.fill((59, 131, 189))  # Preenche com a cor azul
         level.run()
         all_sprites.update() 
-        all_sprites.draw(window)          
+        all_sprites.draw(window)         
     
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador

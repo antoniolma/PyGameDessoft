@@ -3,6 +3,14 @@ from settings import level_map, screen_height, tile_size, screen_width
 
 groups = {}
 
+def municao_gasta(groups):
+    municao = 3
+
+    for i in range(len( groups['all_bananas'])):
+        municao -= 1
+
+    return municao
+
 # Classe do Carlos, o Macaco
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
@@ -46,14 +54,16 @@ class Player(pygame.sprite.Sprite):
 
         # Atirar
         if keys[pygame.K_SPACE]:
-            self.shoot()
+            municao = municao_gasta(groups)
+            print(municao)
+            self.shoot(municao)
         
         # Não permite personagem sair da tela
         if self.rect.right > screen_width:
             self.rect.right = screen_width
         if self.rect.left < 0:
             self.rect.left = 0
-        
+         
         # if keys[pygame.K_RCTRL]:
         #     self.draw()
 
@@ -67,14 +77,14 @@ class Player(pygame.sprite.Sprite):
     def jump(self):
         self.direction.y = self.jump_speed
 
-    def shoot(self):
+    def shoot(self, municao):
         # Verifica se pode atirar
         now = pygame.time.get_ticks()
         # Verifica quantos ticks se passaram desde o último tiro.
         elapsed_ticks = now - self.last_shot
 
         # Se já pode atirar novamente...
-        if elapsed_ticks > self.shoot_ticks:
+        if elapsed_ticks > self.shoot_ticks and municao > 0:
             # Marca o tick da nova imagem.
             self.last_shot = now
             # Criando nova banana
