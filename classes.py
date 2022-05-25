@@ -8,11 +8,13 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         pygame.sprite.Sprite.__init__(self)
 
-        [player_w, player_h] = [ tile_size, tile_size ]   # player size
+        [player_w, player_h] = [ tile_size * 1.5, tile_size *1.5 ]   # player size
         
-        self.image = pygame.image.load('Assets/sprites/teste/el mamaco parado.png')  #player img 
+        self.image = pygame.image.load('Assets/sprites/teste/el mamaco parado.png').convert_alpha()  #player img 
         self.image = pygame.transform.scale(self.image, (player_w, player_h))   # Rescale the player
-        self.rect = self.image.get_rect(topleft = pos) 
+        self.rect = self.image.get_rect(topleft = pos)
+        self.rect.centerx = player_w / 2 
+        self.rect.centery = player_h / 2
         
         # Movimente
         self.direction = pygame.math.Vector2(0,0)  # Cria um Vetor2 (2 dimensões) (lista de valores x e y)
@@ -55,6 +57,9 @@ class Player(pygame.sprite.Sprite):
     def jump(self):
         self.direction.y = self.jump_speed
 
+    def shoot(self):
+        bananinha = Banana(self, self.rect.centery, self.rect.centerx)
+
     # ferramenta de Debug (mostra grid de tiles e macaco)
     # def draw(self):
     #     for tile in Level.tiles:
@@ -71,7 +76,31 @@ class Player(pygame.sprite.Sprite):
 # Classe Inimigo: Caracol
 class Snail(pygame.sprite.Sprite):
     def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        
+        self.image = pygame.image.load('Assets/sprites/teste/el caracol.png').convert_alpha()  #player img 
+        self.image = pygame.transform.scale(self.image, (tile_size, tile_size ))   # Rescale the player
+        self.rect = self.image.get_rect() 
+
         pass
+
+# Classe do tiro
+class Banana(pygame.sprite.Sprite):
+    def __init__(self, centery, centerx):
+        pygame.sprite.Sprite.__init__(self)
+        
+        self.image = pygame.image.load('Assets/sprites/teste/banana munição.png').convert_alpha()  #player img 
+        self.image = pygame.transform.scale(self.image, (tile_size, tile_size ))   # Rescale the player
+        self.rect = self.image.get_rect() 
+
+        self.rect.centery = centery
+        self.rect.centerx = centerx
+        self.speedx = 1
+
+        def update(self):
+        # A bala só se move no eixo x
+            self.rect.x += self.speedx
+
 
 # Classe Inimigo: Vespa
 class Wasp(pygame.sprite.Sprite):
