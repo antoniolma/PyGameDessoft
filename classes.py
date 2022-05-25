@@ -1,6 +1,7 @@
 import pygame
 from settings import level_map, screen_height, tile_size, screen_width
 
+groups = {}
 
 # Classe do Carlos, o Macaco
 class Player(pygame.sprite.Sprite):
@@ -13,8 +14,13 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load('Assets/sprites/teste/el mamaco parado.png').convert_alpha()  #player img 
         self.image = pygame.transform.scale(self.image, (player_w, player_h))   # Rescale the player
         self.rect = self.image.get_rect(topleft = pos)
-        self.rect.centerx = player_w / 2 
+        self.rect.left = player_w
         self.rect.centery = player_h / 2
+        self.groups = groups
+
+        # Mercando de quanto em quanto tempo é possível atirar
+        self.last_shot = pygame.time.get_ticks()
+        self.shoot_ticks = 300
         
         # Movimente
         self.direction = pygame.math.Vector2(0,0)  # Cria um Vetor2 (2 dimensões) (lista de valores x e y)
@@ -35,8 +41,12 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = 0
         
         # Movimento pulo
-        if keys[pygame.K_SPACE] or keys[pygame.K_w] or keys[pygame.K_UP]:
+        if keys[pygame.K_w] or keys[pygame.K_UP]:
             self.jump()
+
+        # Atirar
+        if keys[pygame.K_SPACE]:
+            self.shoot()
         
         # Não permite personagem sair da tela
         if self.rect.right > screen_width:
@@ -58,7 +68,19 @@ class Player(pygame.sprite.Sprite):
         self.direction.y = self.jump_speed
 
     def shoot(self):
-        bananinha = Banana(self, self.rect.centery, self.rect.centerx)
+        # Verifica se pode atirar
+        now = pygame.time.get_ticks()
+        # Verifica quantos ticks se passaram desde o último tiro.
+        elapsed_ticks = now - self.last_shot
+
+        # Se já pode atirar novamente...
+        if elapsed_ticks > self.shoot_ticks:
+            # Marca o tick da nova imagem.
+            self.last_shot = now
+            # A nova bala vai ser criada logo acima e no centro horizontal da nave
+            bananinha = Banana(self.rect.centery, self.rect.left)
+            self.groups['all_sprites'].add(bananinha)
+            self.groups['all_bananas'].add(bananinha)
 
     # ferramenta de Debug (mostra grid de tiles e macaco)
     # def draw(self):
@@ -86,21 +108,20 @@ class Snail(pygame.sprite.Sprite):
 
 # Classe do tiro
 class Banana(pygame.sprite.Sprite):
-    def __init__(self, centery, centerx):
+    def __init__(self, centery, left):
         pygame.sprite.Sprite.__init__(self)
         
         self.image = pygame.image.load('Assets/sprites/teste/banana munição.png').convert_alpha()  #player img 
         self.image = pygame.transform.scale(self.image, (tile_size, tile_size ))   # Rescale the player
         self.rect = self.image.get_rect() 
 
-        self.rect.centery = centery
-        self.rect.centerx = centerx
-        self.speedx = 1
+        self.rect.centery = centery + 15
+        self.rect.right = left
+        self.speedx = 10
 
-        def update(self):
+    def update(self):
         # A bala só se move no eixo x
-            self.rect.x += self.speedx
-
+        self.rect.x += self.speedx
 
 # Classe Inimigo: Vespa
 class Wasp(pygame.sprite.Sprite):
