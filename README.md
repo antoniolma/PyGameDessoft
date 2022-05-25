@@ -11,11 +11,11 @@ Carlos, o macaco, está no primeiro semestre de Engenharia da Computação na In
 ====================================  FICHA DO JOGO  ====================================
 
 Tipo de Jogo: Plataformer.
-Estilo: 128-bit.
+Estilo: 64-bit.
 
 Comandos: 
 >( W , A , S, D , SpaceBarS ) --> Movimentação.
 >
->( K , L ) --> Ataque
+>( SPACE ) --> Ataque
 >
 >( F ) --> Interação

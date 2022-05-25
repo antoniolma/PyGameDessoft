@@ -20,7 +20,7 @@ class Player(pygame.sprite.Sprite):
 
         # Mercando de quanto em quanto tempo é possível atirar
         self.last_shot = pygame.time.get_ticks()
-        self.shoot_ticks = 300
+        self.shoot_ticks = 500
         
         # Movimente
         self.direction = pygame.math.Vector2(0,0)  # Cria um Vetor2 (2 dimensões) (lista de valores x e y)
@@ -77,7 +77,7 @@ class Player(pygame.sprite.Sprite):
         if elapsed_ticks > self.shoot_ticks:
             # Marca o tick da nova imagem.
             self.last_shot = now
-            # A nova bala vai ser criada logo acima e no centro horizontal da nave
+            # Criando nova banana
             bananinha = Banana(self.rect.centery, self.rect.right)
             self.groups['all_sprites'].add(bananinha)
             self.groups['all_bananas'].add(bananinha)
@@ -116,7 +116,7 @@ class Banana(pygame.sprite.Sprite):
         self.rect = self.image.get_rect() 
 
         self.rect.centery = centery + 15
-        self.rect.left = rightplayer
+        self.rect.left = rightplayer - 35
         self.speedx = 10
 
     def update(self):
