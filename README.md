@@ -14,6 +14,8 @@ Tipo de Jogo: Plataformer.
 Estilo: 128-bit.
 
 Comandos: 
-( W , A , S, D , SpaceBarS ) --> Movimentação.
-( K , L ) --> Ataque
-( F ) --> Interação
+>( W , A , S, D , SpaceBarS ) --> Movimentação.
+>
+>( K , L ) --> Ataque
+>
+>( F ) --> Interação
