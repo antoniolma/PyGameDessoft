@@ -59,7 +59,8 @@ while game != QUIT:
         text = font.render('Aperte SPACE para continuar', True, (255, 255, 255))
 
         # ----- Gera saídas
-        window.fill((0, 100, 0))  # Preenche com a cor verdeS
+        window.fill((0, 100, 0))  # Preenche com a cor verde
+        window.blit(text, (160, 356))
         
     elif game == GAME:
         # ----- Trata eventos
