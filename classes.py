@@ -39,7 +39,7 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2(0,0)  # Cria um Vetor2 (2 dimensões) (lista de valores x e y)
         self.speedx = 4
         self.gravity = 0.8
-        self.jump_speed = -12
+        self.jump_speed = -18
         self.can_jump = True
 
     # Pega as teclas pressionadas relacionadas ao player
