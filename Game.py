@@ -68,7 +68,6 @@ while game != QUIT:
             # ----- Verifica consequências
             if event.type == pygame.QUIT:
                 game = QUIT                  
-    
 
         # ----- Gera saídas
         window.fill((11, 11, 69))  # Preenche com a cor azul
