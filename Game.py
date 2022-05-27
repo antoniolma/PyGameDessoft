@@ -33,7 +33,8 @@ for i in range(municao_gasta(groups)):
 # ----- Inicia estruturas de dados
 INICIO = 0
 GAME = 1
-QUIT = 2
+GAME_OVER = 2
+QUIT = 3
 
 game = INICIO
 
@@ -68,12 +69,19 @@ while game != QUIT:
             # ----- Verifica consequências
             if event.type == pygame.QUIT:
                 game = QUIT                  
+<<<<<<< HEAD
+=======
+    
+        # ----- Player Info
+        if player.hp <= 0:
+            game = QUIT
+>>>>>>> a09bb45be14192e738a4d069c24a9b1c97ab0d24
 
         # ----- Gera saídas
         window.fill((11, 11, 69))  # Preenche com a cor azul
         level.run()
         all_sprites.update() 
-        all_sprites.draw(window)         
+        all_sprites.draw(window)
     
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
