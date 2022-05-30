@@ -9,7 +9,6 @@ groups['all_sprites'] = all_sprites
 groups['all_bananas'] = all_bananas
 groups['all_snails'] = all_snails
 
-
 # Classe do Carlos, o Macaco
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
@@ -45,11 +44,12 @@ class Player(pygame.sprite.Sprite):
         # Munição
         self.banana_storage = pygame.sprite.Group()
         x = pos[0]
+
         for i in range(3):
             x += 30
             balas_restantes = Munition(x, 10)
             self.banana_storage.add(balas_restantes)
-            self.groups['all_sprites'].add(balas_restantes)
+            self.groups["all_sprites"].add(balas_restantes)
 
     # Pega as teclas pressionadas relacionadas ao player
     def get_input(self):
@@ -98,7 +98,7 @@ class Player(pygame.sprite.Sprite):
             self.can_jump = False
 
     def shoot(self):
-        print(len(self.banana_storage))
+       
         if len(self.banana_storage) > 0:
             # Verifica se pode atirar
             now = pygame.time.get_ticks()
@@ -145,6 +145,7 @@ class Snail(pygame.sprite.Sprite):
         self.image = pygame.image.load('Assets/sprites/teste/el caracol.png').convert_alpha()  #player img 
         self.image = pygame.transform.scale(self.image, (size - 5, size ))   # Rescale the player
         self.rect = self.image.get_rect(topleft = position)  
+        self.mask = pygame.mask.from_surface(self.image)
 
     def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
         self.rect.x += x_shift
@@ -157,6 +158,7 @@ class Banana(pygame.sprite.Sprite):
         self.image = pygame.image.load('Assets/sprites/teste/banana munição.png').convert_alpha()  #player img 
         self.image = pygame.transform.scale(self.image, (tile_size, tile_size ))   # Rescale the player
         self.rect = self.image.get_rect() 
+        self.mask = pygame.mask.from_surface(self.image)
 
         self.rect.centery = centery + 15
         self.rect.left = rightplayer - 35
@@ -229,7 +231,7 @@ class Level:
                 elif tile == 'C':
                     snail = Snail((x,y), tile_size)
                     self.enemies.add(snail)
-                    all_snails.add(snail)
+                    #all_snails.add(snail)
                 
     def horizontal_collision(self):
         player = self.player.sprite

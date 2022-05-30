@@ -17,11 +17,13 @@ level = Level(level_map, window)
 
 # ============ Inicia Assets ===========
 
-player = Player((192, 576))
+#player = Player((192, 576))
 pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
 pygame.mixer.music.set_volume(0.6)
+all_sprites = groups['all_sprites']
+all_bananas = groups['all_bananas']
+all_snails = groups['all_snails'] 
 
- 
 # ----- Inicia estruturas de dados
 INICIO = 0
 GAME = 1
@@ -56,6 +58,7 @@ while game != QUIT:
         window.blit(text, (160, 356))
         
     elif game == GAME:
+        
         # ----- Trata eventos
         for event in pygame.event.get():
             # ----- Verifica consequências
@@ -63,10 +66,10 @@ while game != QUIT:
                 game = QUIT                  
     
         # ----- Player Info
-        if player.hp <= 0:
-            game = QUIT
+        #if player.hp <= 0:
+        #   game = QUIT
 
-        #hits
+        hits = pygame.sprite.groupcollide(all_snails, all_bananas, True, True, pygame.sprite.collide_mask)
 
         # ----- Gera saídas
         window.fill((11, 11, 69))  # Preenche com a cor azul
