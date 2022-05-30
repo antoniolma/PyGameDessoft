@@ -2,6 +2,12 @@ import pygame
 from settings import level_map, screen_height, tile_size, screen_width
 
 groups = {}
+all_bananas = pygame.sprite.Group()
+all_sprites = pygame.sprite.Group()
+all_snails = pygame.sprite.Group()
+groups['all_sprites'] = all_sprites
+groups['all_bananas'] = all_bananas
+groups['all_snails'] = all_snails
 
 def municao_gasta(groups):
     municao = 3
@@ -41,6 +47,13 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 0.8
         self.jump_speed = -18
         self.can_jump = True
+        self.banana_storage = pygame.sprite.Group()
+        x = pos[0]
+        for i in range(3):
+            x += 30
+            balas_restantes = Munition(x, 10)
+            self.banana_storage.add(balas_restantes)
+            self.groups['all_sprites'].add(balas_restantes)
 
     # Pega as teclas pressionadas relacionadas ao player
     def get_input(self):
@@ -63,7 +76,8 @@ class Player(pygame.sprite.Sprite):
         # Atirar
         if keys[pygame.K_SPACE]:
             municao = municao_gasta(groups)
-            self.shoot(municao)
+            #self.shoot(municao)
+            self.shoot()
         
         # Não permite personagem sair da tela
         if self.rect.right > screen_width:
@@ -90,20 +104,23 @@ class Player(pygame.sprite.Sprite):
             self.direction.y = self.jump_speed
             self.can_jump = False
 
-    def shoot(self, municao):
-        # Verifica se pode atirar
-        now = pygame.time.get_ticks()
-        # Verifica quantos ticks se passaram desde o último tiro.
-        elapsed_ticks = now - self.last_shot
+    def shoot(self):
+        print(len(self.banana_storage))
+        if len(self.banana_storage) > 0:
+            # Verifica se pode atirar
+            now = pygame.time.get_ticks()
+            # Verifica quantos ticks se passaram desde o último tiro.
+            elapsed_ticks = now - self.last_shot
 
-        # Se já pode atirar novamente...
-        if elapsed_ticks > self.shoot_ticks and municao > 0:
-            # Marca o tick da nova imagem.
-            self.last_shot = now
-            # Criando nova banana
-            bananinha = Banana(self.rect.centery, self.rect.right)
-            self.groups['all_sprites'].add(bananinha)
-            self.groups['all_bananas'].add(bananinha)
+            # Se já pode atirar novamente...
+            if elapsed_ticks > self.shoot_ticks:
+                self.banana_storage.sprites()[-1].kill()
+                # Marca o tick da nova imagem.
+                self.last_shot = now
+                # Criando nova banana
+                bananinha = Banana(self.rect.centery, self.rect.right)
+                self.groups['all_sprites'].add(bananinha)
+                self.groups['all_bananas'].add(bananinha)
         
     def was_hit(self):
          # Consequências ao player
@@ -120,11 +137,11 @@ class Player(pygame.sprite.Sprite):
         # Pulinho pra direita
         elif self.direction.x < 0: 
             self.direction.x = 10
-        pass
 
     # Atualiza o player
     def update(self):
         self.get_input()
+
 
 # Classe Inimigo: Caracol
 class Snail(pygame.sprite.Sprite):
@@ -133,7 +150,7 @@ class Snail(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         self.image = pygame.image.load('Assets/sprites/teste/el caracol.png').convert_alpha()  #player img 
-        self.image = pygame.transform.scale(self.image, (size, size -10 ))   # Rescale the player
+        self.image = pygame.transform.scale(self.image, (size - 5, size ))   # Rescale the player
         self.rect = self.image.get_rect(topleft = position)  
 
     def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
@@ -155,7 +172,9 @@ class Banana(pygame.sprite.Sprite):
     def update(self):
         # A bala só se move no eixo x
         self.rect.x += self.speedx
-
+        if self.rect.x < - 50 or self.rect.x > screen_width + 50:
+            self.kill()
+        
 class Munition(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -217,6 +236,7 @@ class Level:
                 elif tile == 'C':
                     snail = Snail((x,y), tile_size)
                     self.enemies.add(snail)
+                    all_snails.add(snail)
                 
     def horizontal_collision(self):
         player = self.player.sprite

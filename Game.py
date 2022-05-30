@@ -16,19 +16,11 @@ clock = pygame.time.Clock()
 level = Level(level_map, window)
 
 # ============ Inicia Assets ===========
-all_bananas = pygame.sprite.Group()
-all_sprites = pygame.sprite.Group()
-groups['all_sprites'] = all_sprites
-groups['all_bananas'] = all_bananas
+
 player = Player((192, 576))
 pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
 pygame.mixer.music.set_volume(0.6)
 
-x = 10
-for i in range(municao_gasta(groups)):
-        x += 30
-        balas_restantes = Munition(x, 10)
-        all_sprites.add(balas_restantes)
  
 # ----- Inicia estruturas de dados
 INICIO = 0
@@ -73,6 +65,8 @@ while game != QUIT:
         # ----- Player Info
         if player.hp <= 0:
             game = QUIT
+
+        #hits
 
         # ----- Gera saídas
         window.fill((11, 11, 69))  # Preenche com a cor azul
