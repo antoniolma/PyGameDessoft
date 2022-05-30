@@ -133,7 +133,7 @@ class Snail(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         self.image = pygame.image.load('Assets/sprites/teste/el caracol.png').convert_alpha()  #player img 
-        self.image = pygame.transform.scale(self.image, (size, size ))   # Rescale the player
+        self.image = pygame.transform.scale(self.image, (size, size -10 ))   # Rescale the player
         self.rect = self.image.get_rect(topleft = position)  
 
     def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
