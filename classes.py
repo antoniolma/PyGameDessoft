@@ -9,12 +9,6 @@ groups['all_sprites'] = all_sprites
 groups['all_bananas'] = all_bananas
 groups['all_snails'] = all_snails
 
-def municao_gasta(groups):
-    municao = 3
-
-    for i in range(len( groups['all_bananas'])):
-        municao -= 1
-    return municao
 
 # Classe do Carlos, o Macaco
 class Player(pygame.sprite.Sprite):
@@ -47,6 +41,8 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 0.8
         self.jump_speed = -18
         self.can_jump = True
+
+        # Munição
         self.banana_storage = pygame.sprite.Group()
         x = pos[0]
         for i in range(3):
@@ -59,7 +55,6 @@ class Player(pygame.sprite.Sprite):
     def get_input(self):
         keys = pygame.key.get_pressed()
 
-        
         if self.can_move:
             # Movimento pros lados
             if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
@@ -75,8 +70,6 @@ class Player(pygame.sprite.Sprite):
 
         # Atirar
         if keys[pygame.K_SPACE]:
-            municao = municao_gasta(groups)
-            #self.shoot(municao)
             self.shoot()
         
         # Não permite personagem sair da tela
