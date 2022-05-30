@@ -16,11 +16,11 @@ clock = pygame.time.Clock()
 level = Level(level_map, window)
 
 # ============ Inicia Assets ===========
-
+#camera_group = pygame.sprite.Group()
 player = Player((192, 576))
 pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
 pygame.mixer.music.set_volume(0.6)
-
+ 
  
 # ----- Inicia estruturas de dados
 INICIO = 0

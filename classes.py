@@ -16,18 +16,20 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         pygame.sprite.Sprite.__init__(self)
 
-        [player_w, player_h] = [ tile_size, tile_size ]   # player size
+        [self.player_w, self.player_h] = [ tile_size, tile_size ]   # player size
 
         # Player Status
         self.hp = 6          # Vida do personagem
         
         # Sprite do player
         self.image = pygame.image.load('Assets/sprites/teste/el mamaco parado.png').convert_alpha()  #player img 
-        self.image = pygame.transform.scale(self.image, (player_w, player_h))   # Rescale the player
+        self.image = pygame.transform.scale(self.image, (self.player_w, self.player_h))   # Rescale the player
         self.rect = self.image.get_rect(topleft = pos)
-        self.rect.left = player_w
-        self.rect.centery = player_h / 2
+        self.rect.left = self.player_w
+        self.rect.centery = self.player_h / 2
         self.groups = groups
+        self.lvl_section = 1
+        self.centerx = self.player_w/2
 
         # Mercando de quanto em quanto tempo é possível atirar
         self.last_shot = pygame.time.get_ticks()
@@ -192,6 +194,12 @@ class Level:
         # Chama a função setup_level (criar mapa)
         self.setup_level(level_data)
 
+        # Lado do player para câmera
+        self.side_x = screen_width/2
+        self.zawarado = 0
+        self.minx = 0
+        self.maxx = 3072
+
     def setup_level(self, layout):
         # Level Setup
         self.tiles = pygame.sprite.Group()
@@ -288,7 +296,31 @@ class Level:
                 if sprite.rect.colliderect(player.rect): 
                     player.was_hit()
             pass
-            
+    
+    def can_shift(self):
+        self.zawarado -= self.world_shift
+        pass
+
+    def cam_scroll(self):
+        player = self.player.sprite
+
+        # Pega a posição do player e para onde vai
+        self.direction_x = player.direction.x
+        if self.direction_x > 0:
+            self.side_x = player.rect.x + player.player_w
+        elif self.direction_x < 0: 
+            self.side_x = player.rect.x
+        
+        # Movimento da Camera
+        if self.side_x >= screen_width * 3/4 and self.direction_x > 0 and self.zawarado < 3072-768: #indo a direita
+            self.world_shift = -8
+            player.speedx = 0
+        elif self.side_x <= screen_width/4 and self.direction_x < 0 and self.zawarado > 0: #indo a esquerda
+            self.world_shift = 8
+            player.speedx = 0
+        else:
+            self.world_shift = 0
+            player.speedx = 6
 
     def run(self):
         # Level Tiles
@@ -306,6 +338,8 @@ class Level:
         self.horizontal_collision()
         self.player.draw(self.display_surface)
         self.vertical_collision()
+        self.cam_scroll()
+        self.can_shift()
                     
 
 # Classe Tile (Tijolo/ Bloco do Chão)
