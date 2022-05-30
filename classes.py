@@ -271,7 +271,7 @@ class Level:
         # Tipos diferentes de hits
         #      Group Collide ou Sprite collide pra espinhos?
         hits_esp = pygame.sprite.spritecollide(player, self.spikes, False)
-        hits_snail = pygame.sprite.spritecollide(player, self.enemies, False)
+        hits_enemies = pygame.sprite.spritecollide(player, self.enemies, False)
 
         # Verifica se pode tomar hit
         self.hit_ticks = 5000
