@@ -18,7 +18,7 @@ class Player(pygame.sprite.Sprite):
         [self.player_w, self.player_h] = [ tile_size, tile_size ]   # player size
 
         # Player Status
-        self.hp = 6          # Vida do personagem
+        self.hp = 3          # Vida do personagem
         
         # Sprite do player
         self.image = pygame.image.load('Assets/sprites/teste/el mamaco parado.png').convert_alpha()  #player img 
@@ -52,6 +52,9 @@ class Player(pygame.sprite.Sprite):
             balas_restantes = Munition(x, 10)
             self.banana_storage.add(balas_restantes)
             self.groups["all_sprites"].add(balas_restantes)
+
+        # Vida 
+
 
     # Pega as teclas pressionadas relacionadas ao player
     def get_input(self):
@@ -100,7 +103,6 @@ class Player(pygame.sprite.Sprite):
             self.can_jump = False
 
     def shoot(self):
-       
         if len(self.banana_storage) > 0:
             # Verifica se pode atirar
             now = pygame.time.get_ticks()
@@ -144,8 +146,8 @@ class Snail(pygame.sprite.Sprite):
         super().__init__()
         pygame.sprite.Sprite.__init__(self)
         
-        self.image = pygame.image.load('Assets/sprites/teste/el caracol.png').convert_alpha()  #player img 
-        self.image = pygame.transform.scale(self.image, (size - 5, size ))   # Rescale the player
+        self.image = pygame.image.load('Assets/sprites/teste/el caracol.png').convert_alpha() 
+        self.image = pygame.transform.scale(self.image, (size, size ))   
         self.rect = self.image.get_rect(topleft = position)  
         self.mask = pygame.mask.from_surface(self.image)
 

@@ -1,9 +1,7 @@
 # Setup do mapa
 
 level_map = [
-'                                                ',
-'                                                ',
-'                                                ',
+
 '                                                ',
 '                                                ',
 '                                                ',

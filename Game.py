@@ -17,12 +17,11 @@ level = Level(level_map, window)
 
 # ============ Inicia Assets ===========
 
-#player = Player((192, 576))
-pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
-pygame.mixer.music.set_volume(0.6)
 all_sprites = groups['all_sprites']
 all_bananas = groups['all_bananas']
 all_snails = groups['all_snails'] 
+
+assets = load_assets()
 
 # ----- Inicia estruturas de dados
 INICIO = 0
@@ -36,7 +35,7 @@ game = INICIO
 
 
 # ===== Loop principal =====
-pygame.mixer.music.play(loops=-2)
+pygame.mixer.music.play(loops=-1000)
 
 while game != QUIT:
     
@@ -69,15 +68,17 @@ while game != QUIT:
         #if player.hp <= 0:
         #   game = QUIT
         print(len(all_snails))
-        hits = pygame.sprite.groupcollide(all_bananas, all_snails, True, True, pygame.sprite.collide_mask)
+        hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_snails'] , True, True, pygame.sprite.collide_mask)
         for banana in hits:
             print('pew')
 
         # ----- Gera saídas
-        window.fill((11, 11, 69))  # Preenche com a cor azul
+        window.fill((0, 0, 0))  # Preenche com a cor branca
+        window.blit(assets['background'], (0, 0))
         level.run()
         all_sprites.update() 
         all_sprites.draw(window)
+
     
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
