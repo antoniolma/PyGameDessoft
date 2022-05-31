@@ -6,10 +6,10 @@ level_map = [
 '                                                ',
 '                                                ',
 '                                        XXXXXXXX',
-'        C   XEEX                     X      XXXX',
-' M E   XXXXXXXXX        X           XXXX    XXXX',
-'XXXX   XXXXXXXXXEE  C  XX           XXXXEEEEXXXX',
-'XXXX   XXXXXXXXXXXXXXXXXX  XXXXXXXXXXXXXXXXXXXXX'
+'        C   XEEX                     X      FFFF',
+' M E   XXXXXXXXX        X           XFXX    FFFF',
+'XXXX   FFFFFFFFFEE  C  XF           FFFFEEEEFFFF',
+'FFFF   FFFFFFFFFXXXXXXXFF  XXXXXXXXXFFFFFFFFFFFF'
 ]
 
 tile_size = 64                                # Tamanho do tile (Bloco de chão)

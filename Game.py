@@ -19,9 +19,6 @@ clock = pygame.time.Clock()
 level = Level(level_map, window)
 
 # ============ Inicia Assets ===========
-all_sprites = groups['all_sprites']
-all_bananas = groups['all_bananas']
-all_snails = groups['all_snails'] 
 
 
 # ----- Inicia estruturas de dados
@@ -68,10 +65,12 @@ while game != QUIT:
         # ----- Player Info
         #if player.hp <= 0:
         #   game = QUIT
-        print(len(all_snails))
+
+        # Verifica se o caracol foi atingido pela banana - caso sim, ambos são deletados 
+        hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_tiles'] , True, False, pygame.sprite.collide_mask)
+
+        # Verifica se a "bala" bateu no chão - se sim, ela é deletada
         hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_snails'] , True, True, pygame.sprite.collide_mask)
-        for banana in hits:
-            print('pew')
 
         # ----- Gera saídas
         window.fill((0, 0, 0))  # Preenche com a cor branca
