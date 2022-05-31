@@ -2,7 +2,7 @@ import pygame
 from settings import level_map, screen_height, tile_size, screen_width
 from assets import *
 
-groups = {}
+groups = {}  # Inicializa diionário que conterá os grupos de sprites
 all_bananas = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 all_snails = pygame.sprite.Group()
@@ -47,7 +47,7 @@ class Player(pygame.sprite.Sprite):
         self.jump_speed = -18
         self.can_jump = True
 
-        # Munição
+        # Munição disponível (que aparece para o player)
         self.banana_storage = pygame.sprite.Group()
         x = pos[0]
 
@@ -58,6 +58,13 @@ class Player(pygame.sprite.Sprite):
             self.groups["all_sprites"].add(balas_restantes)
 
         # Vida 
+        self.live = pygame.sprite.Group()
+        x = pos[0]
+
+        for i in range(3):
+            x += 30
+            vidas_restantes = Heart(x, 40)
+            self.groups["all_sprites"].add(vidas_restantes)
 
 
     # Pega as teclas pressionadas relacionadas ao player
@@ -129,8 +136,8 @@ class Player(pygame.sprite.Sprite):
         
     def was_hit(self):
          # Consequências ao player
-        self.hp -= 1
-        print(self.hp)
+        self.live.sprites()[-1].kill()
+        print(self.live)
         self.jump_cd = False
         self.can_move = False
 
@@ -181,13 +188,27 @@ class Banana(pygame.sprite.Sprite):
         self.rect.x += self.speedx
         if self.rect.x < - 50 or self.rect.x > screen_width + 50:
             self.kill()
-        
+
+
+# Classe dos sprites que indicam ao jogador quantas bananas eles tem disponíveis         
 class Munition(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = pygame.image.load('Assets/sprites/teste/municao.png').convert_alpha() 
         self.image = pygame.transform.scale(self.image, (32,32))   
+        self.rect = self.image.get_rect() 
+
+        self.rect.top = y
+        self.rect.left = x
+
+# Classe dos sprites de vida 
+class Heart(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = pygame.image.load('Assets/sprites/teste/live.png').convert_alpha() 
+        self.image = pygame.transform.scale(self.image, (24,24))   
         self.rect = self.image.get_rect() 
 
         self.rect.top = y
@@ -236,7 +257,7 @@ class Level:
                     self.tiles.add(tile) # Adiciona ao Grupo Tiles
                     groups['all_tiles'].add(tile)
 
-                # Tile
+                # Tile de fundo (embaixo do padrão)
                 if tile == 'F':
                     tile = Tile_fundo((x,y), tile_size)
                     self.tiles.add(tile) # Adiciona ao Grupo Tiles
