@@ -19,9 +19,6 @@ clock = pygame.time.Clock()
 level = Level(level_map, window)
 
 # ============ Inicia Assets ===========
-all_sprites = groups['all_sprites']
-all_bananas = groups['all_bananas']
-all_snails = groups['all_snails'] 
 
 
 # ----- Inicia estruturas de dados
@@ -68,10 +65,9 @@ while game != QUIT:
         # ----- Player Info
         #if player.hp <= 0:
         #   game = QUIT
-        print(len(all_snails))
+
+        hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_tiles'] , True, False, pygame.sprite.collide_mask)
         hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_snails'] , True, True, pygame.sprite.collide_mask)
-        for banana in hits:
-            print('pew')
 
         # ----- Gera saídas
         window.fill((0, 0, 0))  # Preenche com a cor branca

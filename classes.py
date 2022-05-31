@@ -6,9 +6,11 @@ groups = {}
 all_bananas = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 all_snails = pygame.sprite.Group()
+all_tiles = pygame.sprite.Group()
 groups['all_sprites'] = all_sprites
 groups['all_bananas'] = all_bananas
 groups['all_snails'] = all_snails
+groups['all_tiles'] = all_tiles
 
 # Classe do Carlos, o Macaco
 class Player(pygame.sprite.Sprite):
@@ -25,6 +27,7 @@ class Player(pygame.sprite.Sprite):
         self.image = assets[PLAYER].convert_alpha()  #player img 
         self.image = pygame.transform.scale(self.image, (self.player_w, self.player_h))   # Rescale the player
         self.rect = self.image.get_rect(topleft = pos)
+        self.mask = pygame.mask.from_surface(self.image)
         self.rect.left = self.player_w
         self.rect.centery = self.player_h / 2
         self.groups = groups
@@ -152,7 +155,7 @@ class Snail(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         self.image = pygame.image.load('Assets/sprites/teste/el caracol.png').convert_alpha() 
-        self.image = pygame.transform.scale(self.image, (size, size ))   
+        self.image = pygame.transform.scale(self.image, (78,64))   
         self.rect = self.image.get_rect(topleft = position)  
         self.mask = pygame.mask.from_surface(self.image)
 
@@ -231,6 +234,13 @@ class Level:
                 if tile == 'X':
                     tile = Tile((x,y), tile_size)
                     self.tiles.add(tile) # Adiciona ao Grupo Tiles
+                    groups['all_tiles'].add(tile)
+
+                # Tile
+                if tile == 'F':
+                    tile = Tile_fundo((x,y), tile_size)
+                    self.tiles.add(tile) # Adiciona ao Grupo Tiles
+                    groups['all_tiles'].add(tile)
 
                 # Player
                 elif tile == 'M':
@@ -360,8 +370,20 @@ class Tile(pygame.sprite.Sprite):
         self.image = pygame.image.load('Assets/sprites/teste/tile.png')  # tiles
         self.image = pygame.transform.scale(self.image, (size,size))
         self.rect = self.image.get_rect(topleft = position)  
+        self.mask = pygame.mask.from_surface(self.image)
         
+    def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
+        self.rect.x += x_shift
 
+class Tile_fundo(pygame.sprite.Sprite):
+    def __init__(self, position, size):
+        super().__init__()
+
+        self.image = pygame.image.load('Assets/sprites/teste/tile_fundo.png')  # tiles
+        self.image = pygame.transform.scale(self.image, (size,size))
+        self.rect = self.image.get_rect(topleft = position)  
+        self.mask = pygame.mask.from_surface(self.image)
+        
     def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
         self.rect.x += x_shift
 
