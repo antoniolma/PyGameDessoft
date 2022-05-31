@@ -19,7 +19,7 @@ clock = pygame.time.Clock()
 level = Level(level_map, window)
 
 # ============ Inicia Assets ===========
-
+ja_foram = 0 
 
 # ----- Inicia estruturas de dados
 INICIO = 0
@@ -71,7 +71,12 @@ while game != QUIT:
 
         # Verifica se a "bala" bateu no chão - se sim, ela é deletada
         hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_snails'] , True, True, pygame.sprite.collide_mask)
-
+        '''
+        for banana in hits:
+            ja_foram += 1
+            if ja_foram > 2:
+                hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_snails'] , False, True, pygame.sprite.collide_mask)
+        '''
         # ----- Gera saídas
         window.fill((0, 0, 0))  # Preenche com a cor branca
         window.blit(assets['background'], (0, 0))

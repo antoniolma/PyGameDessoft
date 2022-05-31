@@ -59,11 +59,11 @@ class Player(pygame.sprite.Sprite):
 
         # Vida 
         self.live = pygame.sprite.Group()
-        x = pos[0]
+        x = pos[0] + 5
 
         for i in range(3):
             x += 30
-            vidas_restantes = Heart(x, 40)
+            vidas_restantes = Heart(x, 50)
             self.groups["all_sprites"].add(vidas_restantes)
 
 
@@ -208,7 +208,7 @@ class Heart(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = pygame.image.load('Assets/sprites/teste/live.png').convert_alpha() 
-        self.image = pygame.transform.scale(self.image, (24,24))   
+        self.image = pygame.transform.scale(self.image, (18,18))   
         self.rect = self.image.get_rect() 
 
         self.rect.top = y
@@ -413,8 +413,8 @@ class Espinho(pygame.sprite.Sprite):
     def __init__(self, position, size):
         super().__init__()
 
-        self.image = pygame.Surface( (size, size) )
-        self.image.fill('green')
+        self.image = pygame.image.load('Assets/sprites/teste/espinhos.png')  
+        self.image = pygame.transform.scale(self.image, (size,size))
         self.rect = self.image.get_rect(topleft = position)
     
     def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
