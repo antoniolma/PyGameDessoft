@@ -52,7 +52,7 @@ while game != QUIT:
 
         # ----- Gera saídas
         window.fill((0, 100, 0))  # Preenche com a cor verde
-        window.blit(text, (160, 356))
+        window.blit(text, (280, 230))
         
     elif game == GAME:
         
