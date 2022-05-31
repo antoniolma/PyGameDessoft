@@ -1,5 +1,6 @@
 import pygame
 from settings import level_map, screen_height, tile_size, screen_width
+from assets import *
 
 groups = {}
 all_bananas = pygame.sprite.Group()
@@ -21,7 +22,7 @@ class Player(pygame.sprite.Sprite):
         self.hp = 3          # Vida do personagem
         
         # Sprite do player
-        self.image = pygame.image.load('Assets/sprites/teste/el mamaco parado.png').convert_alpha()  #player img 
+        self.image = assets[PLAYER].convert_alpha()  #player img 
         self.image = pygame.transform.scale(self.image, (self.player_w, self.player_h))   # Rescale the player
         self.rect = self.image.get_rect(topleft = pos)
         self.rect.left = self.player_w
@@ -64,8 +65,12 @@ class Player(pygame.sprite.Sprite):
             # Movimento pros lados
             if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
                 self.direction.x = 1
+                self.image = pygame.image.load('Assets/sprites/teste/el mamaco parado.png').convert_alpha()
+                self.image = pygame.transform.scale(self.image, (self.player_w, self.player_h))
             elif keys[pygame.K_a] or keys[pygame.K_LEFT]:
                 self.direction.x = -1
+                self.image = pygame.image.load('Assets/sprites/teste/mamaco_virado.png').convert_alpha()
+                self.image = pygame.transform.scale(self.image, (self.player_w, self.player_h))
             else:
                 self.direction.x = 0
             
@@ -317,10 +322,10 @@ class Level:
             self.side_x = player.rect.x
         
         # Movimento da Camera
-        if self.side_x >= screen_width * 3/4 and self.direction_x > 0 and self.zawarado < 3072-768: #indo a direita
+        if self.side_x >= screen_width * 3/4 and self.direction_x > 0 and self.zawarado < self.maxx - screen_width: #indo a direita
             self.world_shift = -8
             player.speedx = 0
-        elif self.side_x <= screen_width/4 and self.direction_x < 0 and self.zawarado > 0: #indo a esquerda
+        elif self.side_x <= screen_width/4 and self.direction_x < 0 and self.zawarado > self.minx: #indo a esquerda
             self.world_shift = 8
             player.speedx = 0
         else:
