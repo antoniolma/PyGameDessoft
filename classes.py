@@ -160,7 +160,7 @@ class Banana(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         self.image = pygame.image.load('Assets/sprites/teste/banana munição.png').convert_alpha()  #player img 
-        self.image = pygame.transform.scale(self.image, (tile_size, tile_size ))   # Rescale the player
+        self.image = pygame.transform.scale(self.image, (16, 16))   # Rescale the player
         self.rect = self.image.get_rect() 
         self.mask = pygame.mask.from_surface(self.image)
 
