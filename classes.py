@@ -229,6 +229,7 @@ class Level:
                 elif tile == 'M':
                     player_sprite = Player((x,y))
                     self.player.add(player_sprite)
+                    
 
                 # Espinho
                 elif tile == 'E':
@@ -239,7 +240,7 @@ class Level:
                 elif tile == 'C':
                     snail = Snail((x,y), tile_size)
                     self.enemies.add(snail)
-                    #all_snails.add(snail)
+                    groups["all_snails"].add(snail)
                 
     def horizontal_collision(self):
         player = self.player.sprite

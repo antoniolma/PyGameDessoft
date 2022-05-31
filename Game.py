@@ -68,8 +68,10 @@ while game != QUIT:
         # ----- Player Info
         #if player.hp <= 0:
         #   game = QUIT
-
-        hits = pygame.sprite.groupcollide(all_snails, all_bananas, True, True, pygame.sprite.collide_mask)
+        print(len(all_snails))
+        hits = pygame.sprite.groupcollide(all_bananas, all_snails, True, True, pygame.sprite.collide_mask)
+        for banana in hits:
+            print('pew')
 
         # ----- Gera saídas
         window.fill((11, 11, 69))  # Preenche com a cor azul
