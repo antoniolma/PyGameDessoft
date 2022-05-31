@@ -317,10 +317,10 @@ class Level:
             self.side_x = player.rect.x
         
         # Movimento da Camera
-        if self.side_x >= screen_width * 3/4 and self.direction_x > 0 and self.zawarado < 3072-768: #indo a direita
+        if self.side_x >= screen_width * 3/4 and self.direction_x > 0 and self.zawarado < self.maxx - screen_width: #indo a direita
             self.world_shift = -8
             player.speedx = 0
-        elif self.side_x <= screen_width/4 and self.direction_x < 0 and self.zawarado > 0: #indo a esquerda
+        elif self.side_x <= screen_width/4 and self.direction_x < 0 and self.zawarado > self.minx: #indo a esquerda
             self.world_shift = 8
             player.speedx = 0
         else:
