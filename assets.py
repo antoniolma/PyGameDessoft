@@ -5,9 +5,10 @@ from settings import screen_height, screen_width
 
 PLAYER = 'player'
 
-def load_assets():
-    assets = {}
 
+assets = {}
+
+def load_assets():
         # Carregando todos os sprites
     assets['background'] = pygame.image.load('Assets/sprites/teste/fundo_completo1.png')
     assets['background'] = pygame.transform.scale(assets['background'], (screen_width, screen_height))

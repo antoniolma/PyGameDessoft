@@ -1,12 +1,15 @@
 # Jogo
 from turtle import window_height
-from functions import *     # Importa as funções
+from assets import *        # Importa as funções
 from classes import *       # Importa as Classes
 import pygame               # Importa biblioteca Pygame
 from settings import *
 
 # Inicializa o Pygame
 pygame.init()
+load_assets()
+pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
+pygame.mixer.music.set_volume(0.6)
 pygame.mixer.init()
 
 # ----- Gera tela principal
@@ -16,12 +19,10 @@ clock = pygame.time.Clock()
 level = Level(level_map, window)
 
 # ============ Inicia Assets ===========
-
 all_sprites = groups['all_sprites']
 all_bananas = groups['all_bananas']
 all_snails = groups['all_snails'] 
 
-assets = load_assets()
 
 # ----- Inicia estruturas de dados
 INICIO = 0
