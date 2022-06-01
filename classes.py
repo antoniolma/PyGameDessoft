@@ -20,9 +20,6 @@ class Player(pygame.sprite.Sprite):
 
         [self.player_w, self.player_h] = [ tile_size, tile_size ]   # player size
 
-        # Player Status
-        self.hp = 3          # Vida do personagem
-        
         # Sprite do player
         self.image = assets[PLAYER].convert_alpha()  #player img 
         self.image = pygame.transform.scale(self.image, (self.player_w, self.player_h))   # Rescale the player
@@ -58,6 +55,7 @@ class Player(pygame.sprite.Sprite):
             self.groups["all_sprites"].add(balas_restantes)
 
         # Vida 
+        self.hp = 3
         self.live = pygame.sprite.Group()
         x = pos[0] + 5
 
@@ -139,6 +137,7 @@ class Player(pygame.sprite.Sprite):
         for i in range(0, hit_value):
             # Sempre mata o último
             self.live.sprites()[-1].kill()
+        self.hp -= hit_value
 
         if hit_value > 0:
             # ----- Reação a Hit

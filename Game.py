@@ -60,31 +60,45 @@ while game != QUIT:
         for event in pygame.event.get():
             # ----- Verifica consequências
             if event.type == pygame.QUIT:
-                game = QUIT                  
+                game = QUIT                 
     
         # ----- Player Info
-        #if player.hp <= 0:
-        #   game = QUIT
+        # if Player.hp <= 0:
+        #     game = QUIT
 
         # Verifica se o caracol foi atingido pela banana - caso sim, ambos são deletados 
         hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_tiles'] , True, False, pygame.sprite.collide_mask)
 
         # Verifica se a "bala" bateu no chão - se sim, ela é deletada
         hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_snails'] , True, True, pygame.sprite.collide_mask)
-        '''
-        for banana in hits:
-            ja_foram += 1
-            if ja_foram > 2:
-                hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_snails'] , False, True, pygame.sprite.collide_mask)
-        '''
+        
+        # for banana in hits:
+        #     ja_foram += 1
+        #     if ja_foram > 2:
+        #         hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_snails'] , False, True, pygame.sprite.collide_mask)
+        
         # ----- Gera saídas
         window.fill((0, 0, 0))  # Preenche com a cor branca
         window.blit(assets['background'], (0, 0))
         level.run()
         all_sprites.update() 
         all_sprites.draw(window)
-
     
+    elif game == GAME_OVER:
+        font = pygame.font.SysFont(None, 48)
+        text = font.render('Game Over', True, (255, 0, 0))
+
+        # Tela de Game Over
+        window.fill( (255, 255, 255) )
+        window.blit(text, (280, 230))
+
+        # Trata eventos
+        for event in pygame.event.get():
+            # ----- Verifica consequências
+            if event.type == pygame.QUIT:
+                game = QUIT 
+
+
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
     
