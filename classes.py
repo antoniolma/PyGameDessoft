@@ -141,6 +141,7 @@ class Player(pygame.sprite.Sprite):
             print(self.live.sprites())
             # Sempre mata o último
             self.live.sprites()[-1].kill()
+
         self.hp -= hit_value
 
         if hit_value > 0:
@@ -310,6 +311,7 @@ class Level:
         # Horizontal Collision with enemies
         e_hits = pygame.sprite.spritecollide(player, self.enemies, False)
         for sprite in e_hits:
+            Player.was_hit(player, 1)
             # Checa a colisão do player com um sprite
             if sprite.rect.colliderect(player.rect): 
                 if player.direction.x > 0: 
