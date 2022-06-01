@@ -63,6 +63,7 @@ class Player(pygame.sprite.Sprite):
             x += 30
             vidas_restantes = Heart(x, 50)
             self.groups["all_sprites"].add(vidas_restantes)
+            self.live.add(vidas_restantes)
 
 
     # Pega as teclas pressionadas relacionadas ao player
@@ -135,6 +136,9 @@ class Player(pygame.sprite.Sprite):
     def was_hit(self, hit_value):
         # Dependendo do quanto de dano o personagem toma, tira o último coração da lista um númeoro de vezes
         for i in range(0, hit_value):
+
+            print(i, hit_value)
+            print(self.live.sprites())
             # Sempre mata o último
             self.live.sprites()[-1].kill()
         self.hp -= hit_value
@@ -370,7 +374,7 @@ class Level:
             player.last_hit = now
 
             # Colisão com espinhos
-            for sprite in hits_esp:
+            if len(hits_esp) > 0:
                 if sprite.rect.colliderect(player.rect): 
                     player.was_hit(1)
 
