@@ -99,6 +99,7 @@ while game != QUIT:
                 game = QUIT 
 
 
+
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
     

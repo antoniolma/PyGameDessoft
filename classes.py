@@ -64,7 +64,9 @@ class Player(pygame.sprite.Sprite):
             vidas_restantes = Heart(x, 50)
             self.groups["all_sprites"].add(vidas_restantes)
             self.live.add(vidas_restantes)
-
+        print(self.rect.top)
+        if self.rect.top > screen_height:
+            self.live.sprites()[-1].kill()
 
     # Pega as teclas pressionadas relacionadas ao player
     def get_input(self):
@@ -142,17 +144,17 @@ class Player(pygame.sprite.Sprite):
             # Sempre mata o último
             self.live.sprites()[-1].kill()
 
-        self.hp -= hit_value
-
         if hit_value > 0:
             # ----- Reação a Hit
             self.jump()
+            '''
             # Pulinho pra esquerda
             if self.direction.x > 0:
-                self.direction.x = -10
+                self.direction.x = - 20
             # Pulinho pra direita
             elif self.direction.x < 0: 
-                self.direction.x = 10
+                self.direction.x =  20
+                '''
 
     # Atualiza o player
     def update(self):
@@ -167,10 +169,10 @@ class Snail(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         self.image = pygame.image.load('Assets/sprites/teste/el caracol.png').convert_alpha() 
-        self.image = pygame.transform.scale(self.image, (78,64))   
+        self.image = pygame.transform.scale(self.image, (64,64))  
+        self.mask = pygame.mask.from_surface(self.image) 
         self.rect = self.image.get_rect(topleft = position)  
-        self.mask = pygame.mask.from_surface(self.image)
-
+        
     def change_direction(self):
         #hits = 
         pass
@@ -208,6 +210,7 @@ class Munition(pygame.sprite.Sprite):
         self.image = pygame.image.load('Assets/sprites/teste/municao.png').convert_alpha() 
         self.image = pygame.transform.scale(self.image, (32,32))   
         self.rect = self.image.get_rect() 
+        self.mask = pygame.mask.from_surface(self.image)
 
         self.rect.top = y
         self.rect.left = x
@@ -311,7 +314,7 @@ class Level:
         # Horizontal Collision with enemies
         e_hits = pygame.sprite.spritecollide(player, self.enemies, False)
         for sprite in e_hits:
-            Player.was_hit(player, 1)
+            #Player.was_hit(player, 1)
             # Checa a colisão do player com um sprite
             if sprite.rect.colliderect(player.rect): 
                 if player.direction.x > 0: 
@@ -326,7 +329,7 @@ class Level:
         player.apply_gravity()
 
         # Vert. Collision with Tiles
-        tile_hits = pygame.sprite.spritecollide(player, self.tiles, False)
+        tile_hits = pygame.sprite.spritecollide(player, self.tiles, False, pygame.sprite.collide_mask)
         for sprite in tile_hits:
             # Checa a colisão do player com um sprite
             if sprite.rect.colliderect(player.rect): 
@@ -342,28 +345,26 @@ class Level:
                     player.direction.y = 0      # Macaco não fica preso no teto
 
         # Vert. Collision with enemies
-        e_hits = pygame.sprite.spritecollide(player, self.enemies, False)
+        e_hits = pygame.sprite.spritecollide(player, self.enemies, False, pygame.sprite.collide_mask)
         for sprite in e_hits:
-            # Checa a colisão do player com um sprite
-            if sprite.rect.colliderect(player.rect): 
-                if player.direction.y > 0: 
-                    # Player caindo, colide com o chão
-                    player.rect.bottom = sprite.rect.top
-                    player.direction.y = 0      # Cancela a gravidade (evita uma catástrofe...)
-                    player.can_jump = True
-                    player.can_move = True
-                elif player.direction.y < 0: 
-                    # Player pulando, colide com o fundo do sprite
-                    player.rect.top = sprite.rect.bottom
-                    player.direction.y = 0      # Macaco não fica preso no teto
+            if player.direction.y > 0: 
+                # Player caindo, colide com o chão
+                player.rect.bottom = sprite.rect.top
+                player.direction.y = 0      # Cancela a gravidade (evita uma catástrofe...)
+                player.can_jump = True
+                player.can_move = True
+            elif player.direction.y < 0: 
+                # Player pulando, colide com o fundo do sprite
+                player.rect.top = sprite.rect.bottom
+                player.direction.y = 0      # Macaco não fica preso no teto
     
     def player_hit_collision(self): # Colisão com hit ao player
         player = self.player.sprite
         
         # Tipos diferentes de hits
         #      Group Collide ou Sprite collide pra espinhos?
-        hits_esp = pygame.sprite.spritecollide(player, self.spikes, False)
-        hits_snail = pygame.sprite.spritecollide(player, self.snail, False)
+        hits_esp = pygame.sprite.spritecollide(player, self.spikes, False, pygame.sprite.collide_mask)
+        hits_snail = pygame.sprite.spritecollide(player, self.snail, False, pygame.sprite.collide_mask)
 
         # Verifica se pode tomar hit
         self.hit_ticks = 5000
@@ -377,14 +378,11 @@ class Level:
 
             # Colisão com espinhos
             if len(hits_esp) > 0:
-                if sprite.rect.colliderect(player.rect): 
-                    player.was_hit(1)
+                player.was_hit(1)
 
             # Colisão com Caracol
-            for sprite in hits_snail:
-                if sprite.rect.colliderect(player.rect):
-                    player.was_hit(2)
-                    
+            if len(hits_snail) > 0:
+                player.was_hit(1)                    
     
     def can_shift(self):
         self.zawarudo -= self.world_shift
@@ -431,6 +429,14 @@ class Level:
         self.can_shift()
         self.player_hit_collision()
                     
+'''
+        if player.rect.y > 1000:
+            player.life.remove
+            if player.live == -1
+                over
+            else
+                player.pos()
+'''
 
 # Classe Tile (Tijolo/ Bloco do Chão)
 class Tile(pygame.sprite.Sprite):
