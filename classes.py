@@ -134,25 +134,26 @@ class Player(pygame.sprite.Sprite):
                 self.groups['all_sprites'].add(bananinha)
                 self.groups['all_bananas'].add(bananinha)
         
-    def was_hit(self):
-         # Consequências ao player
-        self.live.sprites()[-1].kill()
-        print(self.live)
-        self.jump_cd = False
-        self.can_move = False
+    def was_hit(self, hit_value):
+        # Dependendo do quanto de dano o personagem toma, tira o último coração da lista um númeoro de vezes
+        for i in range(0, hit_value):
+            # Sempre mata o último
+            self.live.sprites()[-1].kill()
 
-        # ----- Reação a Hit
-        self.jump()
-        # Pulinho pra esquerda
-        if self.direction.x > 0:
-            self.direction.x = -10
-        # Pulinho pra direita
-        elif self.direction.x < 0: 
-            self.direction.x = 10
+        if hit_value > 0:
+            # ----- Reação a Hit
+            self.jump()
+            # Pulinho pra esquerda
+            if self.direction.x > 0:
+                self.direction.x = -10
+            # Pulinho pra direita
+            elif self.direction.x < 0: 
+                self.direction.x = 10
 
     # Atualiza o player
     def update(self):
         self.get_input()
+        self.was_hit(0)
 
 
 # Classe Inimigo: Caracol
@@ -166,8 +167,13 @@ class Snail(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = position)  
         self.mask = pygame.mask.from_surface(self.image)
 
+    def change_direction(self):
+        #hits = 
+        pass
+
     def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
         self.rect.x += x_shift
+        self.change_direction()
 
 # Classe do tiro
 class Banana(pygame.sprite.Sprite):
@@ -229,7 +235,7 @@ class Level:
 
         # Lado do player para câmera
         self.side_x = screen_width/2
-        self.zawarado = 0
+        self.zawarudo = 0
         self.minx = 0
         self.maxx = 3072
 
@@ -238,6 +244,7 @@ class Level:
         self.tiles = pygame.sprite.Group()
         self.player = pygame.sprite.GroupSingle()
         self.spikes = pygame.sprite.Group()
+        self.snail = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
         self.world_shift = 0
 
@@ -277,6 +284,7 @@ class Level:
                 # Caracol
                 elif tile == 'C':
                     snail = Snail((x,y), tile_size)
+                    self.snail.add(snail)
                     self.enemies.add(snail)
                     groups["all_snails"].add(snail)
                 
@@ -284,8 +292,21 @@ class Level:
         player = self.player.sprite
         player.rect.x += player.direction.x * player.speedx
 
-        hits = pygame.sprite.spritecollide(player, self.tiles, False)
-        for sprite in hits:
+        # Horizontal Collision with tile
+        tile_hits = pygame.sprite.spritecollide(player, self.tiles, False)
+        for sprite in tile_hits:
+            # Checa a colisão do player com um sprite
+            if sprite.rect.colliderect(player.rect): 
+                if player.direction.x > 0: 
+                    # Player indo a direita, colide com lado esquerdo do sprite
+                    player.rect.right = sprite.rect.left
+                elif player.direction.x < 0: 
+                    # Player indo a esquerda, colide com lado direito do sprite
+                    player.rect.left = sprite.rect.right
+
+        # Horizontal Collision with enemies
+        e_hits = pygame.sprite.spritecollide(player, self.enemies, False)
+        for sprite in e_hits:
             # Checa a colisão do player com um sprite
             if sprite.rect.colliderect(player.rect): 
                 if player.direction.x > 0: 
@@ -299,8 +320,25 @@ class Level:
         player = self.player.sprite
         player.apply_gravity()
 
-        hits = pygame.sprite.spritecollide(player, self.tiles, False)
-        for sprite in hits:
+        # Vert. Collision with Tiles
+        tile_hits = pygame.sprite.spritecollide(player, self.tiles, False)
+        for sprite in tile_hits:
+            # Checa a colisão do player com um sprite
+            if sprite.rect.colliderect(player.rect): 
+                if player.direction.y > 0: 
+                    # Player caindo, colide com o chão
+                    player.rect.bottom = sprite.rect.top
+                    player.direction.y = 0      # Cancela a gravidade (evita uma catástrofe...)
+                    player.can_jump = True
+                    player.can_move = True
+                elif player.direction.y < 0: 
+                    # Player pulando, colide com o fundo do sprite
+                    player.rect.top = sprite.rect.bottom
+                    player.direction.y = 0      # Macaco não fica preso no teto
+
+        # Vert. Collision with enemies
+        e_hits = pygame.sprite.spritecollide(player, self.enemies, False)
+        for sprite in e_hits:
             # Checa a colisão do player com um sprite
             if sprite.rect.colliderect(player.rect): 
                 if player.direction.y > 0: 
@@ -320,7 +358,7 @@ class Level:
         # Tipos diferentes de hits
         #      Group Collide ou Sprite collide pra espinhos?
         hits_esp = pygame.sprite.spritecollide(player, self.spikes, False)
-        hits_enemies = pygame.sprite.spritecollide(player, self.enemies, False)
+        hits_snail = pygame.sprite.spritecollide(player, self.snail, False)
 
         # Verifica se pode tomar hit
         self.hit_ticks = 5000
@@ -328,18 +366,23 @@ class Level:
 
         # Verifica quantos ticks se passaram desde o último hit.
         elapsed_ticks = now - player.last_hit
-        if elapsed_ticks > self.hit_ticks:
+        if elapsed_ticks >= self.hit_ticks:
             # Marca o tick do hit
             player.last_hit = now
 
             # Colisão com espinhos
             for sprite in hits_esp:
                 if sprite.rect.colliderect(player.rect): 
-                    player.was_hit()
-            pass
+                    player.was_hit(1)
+
+            # Colisão com Caracol
+            for sprite in hits_snail:
+                if sprite.rect.colliderect(player.rect):
+                    player.was_hit(2)
+                    
     
     def can_shift(self):
-        self.zawarado -= self.world_shift
+        self.zawarudo -= self.world_shift
         pass
 
     def cam_scroll(self):
@@ -353,10 +396,10 @@ class Level:
             self.side_x = player.rect.x
         
         # Movimento da Camera
-        if self.side_x >= screen_width * 3/4 and self.direction_x > 0 and self.zawarado < self.maxx - screen_width: #indo a direita
+        if self.side_x >= screen_width * 3/4 and self.direction_x > 0 and self.zawarudo < self.maxx - screen_width: #indo a direita
             self.world_shift = -8
             player.speedx = 0
-        elif self.side_x <= screen_width/4 and self.direction_x < 0 and self.zawarado > self.minx: #indo a esquerda
+        elif self.side_x <= screen_width/4 and self.direction_x < 0 and self.zawarudo > self.minx: #indo a esquerda
             self.world_shift = 8
             player.speedx = 0
         else:
@@ -371,8 +414,8 @@ class Level:
         self.spikes.draw(self.display_surface)
 
         # Inimigos
-        self.enemies.update(self.world_shift)
-        self.enemies.draw(self.display_surface)
+        self.snail.update(self.world_shift)
+        self.snail.draw(self.display_surface)
 
         # Player
         self.player.update()
@@ -381,6 +424,7 @@ class Level:
         self.vertical_collision()
         self.cam_scroll()
         self.can_shift()
+        self.player_hit_collision()
                     
 
 # Classe Tile (Tijolo/ Bloco do Chão)

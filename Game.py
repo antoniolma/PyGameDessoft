@@ -36,7 +36,7 @@ game = INICIO
 pygame.mixer.music.play(loops=-1000)
 
 while game != QUIT:
-    
+     
     if game == INICIO:
         # ----- Trata eventos
         for event in pygame.event.get():
