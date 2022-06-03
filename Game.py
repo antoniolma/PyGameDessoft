@@ -1,7 +1,7 @@
 # Jogo
 from turtle import window_height
 from assets import *        # Importa as funções
-from classes import *       # Importa as Classes
+from level_class import *       # Importa as Classes
 import pygame               # Importa biblioteca Pygame
 from settings import *
 
