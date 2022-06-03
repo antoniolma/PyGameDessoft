@@ -46,6 +46,9 @@ class Level:
 
         # Movimento DO LEVEL
         self.world_shift = 0
+        
+        # Last hit no player
+        self.last = 0
 
         # Verifica lista para criar o setup do mapa
         for linha_index, linha in enumerate(layout):  # Linha
@@ -105,6 +108,7 @@ class Level:
         # Horizontal Collision with tile
         tile_hits = pygame.sprite.spritecollide(player, self.tiles, False)
         for sprite in tile_hits:
+            self.player_hit_time()
             # Checa a colisão do player com um sprite
             if sprite.rect.colliderect(player.rect): 
                 if player.direction.x > 0: 
@@ -115,32 +119,15 @@ class Level:
                     player.rect.left = sprite.rect.right
 
         # Horizontal Collision with enemies
-        e_hits = pygame.sprite.spritecollide(player, self.enemies, False)
-        for sprite in e_hits:
-            # Checa a colisão do player com um sprite
-            if sprite.rect.colliderect(player.rect): 
+        for enemy in self.enemies:
+            if pygame.sprite.collide_mask(enemy, player):
                 if player.direction.x > 0: 
                     # Player indo a direita, colide com lado esquerdo do sprite
-                    player.rect.right = sprite.rect.left
+                    player.direction.x = 0
                 elif player.direction.x < 0: 
                     # Player indo a esquerda, colide com lado direito do sprite
-                    player.rect.left = sprite.rect.right
+                    player.direction.x = 0
     
-    def recharge_collision(self):
-        player = self.player.sprite
-
-        if len(player.banana_storage) < 3:
-            recharge_hits = pygame.sprite.spritecollide(player, self.recharge, True)
-            for hit in recharge_hits:
-                self.banana_storage = pygame.sprite.Group()
-                x = 30
-                for i in range(3):
-                    x += 30
-                    balas_restantes = Munition(x, 10)
-                    player.banana_storage.add(balas_restantes)
-                    player.groups["all_sprites"].add(balas_restantes)
-
-
     def vertical_collision(self):
         player = self.player.sprite
         player.apply_gravity()
@@ -161,50 +148,56 @@ class Level:
                     player.rect.top = sprite.rect.bottom
                     player.direction.y = 0      # Macaco não fica preso no teto
 
-        # Vert. Collision with enemies
-        e_hits = pygame.sprite.spritecollide(player, self.enemies, False)
-        for sprite in e_hits:
-            # Checa a colisão do player com um sprite
-            if sprite.rect.colliderect(player.rect): 
+        # # Vert. Collision with enemies
+        # self.e_hits = pygame.sprite.spritecollide(player, self.enemies, False)
+        # for sprite in self.e_hits:
+        #     # Checa a colisão do player com um sprite
+        #     if sprite.rect.colliderect(player.rect):
+                
+        
+        # self.e_hit_mask = pygame.sprite.collide_mask(player, self.enemies, False)
+        for enemy in self.enemies:
+            if pygame.sprite.collide_mask(enemy, player):
+                self.player_hit_time()
                 if player.direction.y > 0: 
                     # Player caindo, colide com o chão
-                    player.rect.bottom = sprite.rect.top
                     player.direction.y = 0      # Cancela a gravidade (evita uma catástrofe...)
                     player.can_jump = True
                     player.can_move = True
                 elif player.direction.y < 0: 
                     # Player pulando, colide com o fundo do sprite
-                    player.rect.top = sprite.rect.bottom
                     player.direction.y = 0      # Macaco não fica preso no teto
-    
-    def player_hit_collision(self): # Colisão com hit ao player
+
+    def last_hit(self):
+        self.last = pygame.time.get_ticks()
+
+    def player_hit_time(self): # Colisão com hit ao player
         player = self.player.sprite
-        
-        # Tipos diferentes de hits
-        #      Group Collide ou Sprite collide pra espinhos?
-        hits_esp = pygame.sprite.spritecollide(player, self.spikes, False)
-        hits_snail = pygame.sprite.spritecollide(player, self.snail, False)
 
         # Verifica se pode tomar hit
-        self.hit_ticks = 5000
+        self.hit_ticks = 2000
         now = pygame.time.get_ticks()
 
         # Verifica quantos ticks se passaram desde o último hit.
-        elapsed_ticks = now - player.last_hit
+        elapsed_ticks = now - self.last
         if elapsed_ticks >= self.hit_ticks:
-            # Marca o tick do hit
-            player.last_hit = now
+            self.last_hit()
+            player.live.sprites()[-1].kill()
+            player.hp -= 1 
+    
+    def recharge_collision(self):
+        player = self.player.sprite
 
-            # Colisão com espinhos
-            if len(hits_esp) > 0:
-                if sprite.rect.colliderect(player.rect): 
-                    player.was_hit(1)
-
-            # Colisão com Caracol
-            for sprite in hits_snail:
-                if sprite.rect.colliderect(player.rect):
-                    player.was_hit(2)
-                    
+        if len(player.banana_storage) < 3:
+            recharge_hits = pygame.sprite.spritecollide(player, self.recharge, True)
+            for hit in recharge_hits:
+                self.banana_storage = pygame.sprite.Group()
+                x = 30
+                for i in range(3):
+                    x += 30
+                    balas_restantes = Munition(x, 10)
+                    player.banana_storage.add(balas_restantes)
+                    player.groups["all_sprites"].add(balas_restantes)
     
     def can_shift(self):
         self.zawarudo -= self.world_shift
@@ -254,7 +247,6 @@ class Level:
         self.vertical_collision()
         self.cam_scroll()
         self.can_shift()
-        self.player_hit_collision()
         self.recharge_collision()
                     
 # ==============================================================================================================================================================================

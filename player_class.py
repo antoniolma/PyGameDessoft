@@ -23,7 +23,7 @@ class Player(pygame.sprite.Sprite):
 
         # Mercando de quanto em quanto tempo é possível atirar
         self.last_shot = pygame.time.get_ticks()
-        self.last_hit = pygame.time.get_ticks()
+        
         self.shoot_ticks = 500
         
         # Movimento
@@ -45,7 +45,7 @@ class Player(pygame.sprite.Sprite):
             self.groups["all_sprites"].add(balas_restantes)
 
         # Vida 
-        self.hp = 3
+        self.hp = 0
         self.live = pygame.sprite.Group()
         x = 35
 
@@ -54,6 +54,7 @@ class Player(pygame.sprite.Sprite):
             vidas_restantes = Heart(x, 50)
             self.groups["all_sprites"].add(vidas_restantes)
             self.live.add(vidas_restantes)
+            self.hp += 1
 
 
     # Pega as teclas pressionadas relacionadas ao player
@@ -123,30 +124,9 @@ class Player(pygame.sprite.Sprite):
                 self.groups['all_sprites'].add(bananinha)
                 self.groups['all_bananas'].add(bananinha)
         
-    def was_hit(self, hit_value):
-        # Dependendo do quanto de dano o personagem toma, tira o último coração da lista um númeoro de vezes
-        for i in range(0, hit_value):
-
-            print(i, hit_value)
-            print(self.live.sprites())
-            # Sempre mata o último
-            self.live.sprites()[-1].kill()
-        self.hp -= hit_value
-
-        if hit_value > 0:
-            # ----- Reação a Hit
-            self.jump()
-            # Pulinho pra esquerda
-            if self.direction.x > 0:
-                self.direction.x = -10
-            # Pulinho pra direita
-            elif self.direction.x < 0: 
-                self.direction.x = 10
-
     # Atualiza o player
     def update(self):
         self.get_input()
-        self.was_hit(0)
 
 # ==============================================================================================================================================================================
 
