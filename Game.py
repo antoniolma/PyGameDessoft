@@ -10,7 +10,7 @@ pygame.init()
 load_assets()
 pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
 pygame.mixer.music.set_volume(0.6)
-pygame.mixer.init()
+pygame.mixer.init() 
 
 # ----- Gera tela principal
 window = pygame.display.set_mode((screen_width, screen_height))

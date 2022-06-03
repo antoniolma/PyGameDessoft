@@ -154,6 +154,8 @@ class Banana(pygame.sprite.Sprite):
 
         self.rect.centery = centery + 15
         self.rect.left = ladoplayer
+        if banana_speed < 0:
+            self.rect.right = ladoplayer
         self.speedx = banana_speed
 
     def update(self):
