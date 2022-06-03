@@ -367,7 +367,7 @@ class Level:
         hits_snail = pygame.sprite.spritecollide(player, self.snail, False, pygame.sprite.collide_mask)
 
         # Verifica se pode tomar hit
-        self.hit_ticks = 5000
+        self.hit_ticks = 500
         now = pygame.time.get_ticks()
 
         # Verifica quantos ticks se passaram desde o último hit.
