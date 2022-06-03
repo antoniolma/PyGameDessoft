@@ -11,8 +11,8 @@ class Player(pygame.sprite.Sprite):
         [self.player_w, self.player_h] = [ tile_size, tile_size ]   # player size
 
         # Sprite do player
-        self.image = assets[PLAYER].convert_alpha()  #player img 
-        self.image = pygame.transform.scale(self.image, (self.player_w, self.player_h))   # Rescale the player
+        self.desenho = assets[PLAYER].convert_alpha()  #player img 
+        self.image = pygame.transform.scale(self.desenho, (self.player_w, self.player_h))   # Rescale the player
         self.rect = self.image.get_rect(topleft = pos)
         self.mask = pygame.mask.from_surface(self.image)
         self.rect.left = self.player_w
@@ -33,6 +33,8 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 0.8
         self.jump_speed = -16
         self.can_jump = True
+        self.lado_atirar = self.rect.right
+        self.last_dx = 0
 
         # Munição disponível (que aparece para o player)
         self.banana_storage = pygame.sprite.Group()
@@ -65,12 +67,14 @@ class Player(pygame.sprite.Sprite):
             # Movimento pros lados
             if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
                 self.direction.x = 1
-                self.image = pygame.image.load('Assets/sprites/teste/el mamaco parado.png').convert_alpha()
-                self.image = pygame.transform.scale(self.image, (self.player_w, self.player_h))
+                self.lado_atirar = self.rect.right
+                self.desenho = pygame.image.load('Assets/sprites/teste/el mamaco parado.png').convert_alpha()
+                self.image = pygame.transform.scale(self.desenho, (self.player_w, self.player_h))
             elif keys[pygame.K_a] or keys[pygame.K_LEFT]:
                 self.direction.x = -1
-                self.image = pygame.image.load('Assets/sprites/teste/mamaco_virado.png').convert_alpha()
-                self.image = pygame.transform.scale(self.image, (self.player_w, self.player_h))
+                self.lado_atirar = self.rect.left
+                self.desenho = pygame.image.load('Assets/sprites/teste/mamaco_virado.png').convert_alpha()
+                self.image = pygame.transform.scale(self.desenho, (self.player_w, self.player_h))
             else:
                 self.direction.x = 0
             
@@ -119,8 +123,13 @@ class Player(pygame.sprite.Sprite):
                 self.banana_storage.sprites()[-1].kill()
                 # Marca o tick da nova imagem.
                 self.last_shot = now
+
+                banana_speed = 10
+                if self.last_dx < 0:
+                    banana_speed = -10
+                
                 # Criando nova banana
-                bananinha = Banana(self.rect.centery, self.rect.right)
+                bananinha = Banana(self.rect.centery, self.lado_atirar, banana_speed)
                 self.groups['all_sprites'].add(bananinha)
                 self.groups['all_bananas'].add(bananinha)
         
@@ -128,11 +137,14 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         self.get_input()
 
+        if self.direction.x != 0:
+            self.last_dx = self.direction.x
+
 # ==============================================================================================================================================================================
 
 # Classe do tiro
 class Banana(pygame.sprite.Sprite):
-    def __init__(self, centery, rightplayer):
+    def __init__(self, centery, ladoplayer, banana_speed):
         pygame.sprite.Sprite.__init__(self)
         
         self.image = pygame.image.load('Assets/sprites/teste/banana munição.png').convert_alpha()  #player img 
@@ -141,8 +153,8 @@ class Banana(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
 
         self.rect.centery = centery + 15
-        self.rect.left = rightplayer - 35
-        self.speedx = 10
+        self.rect.left = ladoplayer
+        self.speedx = banana_speed
 
     def update(self):
         # A bala só se move no eixo x
