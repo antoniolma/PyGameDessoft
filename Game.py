@@ -1,7 +1,7 @@
 # Jogo
 from turtle import window_height
 from assets import *        # Importa as funções
-from classes import *       # Importa as Classes
+from level_class import *       # Importa as Classes
 import pygame               # Importa biblioteca Pygame
 from settings import *
 
@@ -37,25 +37,38 @@ pygame.mixer.music.play(loops=-1000)
 
 while game != QUIT:
      
-    if game == INICIO:
+    if game == INICIO or game == GAME_OVER:
         # ----- Trata eventos
         for event in pygame.event.get():
             # ----- Verifica consequências
             if event.type == pygame.KEYUP:
-                if event.key==pygame.K_SPACE:
+                if event.key == pygame.K_SPACE:
+                    if game == GAME_OVER:
+                        level = Level(level_map, window)
                     game = GAME
             if event.type == pygame.QUIT:
                 game = QUIT
-            
-        font = pygame.font.SysFont(None, 48)
-        text = font.render('Aperte SPACE para continuar', True, (255, 255, 255))
+        
+        if game == INICIO:
+            font = pygame.font.SysFont(None, 48)
+            text = font.render('Aperte SPACE para continuar', True, (255, 255, 255))
 
-        # ----- Gera saídas
-        window.fill((0, 100, 0))  # Preenche com a cor verde
-        window.blit(text, (280, 230))
+            # ----- Gera saídas
+            window.fill((0, 100, 0))  # Preenche com a cor verde
+            window.blit(text, (280, 230))
+
+        elif game == GAME_OVER:
+            font = pygame.font.SysFont(None, 48)
+            text = font.render('Aperte SPACE para tentar novamente', True, (255, 0, 0))
+            text2 = font.render('Game Over', True, (255, 0, 0))
+            
+
+            # Tela de Game Over
+            window.fill( (255, 255, 255) )
+            window.blit(text2, (280, 230))
+            window.blit(text, (280, 280))
         
     elif game == GAME:
-        
         # ----- Trata eventos
         for event in pygame.event.get():
             # ----- Verifica consequências
@@ -63,8 +76,8 @@ while game != QUIT:
                 game = QUIT                 
     
         # ----- Player Info
-        # if Player.hp <= 0:
-        #     game = QUIT
+        if level.player.sprite.hp <= 0:
+            game = GAME_OVER
 
         # Verifica se o caracol foi atingido pela banana - caso sim, ambos são deletados 
         hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_tiles'] , True, False, pygame.sprite.collide_mask)
@@ -83,20 +96,6 @@ while game != QUIT:
         level.run()
         all_sprites.update() 
         all_sprites.draw(window)
-    
-    elif game == GAME_OVER:
-        font = pygame.font.SysFont(None, 48)
-        text = font.render('Game Over', True, (255, 0, 0))
-
-        # Tela de Game Over
-        window.fill( (255, 255, 255) )
-        window.blit(text, (280, 230))
-
-        # Trata eventos
-        for event in pygame.event.get():
-            # ----- Verifica consequências
-            if event.type == pygame.QUIT:
-                game = QUIT 
 
 
     # ----- Atualiza estado do jogo
