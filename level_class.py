@@ -191,7 +191,9 @@ class Level:
         if len(player.banana_storage) < 3:
             recharge_hits = pygame.sprite.spritecollide(player, self.recharge, True)
             for hit in recharge_hits:
-                self.banana_storage = pygame.sprite.Group()
+                if len(player.banana_storage) > 0:
+                    for b in player.banana_storage:
+                        player.banana_storage.sprites()[-1].kill()
                 x = 30
                 for i in range(3):
                     x += 30
