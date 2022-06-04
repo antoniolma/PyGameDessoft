@@ -22,22 +22,39 @@ class Snail(pygame.sprite.Sprite):
 
         for snail, tiles in collision_snail_inv.items():
             bloco = tiles[0]
+
+            # Caracol indo para direita
             if bloco.rect.right > snail.rect.right > bloco.rect.left:
                 snail.rect.right = bloco.rect.left
                 snail.speedx = -snail.speedx
+                self.image = pygame.image.load('Assets/sprites/teste/el caracol.png').convert_alpha() #Quando colide, vira para esquerda
+                self.image = pygame.transform.scale(self.image, (78,64))
+
+            # Caracol indo para esquerda
             elif bloco.rect.left < snail.rect.left < bloco.rect.right:
                 snail.rect.left = bloco.rect.right
                 snail.speedx = -snail.speedx
+                self.image = pygame.image.load('Assets/sprites/teste/caracol_d.png').convert_alpha() #Quando colide, vira para direita
+                self.image = pygame.transform.scale(self.image, (78,64))
 
         for snail, tiles in collision_snail_tile.items():
             bloco = tiles[0]
+
+            # Caracol indo para direita
             if bloco.rect.right > snail.rect.right > bloco.rect.left:
                 snail.rect.right = bloco.rect.left
                 snail.speedx = -snail.speedx
+                self.image = pygame.image.load('Assets/sprites/teste/el caracol.png').convert_alpha() #Quando colide, vira para esquerda
+                self.image = pygame.transform.scale(self.image, (78,64))
+
+            # Caracol indo para esquerda
             elif bloco.rect.left < snail.rect.left < bloco.rect.right:
                 snail.rect.left = bloco.rect.right
                 snail.speedx = -snail.speedx
+                self.image = pygame.image.load('Assets/sprites/teste/caracol_d.png').convert_alpha() #Quando colide, vira para direita
+                self.image = pygame.transform.scale(self.image, (78,64))
 
+                
     def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
         self.rect.x += x_shift + self.speedx
         self.snail_moviment()
