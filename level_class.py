@@ -15,228 +15,6 @@ groups['all_snails'] = all_snails
 groups['all_tiles'] = all_tiles
 groups['invisible_tiles'] = invisible_tiles
 
-<<<<<<< HEAD:classes.py
-# Classe do Carlos, o Macaco
-class Player(pygame.sprite.Sprite):
-    def __init__(self, pos):
-        super().__init__()
-        pygame.sprite.Sprite.__init__(self)
-
-        [self.player_w, self.player_h] = [ tile_size, tile_size ]   # player size
-
-        # Sprite do player
-        self.image = assets[PLAYER].convert_alpha()  #player img 
-        self.image = pygame.transform.scale(self.image, (self.player_w, self.player_h))   # Rescale the player
-        self.rect = self.image.get_rect(topleft = pos)
-        self.mask = pygame.mask.from_surface(self.image)
-        self.rect.left = self.player_w
-        self.rect.centery = self.player_h / 2
-        self.groups = groups
-        self.lvl_section = 1
-        self.centerx = self.player_w/2
-
-        # Mercando de quanto em quanto tempo é possível atirar
-        self.last_shot = pygame.time.get_ticks()
-        self.last_hit = pygame.time.get_ticks()
-        self.shoot_ticks = 500
-        
-        # Movimento
-        self.can_move = True
-        self.direction = pygame.math.Vector2(0,0)  # Cria um Vetor2 (2 dimensões) (lista de valores x e y)
-        self.speedx = 4
-        self.gravity = 0.8
-        self.jump_speed = -16
-        self.can_jump = True
-
-        # Munição disponível (que aparece para o player)
-        self.banana_storage = pygame.sprite.Group()
-        x = pos[0]
-
-        for i in range(3):
-            x += 30
-            balas_restantes = Munition(x, 10)
-            self.banana_storage.add(balas_restantes)
-            self.groups["all_sprites"].add(balas_restantes)
-
-        # Vida 
-        self.hp = 3
-        self.live = pygame.sprite.Group()
-        x = pos[0] + 5
-
-        for i in range(3):
-            x += 30
-            vidas_restantes = Heart(x, 50)
-            self.groups["all_sprites"].add(vidas_restantes)
-            self.live.add(vidas_restantes)
-        print(self.rect.top)
-        if self.rect.top > screen_height:
-            self.live.sprites()[-1].kill()
-
-    # Pega as teclas pressionadas relacionadas ao player
-    def get_input(self):
-        keys = pygame.key.get_pressed()
-
-        if self.can_move:
-            # Movimento pros lados
-            if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-                self.direction.x = 1
-                self.image = pygame.image.load('Assets/sprites/teste/el mamaco parado.png').convert_alpha()
-                self.image = pygame.transform.scale(self.image, (self.player_w, self.player_h))
-            elif keys[pygame.K_a] or keys[pygame.K_LEFT]:
-                self.direction.x = -1
-                self.image = pygame.image.load('Assets/sprites/teste/mamaco_virado.png').convert_alpha()
-                self.image = pygame.transform.scale(self.image, (self.player_w, self.player_h))
-            else:
-                self.direction.x = 0
-            
-            # Movimento pulo
-            if keys[pygame.K_w] or keys[pygame.K_UP]:
-                self.jump()
-
-        # Atirar
-        if keys[pygame.K_SPACE]:
-            self.shoot()
-        
-        # Não permite personagem sair da tela
-        if self.rect.right > screen_width:
-            self.rect.right = screen_width
-        if self.rect.left < 0:
-            self.rect.left = 0 
-
-        # Não permite que o personagem pule para além da tela
-        if self.rect.top < 0:
-            self.rect.top = 0
-        
-        # if keys[pygame.K_RCTRL]:
-        #     self.draw()
-
-    # Gravidade sobre o player
-    def apply_gravity(self):
-        if self.direction.y >= 32:
-            self.direction.y = 32
-        self.direction.y += self.gravity  # Todo frame desce 0.8 em Y
-        self.rect.y += self.direction.y   # O retângulo do player se move
-
-    def jump(self):
-        if self.can_jump:
-            self.direction.y = self.jump_speed
-            self.can_jump = False
-
-    def shoot(self):
-        if len(self.banana_storage) > 0:
-            # Verifica se pode atirar
-            now = pygame.time.get_ticks()
-            # Verifica quantos ticks se passaram desde o último tiro.
-            elapsed_ticks = now - self.last_shot
-
-            # Se já pode atirar novamente...
-            if elapsed_ticks > self.shoot_ticks:
-                self.banana_storage.sprites()[-1].kill()
-                # Marca o tick da nova imagem.
-                self.last_shot = now
-                # Criando nova banana
-                bananinha = Banana(self.rect.centery, self.rect.right)
-                self.groups['all_sprites'].add(bananinha)
-                self.groups['all_bananas'].add(bananinha)
-        
-    def was_hit(self, hit_value):
-        # Dependendo do quanto de dano o personagem toma, tira o último coração da lista um númeoro de vezes
-        for i in range(0, hit_value):
-
-            print(i, hit_value)
-            print(self.live.sprites())
-            # Sempre mata o último
-            self.live.sprites()[-1].kill()
-
-        if hit_value > 0:
-            # ----- Reação a Hit
-            self.jump()
-            '''
-            # Pulinho pra esquerda
-            if self.direction.x > 0:
-                self.direction.x = - 20
-            # Pulinho pra direita
-            elif self.direction.x < 0: 
-                self.direction.x =  20
-                '''
-
-    # Atualiza o player
-    def update(self):
-        self.get_input()
-        self.was_hit(0)
-
-
-# Classe Inimigo: Caracol
-class Snail(pygame.sprite.Sprite):
-    def __init__(self, position, size):
-        super().__init__()
-        pygame.sprite.Sprite.__init__(self)
-        
-        self.image = pygame.image.load('Assets/sprites/teste/el caracol.png').convert_alpha() 
-        self.image = pygame.transform.scale(self.image, (64,64))  
-        self.mask = pygame.mask.from_surface(self.image) 
-        self.rect = self.image.get_rect(topleft = position)  
-        
-    def change_direction(self):
-        #hits = 
-        pass
-
-    def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
-        self.rect.x += x_shift
-        self.change_direction()
-
-# Classe do tiro
-class Banana(pygame.sprite.Sprite):
-    def __init__(self, centery, rightplayer):
-        pygame.sprite.Sprite.__init__(self)
-        
-        self.image = pygame.image.load('Assets/sprites/teste/banana munição.png').convert_alpha()  #player img 
-        self.image = pygame.transform.scale(self.image, (16, 16))   # Rescale the player
-        self.rect = self.image.get_rect() 
-        self.mask = pygame.mask.from_surface(self.image)
-
-        self.rect.centery = centery + 15
-        self.rect.left = rightplayer - 35
-        self.speedx = 10
-
-    def update(self):
-        # A bala só se move no eixo x
-        self.rect.x += self.speedx
-        if self.rect.x < - 50 or self.rect.x > screen_width + 50:
-            self.kill()
-
-
-# Classe dos sprites que indicam ao jogador quantas bananas eles tem disponíveis         
-class Munition(pygame.sprite.Sprite):
-    def __init__(self, x, y):
-        pygame.sprite.Sprite.__init__(self)
-
-        self.image = pygame.image.load('Assets/sprites/teste/municao.png').convert_alpha() 
-        self.image = pygame.transform.scale(self.image, (32,32))   
-        self.rect = self.image.get_rect() 
-        self.mask = pygame.mask.from_surface(self.image)
-
-        self.rect.top = y
-        self.rect.left = x
-
-# Classe dos sprites de vida 
-class Heart(pygame.sprite.Sprite):
-    def __init__(self, x, y):
-        pygame.sprite.Sprite.__init__(self)
-
-        self.image = pygame.image.load('Assets/sprites/teste/live.png').convert_alpha() 
-        self.image = pygame.transform.scale(self.image, (18,18))   
-        self.rect = self.image.get_rect() 
-
-        self.rect.top = y
-        self.rect.left = x
-
-# Classe Inimigo: Vespa
-class Wasp(pygame.sprite.Sprite):
-    def __init__(self):
-        pass
-=======
->>>>>>> 4708ed7d31db3ebe5c1d6094678a3fd7faa916d5:level_class.py
 
 # Classe Level (Inspirado de: https://www.youtube.com/watch?v=YWN8GcmJ-jA&t=1342s)
 class Level:
@@ -341,16 +119,8 @@ class Level:
                     player.rect.left = sprite.rect.right
 
         # Horizontal Collision with enemies
-<<<<<<< HEAD:classes.py
-        e_hits = pygame.sprite.spritecollide(player, self.enemies, False)
-        for sprite in e_hits:
-            #Player.was_hit(player, 1)
-            # Checa a colisão do player com um sprite
-            if sprite.rect.colliderect(player.rect): 
-=======
         for enemy in self.enemies:
             if pygame.sprite.collide_mask(enemy, player):
->>>>>>> 4708ed7d31db3ebe5c1d6094678a3fd7faa916d5:level_class.py
                 if player.direction.x > 0: 
                     # Player indo a direita, colide com lado esquerdo do sprite
                     player.direction.x = 0
@@ -378,32 +148,6 @@ class Level:
                     player.rect.top = sprite.rect.bottom
                     player.direction.y = 0      # Macaco não fica preso no teto
 
-<<<<<<< HEAD:classes.py
-        # Vert. Collision with enemies
-        e_hits = pygame.sprite.spritecollide(player, self.enemies, False, pygame.sprite.collide_mask)
-        for sprite in e_hits:
-            if player.direction.y > 0: 
-                # Player caindo, colide com o chão
-                player.rect.bottom = sprite.rect.top
-                player.direction.y = 0      # Cancela a gravidade (evita uma catástrofe...)
-                player.can_jump = True
-                player.can_move = True
-            elif player.direction.y < 0: 
-                # Player pulando, colide com o fundo do sprite
-                player.rect.top = sprite.rect.bottom
-                player.direction.y = 0      # Macaco não fica preso no teto
-    
-    def player_hit_collision(self): # Colisão com hit ao player
-        player = self.player.sprite
-        
-        # Tipos diferentes de hits
-        #      Group Collide ou Sprite collide pra espinhos?
-        hits_esp = pygame.sprite.spritecollide(player, self.spikes, False, pygame.sprite.collide_mask)
-        hits_snail = pygame.sprite.spritecollide(player, self.snail, False, pygame.sprite.collide_mask)
-
-        # Verifica se pode tomar hit
-        self.hit_ticks = 500
-=======
         # # Vert. Collision with enemies
         # self.e_hits = pygame.sprite.spritecollide(player, self.enemies, False)
         # for sprite in self.e_hits:
@@ -432,7 +176,6 @@ class Level:
 
         # Verifica se pode tomar hit
         self.hit_ticks = 2000
->>>>>>> 4708ed7d31db3ebe5c1d6094678a3fd7faa916d5:level_class.py
         now = pygame.time.get_ticks()
 
         # Verifica quantos ticks se passaram desde o último hit.
@@ -445,15 +188,6 @@ class Level:
     def recharge_collision(self):
         player = self.player.sprite
 
-<<<<<<< HEAD:classes.py
-            # Colisão com espinhos
-            if len(hits_esp) > 0:
-                player.was_hit(1)
-
-            # Colisão com Caracol
-            if len(hits_snail) > 0:
-                player.was_hit(1)                    
-=======
         if len(player.banana_storage) < 3:
             recharge_hits = pygame.sprite.spritecollide(player, self.recharge, True)
             for hit in recharge_hits:
@@ -464,7 +198,6 @@ class Level:
                     balas_restantes = Munition(x, 10)
                     player.banana_storage.add(balas_restantes)
                     player.groups["all_sprites"].add(balas_restantes)
->>>>>>> 4708ed7d31db3ebe5c1d6094678a3fd7faa916d5:level_class.py
     
     def can_shift(self):
         self.zawarudo -= self.world_shift
@@ -516,18 +249,7 @@ class Level:
         self.can_shift()
         self.recharge_collision()
                     
-<<<<<<< HEAD:classes.py
-'''
-        if player.rect.y > 1000:
-            player.life.remove
-            if player.live == -1
-                over
-            else
-                player.pos()
-'''
-=======
 # ==============================================================================================================================================================================
->>>>>>> 4708ed7d31db3ebe5c1d6094678a3fd7faa916d5:level_class.py
 
 # Classe Tile (Tijolo/ Bloco do Chão)
 class Tile(pygame.sprite.Sprite):
