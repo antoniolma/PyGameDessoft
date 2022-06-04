@@ -14,9 +14,33 @@ class Snail(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = position)  
         self.mask = pygame.mask.from_surface(self.image)
         self.speedx = -3
+    
+        def snail_moviment(self):
+        
+            collision_snail_inv = pygame.sprite.groupcollide(groups['all_snails'], groups['invisible_tiles'], False, False)
+            collision_snail_tile = pygame.sprite.groupcollide(groups['all_snails'], groups['all_tiles'], False, False)
+
+            for snail, tiles in collision_snail_inv.items():
+                bloco = tiles[0]
+                if bloco.rect.right > snail.rect.right > bloco.rect.left:
+                    snail.rect.right = bloco.rect.left
+                    snail.speedx = -snail.speedx
+                elif bloco.rect.left < snail.rect.left < bloco.rect.right:
+                    snail.rect.left = bloco.rect.right
+                    snail.speedx = -snail.speedx
+
+            for snail, tiles in collision_snail_tile.items():
+                bloco = tiles[0]
+                if bloco.rect.right > snail.rect.right > bloco.rect.left:
+                    snail.rect.right = bloco.rect.left
+                    snail.speedx = -snail.speedx
+                elif bloco.rect.left < snail.rect.left < bloco.rect.right:
+                    snail.rect.left = bloco.rect.right
+                    snail.speedx = -snail.speedx
 
     def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
         self.rect.x += x_shift + self.speedx
+        self.snail_moviment()
 # ==============================================================================================================================================================================
 
 # Classe Vespa
