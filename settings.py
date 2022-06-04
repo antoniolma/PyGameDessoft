@@ -4,9 +4,9 @@ level_map = [
 
 '                                                ',
 '                                                ',
-'                                                ',
+'                                               O',
 '                                        XXXXXXXX',
-'      T C   XEEX                     XO     FFFF',
+'      T C   XEEX                     X      FFFF',
 'AM     XXXXXFXXF        X           XFXX    FFFF',
 'XXXX   FFFFFFFFFEE  C  XF           FFFFEEEEFFFF',
 'FFFF   FFFFFFFFFXXXXXXXFF  XXXXXXXXXFFFFFFFFFFFF'

@@ -318,7 +318,7 @@ class Espinho(pygame.sprite.Sprite):
         super().__init__()
 
         self.image = pygame.image.load('Assets/sprites/teste/espinhos.png')  
-        self.image = pygame.transform.scale(self.image, (54, 54))
+        self.image = pygame.transform.scale(self.image, (size,size))
         self.rect = self.image.get_rect(topleft = position)
     
     def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado
