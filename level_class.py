@@ -282,7 +282,7 @@ class Tile_t(pygame.sprite.Sprite):
     def __init__(self, position, size):
         super().__init__()
 
-        self.image = pygame.image.load('Assets/sprites/teste/quadrado_teste.png')  # tiles
+        self.image = pygame.image.load('Assets/sprites/teste/tile_transp.png')  # tiles
         self.image = pygame.transform.scale(self.image, (size,size))
         self.rect = self.image.get_rect(topleft = position)  
         self.mask = pygame.mask.from_surface(self.image)
