@@ -108,7 +108,6 @@ class Level:
         # Horizontal Collision with tile
         tile_hits = pygame.sprite.spritecollide(player, self.tiles, False)
         for sprite in tile_hits:
-            self.player_hit_time()
             # Checa a colisão do player com um sprite
             if sprite.rect.colliderect(player.rect): 
                 if player.direction.x > 0: 
@@ -121,6 +120,7 @@ class Level:
         # Horizontal Collision with enemies
         for enemy in self.enemies:
             if pygame.sprite.collide_mask(enemy, player):
+                self.player_hit_time()
                 if player.direction.x > 0: 
                     # Player indo a direita, colide com lado esquerdo do sprite
                     player.direction.x = 0
@@ -191,7 +191,9 @@ class Level:
         if len(player.banana_storage) < 3:
             recharge_hits = pygame.sprite.spritecollide(player, self.recharge, True)
             for hit in recharge_hits:
-                self.banana_storage = pygame.sprite.Group()
+                if len(player.banana_storage) > 0:
+                    for b in player.banana_storage:
+                        player.banana_storage.sprites()[-1].kill()
                 x = 30
                 for i in range(3):
                     x += 30
