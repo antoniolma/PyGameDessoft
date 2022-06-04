@@ -128,6 +128,7 @@ class Level:
         for enemy in self.enemies:
             if pygame.sprite.collide_mask(enemy, player):
                 self.player_hit_time()
+                player.gethit_jump()
                 if player.direction.x > 0: 
                     # Player indo a direita, colide com lado esquerdo do sprite
                     player.direction.x = 0
@@ -140,7 +141,7 @@ class Level:
         player.apply_gravity()
 
         # Vert. Collision with Tiles
-        tile_hits = pygame.sprite.spritecollide(player, self.tiles, False, pygame.sprite.collide_mask)
+        tile_hits = pygame.sprite.spritecollide(player, self.tiles, False)
         for sprite in tile_hits:
             # Checa a colisão do player com um sprite
             if sprite.rect.colliderect(player.rect): 
@@ -166,6 +167,7 @@ class Level:
         for enemy in self.enemies:
             if pygame.sprite.collide_mask(enemy, player):
                 self.player_hit_time()
+                player.gethit_jump()
                 if player.direction.y > 0: 
                     # Player caindo, colide com o chão
                     player.direction.y = 0      # Cancela a gravidade (evita uma catástrofe...)
@@ -174,6 +176,15 @@ class Level:
                 elif player.direction.y < 0: 
                     # Player pulando, colide com o fundo do sprite
                     player.direction.y = 0      # Macaco não fica preso no teto
+
+        # Colisão com Espinhos
+    def spike_collision(self):
+        player = self.player.sprite
+
+        for spike in self.spikes:
+            if pygame.sprite.collide_mask(spike, player):
+                self.player_hit_time()
+                player.gethit_jump()
 
     def last_hit(self):
         self.last = pygame.time.get_ticks()
@@ -258,6 +269,7 @@ class Level:
         self.cam_scroll()
         self.can_shift()
         self.recharge_collision()
+        self.spike_collision()
                     
 # ==============================================================================================================================================================================
 
@@ -290,7 +302,7 @@ class Tile_t(pygame.sprite.Sprite):
     def __init__(self, position, size):
         super().__init__()
 
-        self.image = pygame.image.load('Assets/sprites/teste/quadrado_teste.png')  # tiles
+        self.image = pygame.image.load('Assets/sprites/teste/tile_transp.png')  # tiles
         self.image = pygame.transform.scale(self.image, (size,size))
         self.rect = self.image.get_rect(topleft = position)  
         self.mask = pygame.mask.from_surface(self.image)
