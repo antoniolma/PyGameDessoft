@@ -133,7 +133,7 @@ class Level:
         player.apply_gravity()
 
         # Vert. Collision with Tiles
-        tile_hits = pygame.sprite.spritecollide(player, self.tiles, False, pygame.sprite.collide_mask)
+        tile_hits = pygame.sprite.spritecollide(player, self.tiles, False)
         for sprite in tile_hits:
             # Checa a colisão do player com um sprite
             if sprite.rect.colliderect(player.rect): 
