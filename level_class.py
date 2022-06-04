@@ -15,8 +15,6 @@ groups['all_snails'] = all_snails
 groups['all_tiles'] = all_tiles
 groups['invisible_tiles'] = invisible_tiles
 
-caiu = 1
-
 # Classe Level (Inspirado de: https://www.youtube.com/watch?v=YWN8GcmJ-jA&t=1342s)
 class Level:
     def __init__(self, level_data, surface):
@@ -36,6 +34,7 @@ class Level:
         self.tiles = pygame.sprite.Group()
         self.invisible = pygame.sprite.Group()
         self.spikes = pygame.sprite.Group()
+        self.totem = pygame.sprite.Group()
 
         # Grupos do player
         self.player = pygame.sprite.GroupSingle()
@@ -101,6 +100,10 @@ class Level:
                     ammo = Recharge( (x,y), tile_size)
                     self.recharge.add(ammo)
 
+                # Totem final do jogo
+                elif tile == 'O':
+                    pc = Computer( (x,y), tile_size)
+                    self.totem.add(pc)
                 
     def horizontal_collision(self):
         player = self.player.sprite
@@ -240,7 +243,8 @@ class Level:
         self.spikes.draw(self.display_surface)
         self.recharge.update(self.world_shift)
         self.recharge.draw(self.display_surface)
-        
+        self.totem.update(self.world_shift)
+        self.totem.draw(self.display_surface)
 
         # Inimigos
         self.snail.update(self.world_shift)
@@ -279,7 +283,7 @@ class Tile_fundo(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = position)  
         self.mask = pygame.mask.from_surface(self.image)
         
-    def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
+    def update(self, x_shift):    
         self.rect.x += x_shift
 
 class Tile_t(pygame.sprite.Sprite):
@@ -291,7 +295,7 @@ class Tile_t(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = position)  
         self.mask = pygame.mask.from_surface(self.image)
 
-    def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
+    def update(self, x_shift):    
         self.rect.x += x_shift
 
 # ==============================================================================================================================================================================
@@ -305,7 +309,7 @@ class Espinho(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (size,size))
         self.rect = self.image.get_rect(topleft = position)
     
-    def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
+    def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado
         self.rect.x += x_shift
 
 # ==============================================================================================================================================================================
@@ -319,5 +323,21 @@ class Recharge(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (size, size))
         self.rect = self.image.get_rect(topleft = position)
     
-    def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
+    def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado 
         self.rect.x += x_shift
+
+# ==============================================================================================================================================================================
+
+# Classe do totem de finalização (nota na Delta)
+class Computer(pygame.sprite.Sprite):
+    def __init__(self, position, size):
+        super().__init__()
+
+        self.image = pygame.image.load('Assets/sprites/teste/final.png')  
+        self.image = pygame.transform.scale(self.image, (size, size))
+        self.rect = self.image.get_rect(topleft = position)
+        self.mask = pygame.mask.from_surface(self.image)
+
+    def update(self, x_shift):  
+        self.rect.x += x_shift
+    

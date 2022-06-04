@@ -19,13 +19,14 @@ clock = pygame.time.Clock()
 level = Level(level_map, window)
 
 # ============ Inicia Assets ===========
-ja_foram = 0 
+ganhou = False
 
 # ----- Inicia estruturas de dados
 INICIO = 0
 GAME = 1
 GAME_OVER = 2
 QUIT = 3
+WIN = 4
 
 game = INICIO
 
@@ -37,13 +38,15 @@ pygame.mixer.music.play(loops=-1)
 
 while game != QUIT:
      
-    if game == INICIO or game == GAME_OVER:
+    if game == INICIO or game == GAME_OVER or game == WIN:
         # ----- Trata eventos
         for event in pygame.event.get():
             # ----- Verifica consequências
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     if game == GAME_OVER:
+                        level = Level(level_map, window)
+                    if game == WIN:
                         level = Level(level_map, window)
                     game = GAME
             if event.type == pygame.QUIT:
@@ -66,6 +69,10 @@ while game != QUIT:
             window.fill( (255, 255, 255) )
             window.blit(text2, (280, 230))
             window.blit(text, (280, 280))
+
+        elif game == WIN:
+            window.fill((0, 0, 0))  # Preenche com a cor branca
+            window.blit(assets['caracol'], (0, 0))
         
     elif game == GAME:
         # ----- Trata eventos
@@ -83,6 +90,11 @@ while game != QUIT:
 
         # Verifica se a "bala" bateu no chão - se sim, ela é deletada
         hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_snails'] , True, True, pygame.sprite.collide_mask)
+
+        # Verifica se o player chegou ao final do jogo (chegou no computador)
+        chegou_final = pygame.sprite.spritecollide(level.player.sprite, level.totem, False, pygame.sprite.collide_mask)
+        if len(chegou_final)>0:
+            ganhou = True
         
         # ----- Gera saídas
         window.fill((0, 0, 0))  # Preenche com a cor branca
@@ -91,6 +103,9 @@ while game != QUIT:
         all_sprites.update() 
         all_sprites.draw(window)
 
+        if ganhou:
+            game = WIN
+            ganhou = False
 
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
