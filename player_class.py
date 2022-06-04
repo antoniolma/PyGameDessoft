@@ -78,9 +78,9 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.direction.x = 0
             
-            # Movimento pulo
-            if keys[pygame.K_w] or keys[pygame.K_UP]:
-                self.jump()
+        # Movimento pulo
+        if keys[pygame.K_w] or keys[pygame.K_UP]:
+            self.jump()
 
         # Atirar
         if keys[pygame.K_SPACE]:
@@ -132,7 +132,17 @@ class Player(pygame.sprite.Sprite):
                 bananinha = Banana(self.rect.centery, self.lado_atirar, banana_speed)
                 self.groups['all_sprites'].add(bananinha)
                 self.groups['all_bananas'].add(bananinha)
-        
+    
+    def gethit_jump(self):
+        self.jump()
+        self.can_move = False
+        self.can_jump = True
+
+        if self.last_dx > 0:
+            self.direction.x = -0.5
+        elif self.last_dx < 0:
+            self.direction.x = 0.5
+    
     # Atualiza o player
     def update(self):
         self.get_input()
