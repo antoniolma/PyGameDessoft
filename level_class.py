@@ -15,6 +15,7 @@ groups['all_snails'] = all_snails
 groups['all_tiles'] = all_tiles
 groups['invisible_tiles'] = invisible_tiles
 
+caiu = 1
 
 # Classe Level (Inspirado de: https://www.youtube.com/watch?v=YWN8GcmJ-jA&t=1342s)
 class Level:
@@ -116,6 +117,9 @@ class Level:
                 elif player.direction.x < 0: 
                     # Player indo a esquerda, colide com lado direito do sprite
                     player.rect.left = sprite.rect.right
+
+        if player.rect.top > screen_height:
+            player.hp -= 3
 
         # Horizontal Collision with enemies
         for enemy in self.enemies:
