@@ -135,14 +135,27 @@ class Level:
         for enemy in self.enemies:
             if pygame.sprite.collide_mask(enemy, player):
                 self.player_hit_time()
-                player.gethit_jump()
+                # player.gethit_jump()
                 if player.direction.x > 0: 
                     # Player indo a direita, colide com lado esquerdo do sprite
-                    player.direction.x = 0
+                    player.rect.right == enemy.rect.left
                 elif player.direction.x < 0: 
                     # Player indo a esquerda, colide com lado direito do sprite
-                    player.direction.x = 0
-    
+                    player.rect.left == enemy.rect.right
+
+        spike_hits = pygame.sprite.spritecollide(player, self.spikes, False)
+        for spike in spike_hits:
+            if spike.rect.colliderect(player.rect):
+                self.player_hit_time()
+
+                # Colisão Horizontal
+                if player.direction.x > 0: 
+                    # Player indo a direita, colide com lado esquerdo do sprite
+                    player.rect.right = spike.rect.left
+                elif player.direction.x < 0: 
+                    # Player indo a esquerda, colide com lado direito do sprite
+                    player.rect.left = spike.rect.right
+
     def vertical_collision(self):
         player = self.player.sprite
         player.apply_gravity()
@@ -174,7 +187,7 @@ class Level:
         for enemy in self.enemies:
             if pygame.sprite.collide_mask(enemy, player):
                 self.player_hit_time()
-                player.gethit_jump()
+                # player.gethit_jump()
                 if player.direction.y > 0: 
                     # Player caindo, colide com o chão
                     player.direction.y = 0      # Cancela a gravidade (evita uma catástrofe...)
@@ -184,14 +197,22 @@ class Level:
                     # Player pulando, colide com o fundo do sprite
                     player.direction.y = 0      # Macaco não fica preso no teto
 
-        # Colisão com Espinhos
-    def spike_collision(self):
-        player = self.player.sprite
-
-        for spike in self.spikes:
-            if pygame.sprite.collide_mask(spike, player):
+        # Colisão com espinhos
+        spike_hits = pygame.sprite.spritecollide(player, self.spikes, False)
+        for spike in spike_hits:
+            if spike.rect.colliderect(player.rect):
                 self.player_hit_time()
-                player.gethit_jump()
+                
+                if player.direction.y > 0: 
+                    # Player caindo, colide com o chão
+                    player.rect.bottom = spike.rect.top
+                    player.direction.y = 0      # Cancela a gravidade (evita uma catástrofe...)
+                    player.can_jump = True
+                    player.can_move = True
+                elif player.direction.y < 0: 
+                    # Player pulando, colide com o fundo do sprite
+                    player.rect.top = spike.rect.bottom
+                    player.direction.y = 0      # Macaco não fica preso no teto
 
     def last_hit(self):
         self.last = pygame.time.get_ticks()
@@ -276,7 +297,6 @@ class Level:
         self.cam_scroll()
         self.can_shift()
         self.recharge_collision()
-        self.spike_collision()
                     
 # ==============================================================================================================================================================================
 

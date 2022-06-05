@@ -133,15 +133,15 @@ class Player(pygame.sprite.Sprite):
                 self.groups['all_sprites'].add(bananinha)
                 self.groups['all_bananas'].add(bananinha)
     
-    def gethit_jump(self):
-        self.jump()
-        self.can_move = False
-        self.can_jump = True
+    # def gethit_jump(self):
+    #     if self.direction.y != 0:
+    #         self.direction.y = -8
+    #     self.can_jump = True
 
-        if self.last_dx > 0:
-            self.direction.x = -0.5
-        elif self.last_dx < 0:
-            self.direction.x = 0.5
+    #     if self.last_dx > 0:
+    #         self.direction.x = -0.5
+    #     elif self.last_dx < 0:
+    #         self.direction.x = 0.5
     
     # Atualiza o player
     def update(self):

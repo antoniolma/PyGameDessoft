@@ -5,9 +5,7 @@ from level_class import groups
 
 # Classe Caracol
 class Snail(pygame.sprite.Sprite):
-    '''
-    Inicialização do Caracol, inimigo móvel do jogo
-    '''
+    # Inicialização do Caracol, inimigo móvel do jogo
     def __init__(self, position, size):
         super().__init__()
         pygame.sprite.Sprite.__init__(self)
@@ -16,7 +14,7 @@ class Snail(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (78,64))   
         self.rect = self.image.get_rect(topleft = position)  
         
-        self.speedx = -3
+        self.speedx = -2
     
     def snail_moviment(self):
     
