@@ -349,20 +349,6 @@ class Tile_move(pygame.sprite.Sprite):
 
 # ==============================================================================================================================================================================
 
-# Classe spikes
-class Espinho(pygame.sprite.Sprite):
-    def __init__(self, position, size):
-        super().__init__()
-
-        self.image = pygame.image.load('Assets/sprites/teste/espinhos.png')  
-        self.image = pygame.transform.scale(self.image, (size,size))
-        self.rect = self.image.get_rect(topleft = position)
-    
-    def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado
-        self.rect.x += x_shift
-
-# ==============================================================================================================================================================================
-
 # Classe Recarga Munição
 class Recharge(pygame.sprite.Sprite):
     def __init__(self, position, size):
