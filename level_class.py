@@ -219,6 +219,8 @@ class Level:
 
     def player_hit_time(self): # Colisão com hit ao player
         player = self.player.sprite
+        player.last_hit = pygame.time.get_ticks()
+        player.was_hit = True
 
         # Verifica se pode tomar hit
         self.hit_ticks = 2000

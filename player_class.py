@@ -20,11 +20,14 @@ class Player(pygame.sprite.Sprite):
         self.groups = groups
         self.lvl_section = 1
         self.centerx = self.player_w/2
+        self.was_hit = False
 
         # Mercando de quanto em quanto tempo é possível atirar
         self.last_shot = pygame.time.get_ticks()
+        self.last_hit = 0
         
         self.shoot_ticks = 500
+        self.dmg_ticks = 100
         
         # Movimento
         self.can_move = True
@@ -68,13 +71,21 @@ class Player(pygame.sprite.Sprite):
             if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
                 self.direction.x = 1
                 self.lado_atirar = self.rect.right
-                self.desenho = pygame.image.load('Assets/sprites/teste/el mamaco parado.png').convert_alpha()
-                self.image = pygame.transform.scale(self.desenho, (self.player_w, self.player_h))
+                if self.was_hit == False:
+                    self.desenho = pygame.image.load('Assets/sprites/teste/el mamaco parado.png').convert_alpha()
+                    self.image = pygame.transform.scale(self.desenho, (self.player_w, self.player_h))
+                elif self.was_hit:
+                    self.desenho = pygame.image.load('Assets/sprites/teste/monkey_righthit.png').convert_alpha()
+                    self.image = pygame.transform.scale(self.desenho, (self.player_w, self.player_h))
             elif keys[pygame.K_a] or keys[pygame.K_LEFT]:
                 self.direction.x = -1
                 self.lado_atirar = self.rect.left
-                self.desenho = pygame.image.load('Assets/sprites/teste/mamaco_virado.png').convert_alpha()
-                self.image = pygame.transform.scale(self.desenho, (self.player_w, self.player_h))
+                if self.was_hit == False:
+                    self.desenho = pygame.image.load('Assets/sprites/teste/mamaco_virado.png').convert_alpha()
+                    self.image = pygame.transform.scale(self.desenho, (self.player_w, self.player_h))
+                elif self.was_hit:
+                    self.desenho = pygame.image.load('Assets/sprites/teste/monkey_lefthit.png').convert_alpha()
+                    self.image = pygame.transform.scale(self.desenho, (self.player_w, self.player_h))
             else:
                 self.direction.x = 0
             
@@ -146,6 +157,12 @@ class Player(pygame.sprite.Sprite):
     # Atualiza o player
     def update(self):
         self.get_input()
+
+        if self.was_hit:
+            now = pygame.time.get_ticks()
+            elapsed_ticks = now - self.last_hit
+            if elapsed_ticks > self.dmg_ticks:
+                self.was_hit = False
 
         if self.direction.x != 0:
             self.last_dx = self.direction.x
