@@ -7,6 +7,7 @@ from settings import *
 
 # Inicializa o Pygame
 pygame.init()
+
 load_assets()
 pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
 pygame.mixer.music.set_volume(0.0)

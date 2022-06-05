@@ -29,7 +29,7 @@ class Level:
         self.side_x = screen_width/2
         self.zawarudo = 0
         self.minx = 0
-        self.maxx = 3072
+        self.maxx = 10688
 
     def setup_level(self, layout):
         # Grupos do level
