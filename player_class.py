@@ -196,7 +196,7 @@ class Heart(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = pygame.image.load('Assets/sprites/teste/live.png').convert_alpha() 
-        self.image = pygame.transform.scale(self.image, (18,18))   
+        self.image = pygame.transform.scale(self.image, (16,16))   
         self.rect = self.image.get_rect() 
 
         self.rect.top = y

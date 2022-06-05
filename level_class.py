@@ -9,11 +9,13 @@ all_sprites = pygame.sprite.Group()
 all_snails = pygame.sprite.Group()
 all_tiles = pygame.sprite.Group()
 invisible_tiles = pygame.sprite.Group()
+move_tiles = pygame.sprite.Group()
 groups['all_sprites'] = all_sprites
 groups['all_bananas'] = all_bananas
 groups['all_snails'] = all_snails
 groups['all_tiles'] = all_tiles
 groups['invisible_tiles'] = invisible_tiles
+groups['move_tiles'] = move_tiles
 
 # Classe Level (Inspirado de: https://www.youtube.com/watch?v=YWN8GcmJ-jA&t=1342s)
 class Level:
@@ -77,6 +79,11 @@ class Level:
                     tile = Tile_t((x,y), tile_size)
                     self.invisible.add(tile)
                     groups['invisible_tiles'].add(tile)
+
+                if tile == 'V':
+                    tile = Tile_move((x,y), tile_size)
+                    self.tiles.add(tile)
+                    groups['move_tiles'].add(tile)
 
                 # Player
                 elif tile == 'M':
@@ -309,6 +316,36 @@ class Tile_t(pygame.sprite.Sprite):
 
     def update(self, x_shift):    
         self.rect.x += x_shift
+
+class Tile_move(pygame.sprite.Sprite):
+    def __init__(self, position, size):
+        super().__init__()
+
+        self.image = pygame.image.load('Assets/sprites/teste/tile.png').convert_alpha() # tiles
+        self.image = pygame.transform.scale(self.image, (size,size))
+        self.rect = self.image.get_rect(topleft = position)  
+        self.mask = pygame.mask.from_surface(self.image)
+
+        self.speedx = -4
+    
+    def tile_moviment(self):
+        collision_tile_inv = pygame.sprite.groupcollide(groups['move_tiles'], groups['invisible_tiles'], False, False)
+
+        for move_tile, tiles in collision_tile_inv.items():
+            bloco = tiles[0]
+            # Caracol indo para direita
+            if bloco.rect.right > move_tile.rect.right > bloco.rect.left:
+                move_tile.rect.right = bloco.rect.left
+                move_tile.speedx = -move_tile.speedx
+
+            # Caracol indo para esquerda
+            elif bloco.rect.left < move_tile.rect.left < bloco.rect.right:
+                move_tile.rect.left = bloco.rect.right
+                move_tile.speedx = -move_tile.speedx
+
+    def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
+        self.rect.x += x_shift + self.speedx
+        self.tile_moviment()
 
 # ==============================================================================================================================================================================
 

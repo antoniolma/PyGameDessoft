@@ -30,13 +30,12 @@ class Snail(pygame.sprite.Sprite):
                 self.image = pygame.image.load('Assets/sprites/teste/el caracol.png').convert_alpha() #Quando colide, vira para esquerda
                 self.image = pygame.transform.scale(self.image, (78,64))
                 self.mask = pygame.mask.from_surface(self.image)
-                
 
             # Caracol indo para esquerda
             elif bloco.rect.left < snail.rect.left < bloco.rect.right:
                 snail.rect.left = bloco.rect.right
                 snail.speedx = -snail.speedx
-                self.image = pygame.image.load('Assets/sprites/teste/caracol_d.png').convert_alpha() #Quando colide, vira para direita
+                self.image = pygame.image.load('Assets/sprites/teste/caracol_virado.png').convert_alpha() #Quando colide, vira para direita
                 self.image = pygame.transform.scale(self.image, (78,64))
                 self.mask = pygame.mask.from_surface(self.image)
 
@@ -55,15 +54,15 @@ class Snail(pygame.sprite.Sprite):
             elif bloco.rect.left < snail.rect.left < bloco.rect.right:
                 snail.rect.left = bloco.rect.right
                 snail.speedx = -snail.speedx
-                self.image = pygame.image.load('Assets/sprites/teste/caracol_d.png').convert_alpha() #Quando colide, vira para direita
+                self.image = pygame.image.load('Assets/sprites/teste/caracol_virado.png').convert_alpha() #Quando colide, vira para direita
                 self.image = pygame.transform.scale(self.image, (78,64))
                 self.mask = pygame.mask.from_surface(self.image)
 
     def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
         self.rect.x += x_shift + self.speedx
         self.snail_moviment()
-# ==============================================================================================================================================================================
 
+# ==============================================================================================================================================================================
 # Classe Vespa
 class Wasp(pygame.sprite.Sprite):
     def __init__(self):

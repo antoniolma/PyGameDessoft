@@ -9,7 +9,7 @@ from settings import *
 pygame.init()
 load_assets()
 pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
-pygame.mixer.music.set_volume(0.6)
+pygame.mixer.music.set_volume(0.0)
 pygame.mixer.init() 
 
 # ----- Gera tela principal
