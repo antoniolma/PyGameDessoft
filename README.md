@@ -1,4 +1,4 @@
-# Carlos, O macaco de programa  (título provisório)
+# Carlo's Delta Escape
 Projeto PyGame para aula de Dessoft 2022.1 - Insper
 Grupo: Antonio L M Almeida, Verônica Luisa Ribeiro Lima e Luís Filippe Silva Gomes
 
