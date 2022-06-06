@@ -24,6 +24,8 @@ def load_assets():
 
     assets['municao_disponivel'] = pygame.image.load('Assets/sprites/teste/tile.png')
 
+    assets['comandos'] = pygame.image.load('Assets/sprites/teste/tela de comandos.png')
+
       # Carregando os sons
 
     pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')

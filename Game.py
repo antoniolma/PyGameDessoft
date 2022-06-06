@@ -28,6 +28,7 @@ GAME = 1
 GAME_OVER = 2
 QUIT = 3
 WIN = 4
+COMMANDS = 5
 
 game = INICIO
 
@@ -39,7 +40,7 @@ pygame.mixer.music.play(loops=-1)
 
 while game != QUIT:
      
-    if game == INICIO or game == GAME_OVER or game == WIN:
+    if game == INICIO or game == GAME_OVER or game == WIN or game == COMMANDS:
         # ----- Trata eventos
         for event in pygame.event.get():
             # ----- Verifica consequências
@@ -50,6 +51,11 @@ while game != QUIT:
                     if game == WIN:
                         level = Level(level_map, window)
                     game = GAME
+                    if game == COMMANDS:
+                        game = INICIO
+                if event.key == pygame.K_c:
+                    if game == INICIO:
+                        game = COMMANDS
             if event.type == pygame.QUIT:
                 game = QUIT
         
@@ -74,6 +80,10 @@ while game != QUIT:
         elif game == WIN:
             window.fill((0, 0, 0))  # Preenche com a cor branca
             window.blit(assets['caracol'], (0, 0))
+
+        elif game == COMMANDS:
+            window.fill((0, 0, 0))  # Preenche com a cor branca
+            window.blit(assets['comandos'], (0, 0))
         
     elif game == GAME:
         # ----- Trata eventos
