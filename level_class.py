@@ -1,3 +1,4 @@
+from os import kill
 import pygame
 from settings import level_map, screen_height, tile_size, screen_width
 from player_class import *
@@ -30,6 +31,7 @@ class Level:
         self.zawarudo = 0
         self.minx = 0
         self.maxx = 10624
+        self.p = None
 
     def setup_level(self, layout):
         # Grupos do level
@@ -88,6 +90,7 @@ class Level:
                 # Player
                 elif tile == 'M':
                     player_sprite = Player((x,y))
+                    self.p = player_sprite
                     self.player.add(player_sprite)
                     
                 # Espinho
@@ -182,9 +185,9 @@ class Level:
         #     # Checa a colisão do player com um sprite
         #     if sprite.rect.colliderect(player.rect):
                 
-        
-        # self.e_hit_mask = pygame.sprite.collide_mask(player, self.enemies, False)
-        for enemy in self.enemies:
+        # Colisão com inimigo
+        e_hits = pygame.sprite.spritecollide(player, self.enemies, False)
+        for enemy in e_hits:
             if pygame.sprite.collide_mask(enemy, player):
                 self.player_hit_time()
                 # player.gethit_jump()
@@ -196,6 +199,8 @@ class Level:
                 elif player.direction.y < 0: 
                     # Player pulando, colide com o fundo do sprite
                     player.direction.y = 0      # Macaco não fica preso no teto
+                if player.hp != 3:
+                    enemy.kill()
 
         # Colisão com espinhos
         spike_hits = pygame.sprite.spritecollide(player, self.spikes, False)
@@ -299,6 +304,26 @@ class Level:
         self.cam_scroll()
         self.can_shift()
         self.recharge_collision()
+
+        # Kill Groups if player dies
+        if self.p != None and self.p.hp <= 0:
+            for s in self.tiles.sprites():
+                s.kill()
+            for s in self.invisible.sprites():
+                s.kill()
+            for s in self.spikes.sprites():
+                s.kill()
+            for s in self.totem.sprites():
+                s.kill()
+            for s in self.player.sprites():
+                s.kill()
+            for s in self.recharge.sprites():
+                s.kill()
+            for s in self.snail.sprites():
+                s.kill()
+            for s in self.enemies.sprites():
+                s.kill()
+        
                     
 # ==============================================================================================================================================================================
 

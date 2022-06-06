@@ -5,7 +5,7 @@ from settings import screen_height, screen_width
 
 PLAYER = 'player'
 
-groups = {}  # Inicializa diionário que conterá os grupos de sprites
+groups = {}  # Inicializa dicionário que conterá os grupos de sprites
 assets = {}
 
 def load_assets():

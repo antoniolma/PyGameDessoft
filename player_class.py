@@ -22,6 +22,9 @@ class Player(pygame.sprite.Sprite):
         self.centerx = self.player_w/2
         self.was_hit = False
 
+        # Score do player
+        self.score = 0
+
         # Mercando de quanto em quanto tempo é possível atirar
         self.last_shot = pygame.time.get_ticks()
         self.last_hit = 0

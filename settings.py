@@ -5,11 +5,11 @@ level_map = [
 '                                                                                                                                                                      ',
 '                                                                                                                     A                                     TC     T   ',
 '                              TC  T   XXX                                                         TC    T           XXX                                     XXXXXX    ',
-'                               XXX           XXXX                 X                                XXXXX                                                              ',
-'                X   X    XX                 XFFF    TC     TV    TF   X                   TV     T                     TV    T           TC     T    TV    T        O ',
+'                               XXX          XXXXX                 X                                XXXXX                  TV    V                      TV    T        ',
+'                X   X    XX                 FFF     TC     TV    TF   X                   TV     T                                       TC     T                   O ',
 ' M             XF   FX                     EFFF      XXXXXXX      F   F     X             X               X           X                  XXXXXXXEEEEXEEEE          XXX',
-'XXXX  T  CT   XFF   FFXC      T           EXFFFA  EXXFFFFFFFXXEEEEFEEEFC    FXC     TV   T                   E   XXX  EEEEE    TC   XXXXXFFFFFFFFFFFFFFFF          FFF',
-'FFFF   XXX   XFFF   FFFXXXXXXX            XFFFFXXXXFFFFFFFFFFFFXXXFXXXFXXXXXFFXXXXXXX                        X   FFF  XXXXX     XXXXFFFFFFFFFFFFFFFFFFFFF          FFF'
+'XXXX  T  CT   XFF   FFXC      T     E     EXFFFA  EXXFFFFFFFXXEEEEFEEEFC    FXC     TV   T                   E   XXX  EEEEE    TC   XXXXXFFFFFFFFFFFFFFFF          FFF',
+'FFFF   XXX   XFFF   FFFXXXXXXX      X     XFFFFXXXXFFFFFFFFFFFFXXXFXXXFXXXXXFFXXXXXXX                        X   FFF  XXXXX     XXXXFFFFFFFFFFFFFFFFFFFFFXX        FFF'
 ]
 
 tile_size = 64                                # Tamanho do tile (Bloco de chão)
