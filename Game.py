@@ -21,7 +21,7 @@ level = Level(level_map, window)
 
 # ============ Inicia Assets ===========
 ganhou = False
-score = level.player.sprite.score
+score = level.player.sprite.score 
 
 # ----- Inicia estruturas de dados
 INICIO = 0
@@ -114,7 +114,7 @@ while game != QUIT:
         hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_snails'] , True, True, pygame.sprite.collide_mask)
         if len(hits) > 0:
             score += 2000
-
+ 
         # Verifica se o player chegou ao final do jogo (chegou no computador)
         chegou_final = pygame.sprite.spritecollide(level.player.sprite, level.totem, False, pygame.sprite.collide_mask)
         if len(chegou_final) > 0:

@@ -18,6 +18,7 @@ groups['all_tiles'] = all_tiles
 groups['invisible_tiles'] = invisible_tiles
 groups['move_tiles'] = move_tiles
 
+
 # Classe Level (Inspirado de: https://www.youtube.com/watch?v=YWN8GcmJ-jA&t=1342s)
 class Level:
     def __init__(self, level_data, surface):
@@ -228,7 +229,7 @@ class Level:
         player.was_hit = True
 
         # Verifica se pode tomar hit
-        self.hit_ticks = 2000
+        self.hit_ticks = 1000
         now = pygame.time.get_ticks()
 
         # Verifica quantos ticks se passaram desde o último hit.

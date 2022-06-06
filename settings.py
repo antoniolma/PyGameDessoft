@@ -3,12 +3,12 @@
 level_map = [
 
 '                                                                                                                                                                      ',
-'                                                                                                                     A                                     TC     T   ',
-'                              T  CT   XXX                                                         T    CT           XXX                                     XXXXXX    ',
-'                               XXX          XXXXX                 X                                XXXXX               TV  V                         TV    T          ',
-'                X   X    XX                 FFF     T     CTV    TF   X                   TV     T                                       TC     T                   O ',
-' M             XF   FX                     EFFF      XXXXXXX      F   F     X             X               X           X                  XXXXXXXEEEEXEEEE          XXX',
-'XXXX  T  CT   XFF   FFX      CT     E     EXFFFA  EXXFFFFFFFXXEEEEFEEEFC    FXC     TV   T                   E   XXX  EEEEE    TC   XXXXXFFFFFFFFFFFFFFFF          FFF',
+'                                                                                                                     A                                     T     CT   ',
+'                              T  CT   XXX                                                         TC    T           XXX                                     XXXXXX    ',
+'                               XXX          XXXXX                 X                                XXXXX                                             TV    T          ',
+'                X   X    XX                 FFF     T     CTV    TF   X                   TV     T                      TV  T            T     CT                   O ',
+' M             XF   FX                     EFFF      XXXXXXX      F   F     X             X               X           X                  XXXXXXXEEEEXEEEE   x      XXX',
+'XXXX  T  CT   XFF   FFX      CT     E     EXFFFA  EXXFFFFFFFXXEEEEFEEEFC    FX      TV   T                   E   XXX  EEEEE    T   CXXXXXFFFFFFFFFFFFFFFF          FFF',
 'FFFF   XXX   XFFF   FFFXXXXXXX      X     XFFFFXXXXFFFFFFFFFFFFXXXFXXXFXXXXXFFXXXXXXX                        X   FFF  XXXXX     XXXXFFFFFFFFFFFFFFFFFFFFFXX        FFF'
 ]
 
