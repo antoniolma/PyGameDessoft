@@ -105,7 +105,10 @@ while game != QUIT:
         # ----- Player Info
         if level.player.sprite.hp <= 0 :#or len(caiu) > 0:
             print('morreu')
+            level.destroy()
+            score = 0
             game = GAME_OVER
+            continue
 
         # Verifica se o caracol foi atingido pela banana - caso sim, ambos são deletados 
         hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_tiles'] , True, False, pygame.sprite.collide_mask)
@@ -125,7 +128,7 @@ while game != QUIT:
         score_text = font.render('{}'.format(score), True, (255, 255, 255))
 
         # ----- Gera saídas
-        window.fill((0, 0, 0))  # Preenche com a cor branca
+        window.fill((0, 0, 0))                        # Preenche com a cor branca
         window.blit(assets['background'], (0, 0))
         window.blit(score_text, (65,80))
         level.run()
