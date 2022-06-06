@@ -127,7 +127,7 @@ while game != QUIT:
         # ----- Gera saídas
         window.fill((0, 0, 0))  # Preenche com a cor branca
         window.blit(assets['background'], (0, 0))
-        window.blit(score_text, (100,100))
+        window.blit(score_text, (65,80))
         level.run()
         all_sprites.update() 
         all_sprites.draw(window)
