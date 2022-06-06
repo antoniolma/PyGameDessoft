@@ -6,11 +6,11 @@ import pygame               # Importa biblioteca Pygame
 from settings import *
 
 # Inicializa o Pygame
-pygame.init()
+pygame.init() 
 
 load_assets()
 pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
-pygame.mixer.music.set_volume(0.0)
+pygame.mixer.music.set_volume(0.4)
 pygame.mixer.init() 
 
 # ----- Gera tela principal
