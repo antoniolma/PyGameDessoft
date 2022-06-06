@@ -42,18 +42,18 @@ pygame.mixer.music.play(loops=-1)
 while game != QUIT:
      
      if game == INICIO or game == GAME_OVER or game == WIN or game == COMMANDS:
-        print('entrou 1')
+ 
         # ----- Trata eventos
         for event in pygame.event.get():
             # ----- Verifica consequências
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     if game == GAME_OVER:
-                        print('entrou game_over')
+                        ('entrou game_over')
                         del level
                         level = Level(level_map, window)
                     if game == WIN:
-                        print('Entrou win')
+
                         del level
                         level = Level(level_map, window)
                     game = GAME
@@ -66,7 +66,7 @@ while game != QUIT:
                 game = QUIT
         
         if game == INICIO:
-            print('entrou inicio')
+
             font = pygame.font.SysFont(None, 48)
             text = font.render('Aperte SPACE para continuar', True, (255, 255, 255))
 
@@ -75,7 +75,7 @@ while game != QUIT:
             window.blit(text, (280, 230))
 
         elif game == GAME_OVER:
-            print('entrou game over 2')
+
             font = pygame.font.SysFont(None, 48)
             text = font.render('Aperte SPACE para tentar novamente', True, (255, 0, 0))
             text2 = font.render('Game Over', True, (255, 0, 0))
@@ -86,7 +86,7 @@ while game != QUIT:
             window.blit(text, (280, 280))
 
         elif game == WIN:
-            print('entrou no win 2')
+
             window.fill((0, 0, 0))  # Preenche com a cor branca
             window.blit(assets['caracol'], (0, 0))
 
@@ -95,7 +95,7 @@ while game != QUIT:
             window.blit(assets['comandos'], (0, 0))
         
      elif game == GAME:
-        print('jogando chefe')
+
         # ----- Trata eventos
         for event in pygame.event.get():
             # ----- Verifica consequências
@@ -104,8 +104,11 @@ while game != QUIT:
     
         # ----- Player Info
         if level.player.sprite.hp <= 0 :#or len(caiu) > 0:
-            print('morreu')
+
+            level.destroy()
+            score = 0
             game = GAME_OVER
+            continue
 
         # Verifica se o caracol foi atingido pela banana - caso sim, ambos são deletados 
         hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_tiles'] , True, False, pygame.sprite.collide_mask)
@@ -120,12 +123,12 @@ while game != QUIT:
         if len(chegou_final) > 0:
             ganhou = True
 
-        # Printa Score
+        # printa Score
         font = pygame.font.SysFont(None, 48)
         score_text = font.render('{}'.format(score), True, (255, 255, 255))
 
         # ----- Gera saídas
-        window.fill((0, 0, 0))  # Preenche com a cor branca
+        window.fill((0, 0, 0))                        # Preenche com a cor branca
         window.blit(assets['background'], (0, 0))
         window.blit(score_text, (65,80))
         level.run()

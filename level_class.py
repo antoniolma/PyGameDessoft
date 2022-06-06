@@ -280,6 +280,29 @@ class Level:
             self.world_shift = 0
             player.speedx = 6
 
+    def destroy(self):
+        for s in self.tiles.sprites():
+            s.kill()
+        for s in self.invisible.sprites():
+            s.kill()
+        for s in self.spikes.sprites():
+            s.kill()
+        for s in self.totem.sprites():
+            s.kill()
+        for s in self.player.sprites():
+            s.kill()
+        for s in self.recharge.sprites():
+            s.kill()
+        for s in self.snail.sprites():
+            s.kill()
+        for s in self.enemies.sprites():
+            s.kill()
+        for s in all_sprites.sprites():
+            s.kill()
+        for s in groups["all_snails"]:
+            s.kill()
+        
+
     def run(self):
         # Level Tiles
         self.tiles.update(self.world_shift)
@@ -305,25 +328,6 @@ class Level:
         self.cam_scroll()
         self.can_shift()
         self.recharge_collision()
-
-        # Kill Groups if player dies
-        if self.p != None and self.p.hp <= 0:
-            for s in self.tiles.sprites():
-                s.kill()
-            for s in self.invisible.sprites():
-                s.kill()
-            for s in self.spikes.sprites():
-                s.kill()
-            for s in self.totem.sprites():
-                s.kill()
-            for s in self.player.sprites():
-                s.kill()
-            for s in self.recharge.sprites():
-                s.kill()
-            for s in self.snail.sprites():
-                s.kill()
-            for s in self.enemies.sprites():
-                s.kill()
         
                     
 # ==============================================================================================================================================================================
