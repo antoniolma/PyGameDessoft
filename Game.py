@@ -41,7 +41,7 @@ pygame.mixer.music.play(loops=-1)
 
 while game != QUIT:
      
-    if game == INICIO or game == GAME_OVER or game == WIN or game == COMMANDS:
+     if game == INICIO or game == GAME_OVER or game == WIN or game == COMMANDS:
         print('entrou 1')
         # ----- Trata eventos
         for event in pygame.event.get():
@@ -94,7 +94,7 @@ while game != QUIT:
             window.fill((0, 0, 0))  # Preenche com a cor branca
             window.blit(assets['comandos'], (0, 0))
         
-    elif game == GAME:
+     elif game == GAME:
         print('jogando chefe')
         # ----- Trata eventos
         for event in pygame.event.get():
@@ -137,6 +137,6 @@ while game != QUIT:
             ganhou = False
 
     # ----- Atualiza estado do jogo
-    pygame.display.update()  # Mostra o novo frame para o jogador
+     pygame.display.update()  # Mostra o novo frame para o jogador
     
-    clock.tick(60) 
+     clock.tick(60) 
