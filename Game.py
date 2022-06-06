@@ -41,7 +41,7 @@ pygame.mixer.music.play(loops=-1)
 
 while game != QUIT:
      
-    if game == INICIO or game == GAME_OVER or game == WIN:
+    if game == INICIO or game == GAME_OVER or game == WIN or game == COMMANDS:
         print('entrou 1')
         # ----- Trata eventos
         for event in pygame.event.get():
