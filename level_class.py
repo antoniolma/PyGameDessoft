@@ -240,7 +240,7 @@ class Level:
             player.live.sprites()[-1].kill()
             player.hp -= 1 
     
-    def can_shift(self):
+    def cam_shift(self):
         self.zawarudo -= self.world_shift
         pass
 
@@ -286,6 +286,12 @@ class Level:
             s.kill()
         for s in groups["all_snails"]:
             s.kill()
+        for s in groups["all_sprites"]:
+            s.kill()
+        for s in groups["all_bananas"]:
+            s.kill()
+        for s in groups["all_tiles"]:
+            s.kill()
         
 
     def run(self):
@@ -311,7 +317,7 @@ class Level:
         self.player.draw(self.display_surface)
         self.vertical_collision()
         self.cam_scroll()
-        self.can_shift()
+        self.cam_shift()
         
                     
 # ==============================================================================================================================================================================

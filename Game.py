@@ -10,7 +10,7 @@ pygame.init()
 
 load_assets()
 pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
-pygame.mixer.music.set_volume(0.0)
+pygame.mixer.music.set_volume(0.6)
 pygame.mixer.init() 
 
 # ----- Gera tela principal
@@ -42,19 +42,16 @@ pygame.mixer.music.play(loops=-1)
 
 while game != QUIT:
      
-     if game == INICIO or game == GAME_OVER or game == WIN or game == COMMANDS:
- 
+    if game == INICIO or game == GAME_OVER or game == WIN or game == COMMANDS:
         # ----- Trata eventos
         for event in pygame.event.get():
             # ----- Verifica consequências
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     if game == GAME_OVER:
-                        ('entrou game_over')
                         del level
-                        level = Level(level_map, window)
+                        level = Level(level_map, window) 
                     if game == WIN:
-
                         del level
                         level = Level(level_map, window)
                     game = GAME
@@ -65,7 +62,8 @@ while game != QUIT:
                         game = COMMANDS
             if event.type == pygame.QUIT:
                 game = QUIT
-        
+            print('{}'.format(game))
+            print(player.hp)
         if game == INICIO:
 
             font = pygame.font.SysFont(None, 48)
@@ -95,7 +93,7 @@ while game != QUIT:
             window.fill((0, 0, 0))  # Preenche com a cor branca
             window.blit(assets['comandos'], (0, 0))
         
-     elif game == GAME:
+    elif game == GAME:
 
         # ----- Trata eventos
         for event in pygame.event.get():
@@ -105,10 +103,9 @@ while game != QUIT:
     
         # ----- Player Info
         if player.hp <= 0 :#or len(caiu) > 0:
-
+            game = GAME_OVER
             level.destroy()
             score = 0
-            game = GAME_OVER
             continue
 
         # Recarrega Munição
@@ -154,8 +151,9 @@ while game != QUIT:
         if ganhou:
             game = WIN
             ganhou = False
+            level.destroy()
 
     # ----- Atualiza estado do jogo
-     pygame.display.update()  # Mostra o novo frame para o jogador
-    
-     clock.tick(60) 
+    pygame.display.update()  # Mostra o novo frame para o jogador
+
+    clock.tick(60) 
