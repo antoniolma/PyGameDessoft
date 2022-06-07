@@ -10,18 +10,19 @@ pygame.init()
 
 load_assets()
 pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
-pygame.mixer.music.set_volume(0.6)
+pygame.mixer.music.set_volume(0.0)
 pygame.mixer.init() 
 
 # ----- Gera tela principal
 window = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption('Carlos, o macaco')
+pygame.display.set_caption("Carlo's Delta Escape")
 clock = pygame.time.Clock()
 level = Level(level_map, window)
 
 # ============ Inicia Assets ===========
 ganhou = False
-score = level.player.sprite.score 
+player = level.player.sprite
+score = player.score 
 
 # ----- Inicia estruturas de dados
 INICIO = 0
@@ -103,12 +104,27 @@ while game != QUIT:
                 game = QUIT                 
     
         # ----- Player Info
-        if level.player.sprite.hp <= 0 :#or len(caiu) > 0:
+        if player.hp <= 0 :#or len(caiu) > 0:
 
             level.destroy()
             score = 0
             game = GAME_OVER
             continue
+
+        # Recarrega Munição
+        if len(player.banana_storage) < 3:
+            recharge_hits = pygame.sprite.spritecollide(player, level.recharge, True)
+            for hit in recharge_hits:
+                if len(player.banana_storage) > 0:
+                    for b in player.banana_storage:
+                        player.banana_storage.sprites()[-1].kill()
+                score += 1000
+                x = 30
+                for i in range(3):
+                    x += 30
+                    balas_restantes = Munition(x, 10)
+                    player.banana_storage.add(balas_restantes)
+                    player.groups["all_sprites"].add(balas_restantes)
 
         # Verifica se o caracol foi atingido pela banana - caso sim, ambos são deletados 
         hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_tiles'] , True, False, pygame.sprite.collide_mask)
@@ -119,7 +135,7 @@ while game != QUIT:
             score += 2000
  
         # Verifica se o player chegou ao final do jogo (chegou no computador)
-        chegou_final = pygame.sprite.spritecollide(level.player.sprite, level.totem, False, pygame.sprite.collide_mask)
+        chegou_final = pygame.sprite.spritecollide(player, level.totem, False, pygame.sprite.collide_mask)
         if len(chegou_final) > 0:
             ganhou = True
 

@@ -227,6 +227,7 @@ class Level:
         player = self.player.sprite
         player.last_hit = pygame.time.get_ticks()
         player.was_hit = True
+        player.score -= 500
 
         # Verifica se pode tomar hit
         self.hit_ticks = 1000
@@ -238,22 +239,6 @@ class Level:
             self.last_hit()
             player.live.sprites()[-1].kill()
             player.hp -= 1 
-    
-    def recharge_collision(self):
-        player = self.player.sprite
-
-        if len(player.banana_storage) < 3:
-            recharge_hits = pygame.sprite.spritecollide(player, self.recharge, True)
-            for hit in recharge_hits:
-                if len(player.banana_storage) > 0:
-                    for b in player.banana_storage:
-                        player.banana_storage.sprites()[-1].kill()
-                x = 30
-                for i in range(3):
-                    x += 30
-                    balas_restantes = Munition(x, 10)
-                    player.banana_storage.add(balas_restantes)
-                    player.groups["all_sprites"].add(balas_restantes)
     
     def can_shift(self):
         self.zawarudo -= self.world_shift
@@ -327,7 +312,6 @@ class Level:
         self.vertical_collision()
         self.cam_scroll()
         self.can_shift()
-        self.recharge_collision()
         
                     
 # ==============================================================================================================================================================================
