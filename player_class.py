@@ -1,5 +1,4 @@
 import pygame
-from random import *
 from settings import level_map, screen_height, tile_size, screen_width
 from assets import *
 
@@ -22,6 +21,7 @@ class Player(pygame.sprite.Sprite):
         self.lvl_section = 1
         self.centerx = self.player_w/2
         self.was_hit = False
+        self.can_jump_sound = False
 
         # Score do player
         self.score = 0
@@ -123,7 +123,7 @@ class Player(pygame.sprite.Sprite):
 
     def jump(self):
         if self.can_jump:
-            random.choice(player_jump_sounds).play()
+            self.can_jump_sound = True
             self.direction.y = self.jump_speed
             self.can_jump = False
 

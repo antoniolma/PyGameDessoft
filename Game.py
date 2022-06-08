@@ -4,6 +4,7 @@ from assets import *        # Importa as funções
 from level_class import *       # Importa as Classes
 import pygame               # Importa biblioteca Pygame
 from settings import *
+from random import choice
 
 # Inicializa o Pygame
 pygame.init()
@@ -100,8 +101,12 @@ while game != QUIT:
             # ----- Verifica consequências
             if event.type == pygame.QUIT:
                 game = QUIT 
-                
-        player = level.player.sprite                
+
+        # ----- Jump Sound:
+        if player.can_jump_sound:
+            choice(assets['player_jump_sounds']).play()
+            player.can_jump_sound = False
+                        
     
         # ----- Player Info
         if player.hp <= 0 :#or len(caiu) > 0:

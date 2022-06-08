@@ -41,8 +41,3 @@ assets['tela de inicio'] = pygame.image.load('Assets/sprites/teste/tela inicial.
 
 # --- Objetivo:
 assets['computer'] = pygame.image.load('Assets/sprites/teste/final.png')  
-
-
-# --- Sons:
-assets['snail_death_sound'] = pygame.mixer.Sound('Assets/snail_sounds/CaracolDeath.mp3')
-assets['player_jump_sounds'] = [pygame.mixer.Sound('Assets/player_sounds/MacacoPulo1.mp3'), pygame.mixer.Sound('Assets/player_sounds/MacacoPulo2.mp3')]
