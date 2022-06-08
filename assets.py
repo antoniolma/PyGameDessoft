@@ -41,6 +41,12 @@ assets['tela de inicio'] = pygame.image.load('Assets/sprites/teste/tela inicial.
 assets['game over'] = pygame.image.load('Assets/sprites/teste/game over.jpeg')
 assets['final ruim'] = pygame.image.load('Assets/sprites/teste/tela final ruim.jpeg')
 assets['final bom'] = pygame.image.load('Assets/sprites/teste/final bom.jpeg')
+assets['lore1'] = pygame.image.load('Assets/lore/Lore1.jpeg')
+assets['lore2'] = pygame.image.load('Assets/lore/Lore2.jpeg')
+assets['lore3'] = pygame.image.load('Assets/lore/Lore3.jpeg')
+assets['lore4'] = pygame.image.load('Assets/lore/Lore4.jpeg')
+assets['lore5'] = pygame.image.load('Assets/lore/Lore5.jpeg')
+assets['lore6'] = pygame.image.load('Assets/lore/Lore6.jpeg')
 
 # --- Objetivo:
 assets['computer'] = pygame.image.load('Assets/sprites/teste/final.png')  
