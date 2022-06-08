@@ -5,6 +5,7 @@ from player_class import *
 from enemy_class import *
 from assets import *
 
+# Cria grupos de sprites
 all_bananas = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 all_snails = pygame.sprite.Group()
@@ -34,6 +35,10 @@ class Level:
         self.p = None
 
     def setup_level(self, layout):
+        '''
+        Inicializa a configuração do level - cria os grupos de sprites e um if que substitui
+        as letras do layout criado em setup por criaturas/tiles
+        '''
         # Grupos do level
         self.tiles = pygame.sprite.Group()
         self.invisible = pygame.sprite.Group()
@@ -116,6 +121,9 @@ class Level:
                     self.totem.add(pc)
                 
     def horizontal_collision(self):
+        '''
+        Verifica e aplica colisão horizontal do player com tiles e com os inimigos
+        '''
         player = self.player.sprite
         player.rect.x += player.direction.x * player.speedx
 
@@ -131,7 +139,7 @@ class Level:
                     # Player indo a esquerda, colide com lado direito do sprite
                     player.rect.left = sprite.rect.right
 
-        if player.rect.top > screen_height:
+        if player.rect.top > screen_height: # se o player cai nos buracos, ele morre instantãneamente 
             player.hp -= 3
 
         # Horizontal Collision with enemies
@@ -160,6 +168,9 @@ class Level:
                     player.rect.left = spike.rect.right
 
     def vertical_collision(self):
+        '''
+        Verifica e aplica colisão vertical do player com tiles e com os inimigos
+        '''
         player = self.player.sprite
         player.apply_gravity()
 
@@ -179,12 +190,6 @@ class Level:
                     player.rect.top = sprite.rect.bottom
                     player.direction.y = 0      # Macaco não fica preso no teto
 
-        # # Vert. Collision with enemies
-        # self.e_hits = pygame.sprite.spritecollide(player, self.enemies, False)
-        # for sprite in self.e_hits:
-        #     # Checa a colisão do player com um sprite
-        #     if sprite.rect.colliderect(player.rect):
-                
         # Colisão com inimigo
         e_hits = pygame.sprite.spritecollide(player, self.enemies, False)
         for enemy in e_hits:
@@ -220,9 +225,15 @@ class Level:
                     player.direction.y = 0      # Macaco não fica preso no teto
 
     def last_hit(self):
+        '''
+        Verifica quando foi o último hit
+        '''
         self.last = pygame.time.get_ticks()
 
     def player_hit_time(self): # Colisão com hit ao player
+        '''
+        Verifica se ja é possivel tomar dano e, se sim, remove um de vida
+        '''
         player = self.player.sprite
         player.last_hit = pygame.time.get_ticks()
         player.was_hit = True
@@ -265,6 +276,9 @@ class Level:
             player.speedx = 6
 
     def destroy(self):
+        '''
+        Deleta o level - usado no reset para um level não sobrescrever outro 
+        '''
         for s in self.tiles.sprites():
             s.kill()
         for s in self.invisible.sprites():
@@ -294,6 +308,9 @@ class Level:
         
 
     def run(self):
+        '''
+        Da update e draw em todos sprites configurados em setup_level()
+        '''
         # Level Tiles
         self.tiles.update(self.world_shift)
         self.tiles.draw(self.display_surface)
@@ -370,6 +387,9 @@ class Tile_move(pygame.sprite.Sprite):
         self.speedx = -4
     
     def tile_moviment(self):
+        '''
+        Programa o movimento do tile: ele se move até bater em um tile (geralmente, o invisível)
+        '''
         collision_tile_inv = pygame.sprite.groupcollide(groups['move_tiles'], groups['invisible_tiles'], False, False)
 
         for move_tile, tiles in collision_tile_inv.items():

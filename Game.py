@@ -88,11 +88,11 @@ while game != QUIT:
             if event.type == pygame.QUIT:
                 game = QUIT
         
-        if game == INICIO:                              
+        if game == INICIO: # se o jogo está na tela de inicio                             
             window.fill((0, 0, 0))
             window.blit(assets['tela de inicio'], (0, 0))
         
-        elif game == LORE:
+        elif game == LORE: # se o jogo está apresentando a cutscene 
             window.fill((0, 0, 0))
             if lore_count == 1:
                 window.blit(assets['lore1'], (0, 0))
@@ -107,12 +107,12 @@ while game != QUIT:
             elif lore_count == 6:
                 window.blit(assets['lore6'], (0, 0))
 
-        elif game == GAME_OVER:
+        elif game == GAME_OVER: # se o jogo está na tela de inicio (player perdeu)    
 
             window.fill((0, 0, 0))  
             window.blit(assets['game over'], (0, 0))
 
-        elif game == WIN:
+        elif game == WIN: # se o jogo está na tela de vitória
             if score < 15000:
                 window.fill((0, 0, 0))
                 window.blit(assets['final ruim'], (0, 0))
@@ -127,11 +127,11 @@ while game != QUIT:
                 window.fill((0, 0, 0))
                 window.blit(assets['final bom'], (0, 0))
 
-        elif game == COMMANDS:
+        elif game == COMMANDS: # se o jogo está na tela de comandos    
             window.fill((0, 0, 0))  
             window.blit(assets['comandos'], (0, 0))
         
-    elif game == GAME:
+    elif game == GAME: # se o jogo está rodando
        
         player = level.player.sprite
 
@@ -182,7 +182,7 @@ while game != QUIT:
         if len(chegou_final) > 0:
             ganhou = True
         
-        #print(was_hit)
+        # Tira ponto do player caso ele seja atingido 
         if player.dmg_score:
             score -= 500
             player.dmg_score = False

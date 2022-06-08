@@ -17,6 +17,10 @@ class Snail(pygame.sprite.Sprite):
         self.speedx = -2
     
     def snail_moviment(self):
+        '''
+        Programa o movimento do caracol: ele se move até bater em um tile (geralmente, o invisível)
+        quando isso ocorre, a velocidade (direção) inverte
+        '''
     
         collision_snail_inv = pygame.sprite.groupcollide(groups['all_snails'], groups['invisible_tiles'], False, False)
         collision_snail_tile = pygame.sprite.groupcollide(groups['all_snails'], groups['all_tiles'], False, False)
