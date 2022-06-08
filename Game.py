@@ -88,7 +88,7 @@ while game != QUIT:
                 window.blit(assets['final ruim'], (0, 0))
 
                 font = pygame.font.SysFont(None, 48)
-                text = font.render('10.000', True, (255, 255, 255))
+                text = font.render('15.000', True, (255, 255, 255))
                 text2 = font.render('{}'.format(score), True, (255, 255, 255))
 
                 window.blit(text2, (100, 210))
