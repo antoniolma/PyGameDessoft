@@ -22,6 +22,7 @@ class Player(pygame.sprite.Sprite):
         self.centerx = self.player_w/2
         self.was_hit = False
         self.can_jump_sound = False
+        self.dmg_score = False
 
         # Score do player
         self.score = 0
