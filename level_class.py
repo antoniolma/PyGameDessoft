@@ -18,8 +18,6 @@ groups['all_tiles'] = all_tiles
 groups['invisible_tiles'] = invisible_tiles
 groups['move_tiles'] = move_tiles
 
-was_hit = []
-
 # Classe Level (Inspirado de: https://www.youtube.com/watch?v=YWN8GcmJ-jA&t=1342s)
 class Level:
     def __init__(self, level_data, surface):
@@ -239,8 +237,7 @@ class Level:
             self.last_hit()
             player.live.sprites()[-1].kill()
             player.hp -= 1 
-            was_hit.append(1)
-        print(was_hit)
+            player.dmg_score = True
     
     def cam_shift(self):
         self.zawarudo -= self.world_shift

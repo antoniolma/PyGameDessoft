@@ -183,9 +183,9 @@ while game != QUIT:
             ganhou = True
         
         #print(was_hit)
-        if len(was_hit) % 2 == 1:
+        if player.dmg_score:
             score -= 500
-            was_hit.append(1)
+            player.dmg_score = False
 
         # printa Score
         font = pygame.font.SysFont(None, 48)
