@@ -17,7 +17,8 @@ Carlos, o macaco, está no primeiro semestre de Engenharia da Computação na In
 
 * Estilo: 64-bit.
 
-* Comandos 
+
+## COMANDOS 
 >( W , A , S, D , SpaceBarS ) --> Movimentação.
 >
 >( SPACE ) --> Ataque
