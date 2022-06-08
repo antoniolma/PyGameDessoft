@@ -18,6 +18,7 @@ groups['all_tiles'] = all_tiles
 groups['invisible_tiles'] = invisible_tiles
 groups['move_tiles'] = move_tiles
 
+was_hit = []
 
 # Classe Level (Inspirado de: https://www.youtube.com/watch?v=YWN8GcmJ-jA&t=1342s)
 class Level:
@@ -227,7 +228,6 @@ class Level:
         player = self.player.sprite
         player.last_hit = pygame.time.get_ticks()
         player.was_hit = True
-        player.score -= 500
 
         # Verifica se pode tomar hit
         self.hit_ticks = 1000
@@ -239,6 +239,7 @@ class Level:
             self.last_hit()
             player.live.sprites()[-1].kill()
             player.hp -= 1 
+            was_hit.append(1)
     
     def can_shift(self):
         self.zawarudo -= self.world_shift
@@ -286,6 +287,7 @@ class Level:
             s.kill()
         for s in groups["all_snails"]:
             s.kill()
+        was_hit = []
         
 
     def run(self):

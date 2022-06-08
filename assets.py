@@ -26,6 +26,8 @@ def load_assets():
 
     assets['comandos'] = pygame.image.load('Assets/sprites/teste/tela de comandos.png')
 
+    assets['tela de inicio'] = pygame.image.load('Assets/sprites/teste/tela inicial.jpeg')
+
       # Carregando os sons
 
     pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')

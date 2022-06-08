@@ -10,7 +10,7 @@ pygame.init()
 
 load_assets()
 pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
-pygame.mixer.music.set_volume(0.0)
+pygame.mixer.music.set_volume(0.6)
 pygame.mixer.init() 
 
 # ----- Gera tela principal
@@ -41,7 +41,7 @@ game = INICIO
 pygame.mixer.music.play(loops=-1)
 
 while game != QUIT:
-     
+
      if game == INICIO or game == GAME_OVER or game == WIN or game == COMMANDS:
  
         # ----- Trata eventos
@@ -50,14 +50,13 @@ while game != QUIT:
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     if game == GAME_OVER:
-                        ('entrou game_over')
                         del level
                         level = Level(level_map, window)
                     if game == WIN:
-
                         del level
                         level = Level(level_map, window)
                     game = GAME
+                    
                     if game == COMMANDS:
                         game = INICIO
                 if event.key == pygame.K_c:
@@ -66,14 +65,9 @@ while game != QUIT:
             if event.type == pygame.QUIT:
                 game = QUIT
         
-        if game == INICIO:
-
-            font = pygame.font.SysFont(None, 48)
-            text = font.render('Aperte SPACE para continuar', True, (255, 255, 255))
-
-            # ----- Gera saídas
-            window.fill((0, 100, 0))  # Preenche com a cor verde
-            window.blit(text, (280, 230))
+        if game == INICIO:                              
+            window.fill((0, 0, 0))
+            window.blit(assets['tela de inicio'], (0, 0))
 
         elif game == GAME_OVER:
 
@@ -96,19 +90,22 @@ while game != QUIT:
             window.blit(assets['comandos'], (0, 0))
         
      elif game == GAME:
-
-        # ----- Trata eventos
+        print(was_hit)
+                # ----- Trata eventos
         for event in pygame.event.get():
             # ----- Verifica consequências
             if event.type == pygame.QUIT:
-                game = QUIT                 
+                game = QUIT 
+                
+        player = level.player.sprite                
     
         # ----- Player Info
-        if player.hp <= 0 :#or len(caiu) > 0:
+        if player.hp <= 0 and game != GAME_OVER:#or len(caiu) > 0:
 
             level.destroy()
             score = 0
-            game = GAME_OVER
+            game = GAME_OVER       
+            print(was_hit)  
             continue
 
         # Recarrega Munição
@@ -138,6 +135,12 @@ while game != QUIT:
         chegou_final = pygame.sprite.spritecollide(player, level.totem, False, pygame.sprite.collide_mask)
         if len(chegou_final) > 0:
             ganhou = True
+        
+        #print(was_hit)
+        if len(was_hit) % 2 == 1:
+            score-=500
+            was_hit.append(1)
+        
 
         # printa Score
         font = pygame.font.SysFont(None, 48)
@@ -154,6 +157,7 @@ while game != QUIT:
         if ganhou:
             game = WIN
             ganhou = False
+            score = 0
 
     # ----- Atualiza estado do jogo
      pygame.display.update()  # Mostra o novo frame para o jogador
