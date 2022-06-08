@@ -39,6 +39,8 @@ assets['tile_inv'] = pygame.image.load('Assets/sprites/teste/tile_transp.png')
 assets['comandos'] = pygame.image.load('Assets/sprites/teste/tela de comandos.png')
 assets['tela de inicio'] = pygame.image.load('Assets/sprites/teste/tela inicial.jpeg')
 assets['game over'] = pygame.image.load('Assets/sprites/teste/game over.jpeg')
+assets['final ruim'] = pygame.image.load('Assets/sprites/teste/tela final ruim.jpeg')
+assets['final bom'] = pygame.image.load('Assets/sprites/teste/final bom.jpeg')
 
 # --- Objetivo:
 assets['computer'] = pygame.image.load('Assets/sprites/teste/final.png')  

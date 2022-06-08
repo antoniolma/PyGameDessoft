@@ -46,27 +46,30 @@ game = INICIO
 pygame.mixer.music.play(loops=-1)
 
 while game != QUIT:
-     
+
     if game == INICIO or game == GAME_OVER or game == WIN or game == COMMANDS:
         # ----- Trata eventos
         for event in pygame.event.get():
             # ----- Verifica consequências
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_SPACE:
-                    was_hit = []
-                    if game == GAME_OVER:
-                        del level
-                        level = Level(level_map, window) 
-                    if game == WIN:
-                        del level
-                        level = Level(level_map, window)
-                    game = GAME
-                    
+                if event.key == pygame.K_SPACE:                     
                     if game == COMMANDS:
                         game = INICIO
+
                 if event.key == pygame.K_c:
                     if game == INICIO:
                         game = COMMANDS
+
+                if event.key == pygame.K_KP_ENTER:
+                    if game == GAME_OVER:
+                        del level
+                        level = Level(level_map, window)
+                    if game == WIN:
+                        del level
+                        level = Level(level_map, window)
+                        score = 0
+                    game = GAME
+                         
             if event.type == pygame.QUIT:
                 game = QUIT
         
@@ -80,17 +83,26 @@ while game != QUIT:
             window.blit(assets['game over'], (0, 0))
 
         elif game == WIN:
+            if score < 1000:
+                window.fill((0, 0, 0))
+                window.blit(assets['final ruim'], (0, 0))
 
-            window.fill((0, 0, 0))  # Preenche com a cor branca
-            window.blit(assets['caracol'], (0, 0))
+                font = pygame.font.SysFont(None, 48)
+                text = font.render('10.000', True, (255, 255, 255))
+                text2 = font.render('{}'.format(score), True, (255, 255, 255))
+
+                window.blit(text2, (100, 210))
+                window.blit(text, (100, 320))
+            else:
+                window.fill((0, 0, 0))
+                window.blit(assets['final bom'], (0, 0))
 
         elif game == COMMANDS:
             window.fill((0, 0, 0))  
             window.blit(assets['comandos'], (0, 0))
         
     elif game == GAME:
-        print(was_hit)
-
+       
         player = level.player.sprite
 
         # ----- Trata eventos
@@ -104,7 +116,6 @@ while game != QUIT:
             choice(assets['player_jump_sounds']).play()
             player.can_jump_sound = False
                         
-    
         # ----- Player Info
         if player.hp <= 0 :#or len(caiu) > 0:
             game = GAME_OVER
