@@ -25,7 +25,7 @@ lore_count = 1
 
 # =========== Sons ============
 pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
-pygame.mixer.music.set_volume(0.6)
+pygame.mixer.music.set_volume(0.60)
 snail_death_sound = assets['snail_death_sound']
 player_jump_sounds = assets['player_jump_sounds']
 pygame.mixer.init() 

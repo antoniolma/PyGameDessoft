@@ -240,7 +240,6 @@ class Level:
             player.live.sprites()[-1].kill()
             player.hp -= 1 
             was_hit.append(1)
-        print(was_hit)
     
     def cam_shift(self):
         self.zawarudo -= self.world_shift
