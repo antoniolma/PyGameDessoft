@@ -8,7 +8,7 @@ level_map = [
 '                               XXX          XXXXX                 X                                XXXXX                                             TV    T          ',
 '                X   X    XX                 FFFF    T     CTV    TF   X                   TV     T                      TV  T            T     CT                   O ',
 ' M             XF   FX                     EFFF      XXXXXXX      F   F     X             X               X           X                  XXXXXXXEEEEXEEEE   x      XXX',
-'XXXX  T  CT   XFF   FFX      CT     E     EXFFFA  EXXFFFFFFFXXEEEEFEEEFC    FX      TV   T                   E   XXX  EEEEE    T   CXXXXXFFFFFFFFFFFFFFFF          FFF',
+'XXXX  T  CT   XFF   FFX      CTT    E     EXFFFA  EXXFFFFFFFXXEEEEFEEEFC    FX      TV   T                   E   XXX  EEEEE    T   CXXXXXFFFFFFFFFFFFFFFF          FFF',
 'FFFF   XXX   XFFF   FFFXXXXXXX      X     XFFFFXXXXFFFFFFFFFFFFXXXFXXXFXXXXXFFXXXXXXX                        X   FFF  XXXXX     XXXXFFFFFFFFFFFFFFFFFFFFFXX        FFF'
 ]
 

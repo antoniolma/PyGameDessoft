@@ -76,14 +76,8 @@ while game != QUIT:
 
         elif game == GAME_OVER:
 
-            font = pygame.font.SysFont(None, 48)
-            text = font.render('Aperte SPACE para tentar novamente', True, (255, 0, 0))
-            text2 = font.render('Game Over', True, (255, 0, 0))
-
-            # Tela de Game Over
-            window.fill( (255, 255, 255) )
-            window.blit(text2, (280, 230))
-            window.blit(text, (280, 280))
+            window.fill((0, 0, 0))  
+            window.blit(assets['game over'], (0, 0))
 
         elif game == WIN:
 
@@ -91,10 +85,13 @@ while game != QUIT:
             window.blit(assets['caracol'], (0, 0))
 
         elif game == COMMANDS:
-            window.fill((0, 0, 0))  # Preenche com a cor branca
+            window.fill((0, 0, 0))  
             window.blit(assets['comandos'], (0, 0))
         
     elif game == GAME:
+        print(was_hit)
+
+        player = level.player.sprite
 
         # ----- Trata eventos
         for event in pygame.event.get():
@@ -146,7 +143,7 @@ while game != QUIT:
         
         #print(was_hit)
         if len(was_hit) % 2 == 1:
-            score-=500
+            score -= 500
             was_hit.append(1)
 
         # printa Score
