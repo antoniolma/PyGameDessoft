@@ -32,7 +32,7 @@ class Level:
         self.side_x = screen_width/2
         self.zawarudo = 0
         self.minx = 0
-        self.maxx = 10624
+        self.maxx = 11520
         self.p = None
 
     def setup_level(self, layout):

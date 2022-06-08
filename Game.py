@@ -113,7 +113,7 @@ while game != QUIT:
             window.blit(assets['game over'], (0, 0))
 
         elif game == WIN:
-            if score < 1000:
+            if score < 15000:
                 window.fill((0, 0, 0))
                 window.blit(assets['final ruim'], (0, 0))
 
