@@ -1,4 +1,5 @@
 import pygame
+from random import *
 from settings import level_map, screen_height, tile_size, screen_width
 from assets import *
 
@@ -75,19 +76,19 @@ class Player(pygame.sprite.Sprite):
                 self.direction.x = 1
                 self.lado_atirar = self.rect.right
                 if self.was_hit == False:
-                    self.desenho = pygame.image.load('Assets/sprites/teste/el mamaco parado.png').convert_alpha()
+                    self.desenho = assets[PLAYER].convert_alpha()
                     self.image = pygame.transform.scale(self.desenho, (self.player_w, self.player_h))
                 elif self.was_hit:
-                    self.desenho = pygame.image.load('Assets/sprites/teste/monkey_righthit.png').convert_alpha()
+                    self.desenho = assets['player_hitado_right'].convert_alpha()
                     self.image = pygame.transform.scale(self.desenho, (self.player_w, self.player_h))
             elif keys[pygame.K_a] or keys[pygame.K_LEFT]:
                 self.direction.x = -1
                 self.lado_atirar = self.rect.left
                 if self.was_hit == False:
-                    self.desenho = pygame.image.load('Assets/sprites/teste/mamaco_virado.png').convert_alpha()
+                    self.desenho = assets['player_virado'].convert_alpha()
                     self.image = pygame.transform.scale(self.desenho, (self.player_w, self.player_h))
                 elif self.was_hit:
-                    self.desenho = pygame.image.load('Assets/sprites/teste/monkey_lefthit.png').convert_alpha()
+                    self.desenho = assets['player_hitado_left'].convert_alpha()
                     self.image = pygame.transform.scale(self.desenho, (self.player_w, self.player_h))
             else:
                 self.direction.x = 0
@@ -122,6 +123,7 @@ class Player(pygame.sprite.Sprite):
 
     def jump(self):
         if self.can_jump:
+            random.choice(player_jump_sounds).play()
             self.direction.y = self.jump_speed
             self.can_jump = False
 
@@ -177,7 +179,7 @@ class Banana(pygame.sprite.Sprite):
     def __init__(self, centery, ladoplayer, banana_speed):
         pygame.sprite.Sprite.__init__(self)
         
-        self.image = pygame.image.load('Assets/sprites/teste/banana munição.png').convert_alpha()  #player img 
+        self.image = assets['balas'].convert_alpha()  #player img 
         self.image = pygame.transform.scale(self.image, (16, 16))   # Rescale the player
         self.rect = self.image.get_rect() 
         self.mask = pygame.mask.from_surface(self.image)
@@ -201,7 +203,7 @@ class Munition(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = pygame.image.load('Assets/sprites/teste/municao.png').convert_alpha() 
+        self.image = assets['municao'].convert_alpha() 
         self.image = pygame.transform.scale(self.image, (32,32))   
         self.rect = self.image.get_rect() 
 
@@ -215,7 +217,7 @@ class Heart(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = pygame.image.load('Assets/sprites/teste/live.png').convert_alpha() 
+        self.image = assets['heart'].convert_alpha() 
         self.image = pygame.transform.scale(self.image, (16,16))   
         self.rect = self.image.get_rect() 
 

@@ -8,11 +8,6 @@ from settings import *
 # Inicializa o Pygame
 pygame.init()
 
-load_assets()
-pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
-pygame.mixer.music.set_volume(0.6)
-pygame.mixer.init() 
-
 # ----- Gera tela principal
 window = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Carlo's Delta Escape")
@@ -20,9 +15,18 @@ clock = pygame.time.Clock()
 level = Level(level_map, window)
 
 # ============ Inicia Assets ===========
+assets['snail_death_sound'] = pygame.mixer.Sound('Assets/snail_sounds/CaracolDeath.mp3')
+assets['player_jump_sounds'] = [pygame.mixer.Sound('Assets/player_sounds/MacacoPulo1.mp3'), pygame.mixer.Sound('Assets/player_sounds/MacacoPulo2.mp3')]
 ganhou = False
 player = level.player.sprite
-score = player.score 
+score = player.score
+
+# =========== Sons ============
+pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
+pygame.mixer.music.set_volume(0.6)
+snail_death_sound = assets['snail_death_sound']
+player_jump_sounds = assets['player_jump_sounds']
+pygame.mixer.init() 
 
 # ----- Inicia estruturas de dados
 INICIO = 0
@@ -48,6 +52,7 @@ while game != QUIT:
             # ----- Verifica consequências
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
+                    was_hit = []
                     if game == GAME_OVER:
                         del level
                         level = Level(level_map, window) 
@@ -126,6 +131,7 @@ while game != QUIT:
         # Verifica se a "bala" bateu no chão - se sim, ela é deletada
         hits = pygame.sprite.groupcollide(groups['all_bananas'], groups['all_snails'] , True, True, pygame.sprite.collide_mask)
         if len(hits) > 0:
+            snail_death_sound.play()
             score += 2000
  
         # Verifica se o player chegou ao final do jogo (chegou no computador)

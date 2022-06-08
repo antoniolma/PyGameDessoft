@@ -18,7 +18,7 @@ groups['all_tiles'] = all_tiles
 groups['invisible_tiles'] = invisible_tiles
 groups['move_tiles'] = move_tiles
 
-was_hit = []
+was_hit = 0
 
 # Classe Level (Inspirado de: https://www.youtube.com/watch?v=YWN8GcmJ-jA&t=1342s)
 class Level:
@@ -239,7 +239,6 @@ class Level:
             self.last_hit()
             player.live.sprites()[-1].kill()
             player.hp -= 1 
-            was_hit.append(1)
     
     def cam_shift(self):
         self.zawarudo -= self.world_shift
@@ -328,7 +327,7 @@ class Tile(pygame.sprite.Sprite):
     def __init__(self, position, size):
         super().__init__()
 
-        self.image = pygame.image.load('Assets/sprites/teste/tile.png')  # tiles
+        self.image = assets["tile_grama"]  # tiles
         self.image = pygame.transform.scale(self.image, (size,size))
         self.rect = self.image.get_rect(topleft = position)  
         self.mask = pygame.mask.from_surface(self.image)
@@ -340,7 +339,7 @@ class Tile_fundo(pygame.sprite.Sprite):
     def __init__(self, position, size):
         super().__init__()
 
-        self.image = pygame.image.load('Assets/sprites/teste/tile_fundo.png')  # tiles
+        self.image = assets['tile_fundo']  # tiles
         self.image = pygame.transform.scale(self.image, (size,size))
         self.rect = self.image.get_rect(topleft = position)  
         self.mask = pygame.mask.from_surface(self.image)
@@ -352,7 +351,7 @@ class Tile_t(pygame.sprite.Sprite):
     def __init__(self, position, size):
         super().__init__()
 
-        self.image = pygame.image.load('Assets/sprites/teste/tile_transp.png')  # tiles
+        self.image = assets['tile_inv']  # tiles
         self.image = pygame.transform.scale(self.image, (size,size))
         self.rect = self.image.get_rect(topleft = position)  
         self.mask = pygame.mask.from_surface(self.image)
@@ -364,7 +363,7 @@ class Tile_move(pygame.sprite.Sprite):
     def __init__(self, position, size):
         super().__init__()
 
-        self.image = pygame.image.load('Assets/sprites/teste/tile.png').convert_alpha() # tiles
+        self.image = assets['tile_grama'].convert_alpha() # tiles
         self.image = pygame.transform.scale(self.image, (size,size))
         self.rect = self.image.get_rect(topleft = position)  
         self.mask = pygame.mask.from_surface(self.image)
@@ -397,7 +396,7 @@ class Recharge(pygame.sprite.Sprite):
     def __init__(self, position, size):
         super().__init__()
 
-        self.image = pygame.image.load('Assets/sprites/teste/municao.png')  
+        self.image = assets['municao'] 
         self.image = pygame.transform.scale(self.image, (size, size))
         self.rect = self.image.get_rect(topleft = position)
     
@@ -411,7 +410,7 @@ class Computer(pygame.sprite.Sprite):
     def __init__(self, position, size):
         super().__init__()
 
-        self.image = pygame.image.load('Assets/sprites/teste/final.png')  
+        self.image = assets['computer']
         self.image = pygame.transform.scale(self.image, (size, size))
         self.rect = self.image.get_rect(topleft = position)
         self.mask = pygame.mask.from_surface(self.image)
