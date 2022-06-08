@@ -1,9 +1,9 @@
 # Carlo's Delta Escape
 Projeto PyGame para aula de Dessoft 2022.1 - Insper
 
-..* Antonio L M Almeida
-..* Verônica Luisa Ribeiro Lima
-..* Luis Filippe S Gomes
+* Antonio L M Almeida
+* Verônica Luisa Ribeiro Lima
+* Luis Filippe S Gomes
 
 
 ## LORE
@@ -13,11 +13,11 @@ Carlos, o macaco, está no primeiro semestre de Engenharia da Computação na In
 
 ## FICHA DO JOGO
 
-..* Tipo de Jogo: Plataformer.
+* Tipo de Jogo: Plataformer.
 
-..* Estilo: 64-bit.
+* Estilo: 64-bit.
 
-..* Comandos 
+* Comandos 
 >( W , A , S, D , SpaceBarS ) --> Movimentação.
 >
 >( SPACE ) --> Ataque
