@@ -21,6 +21,7 @@ assets['player_jump_sounds'] = [pygame.mixer.Sound('Assets/player_sounds/MacacoP
 ganhou = False
 player = level.player.sprite
 score = player.score
+lore_count = 1
 
 # =========== Sons ============
 pygame.mixer.music.load('assets/sounds/musiquinha-fundo.mp3')
@@ -31,11 +32,12 @@ pygame.mixer.init()
 
 # ----- Inicia estruturas de dados
 INICIO = 0
-GAME = 1
-GAME_OVER = 2
-QUIT = 3
-WIN = 4
-COMMANDS = 5
+LORE = 1
+GAME = 2
+GAME_OVER = 3
+QUIT = 4
+WIN = 5
+COMMANDS = 6
 
 game = INICIO
 
@@ -47,7 +49,7 @@ pygame.mixer.music.play(loops=-1)
 
 while game != QUIT:
 
-    if game == INICIO or game == GAME_OVER or game == WIN or game == COMMANDS:
+    if game == INICIO or game == GAME_OVER or game == WIN or game == COMMANDS or game == LORE:
         # ----- Trata eventos
         for event in pygame.event.get():
             # ----- Verifica consequências
@@ -60,22 +62,50 @@ while game != QUIT:
                     if game == INICIO:
                         game = COMMANDS
 
-                if event.key == pygame.K_KP_ENTER:
+                if event.key == pygame.K_x:
+                    if game == LORE:
+                        lore_count += 1
+                        if lore_count == 7:
+                            game = GAME
+
+                if event.key == pygame.K_RETURN:
                     if game == GAME_OVER:
                         del level
                         level = Level(level_map, window)
+                        score = 0
+                        game = GAME
+                    
                     if game == WIN:
                         del level
                         level = Level(level_map, window)
                         score = 0
-                    game = GAME
-                         
+                        game = GAME
+
+                    if game == INICIO:
+                        game = LORE
+
+                    
             if event.type == pygame.QUIT:
                 game = QUIT
         
         if game == INICIO:                              
             window.fill((0, 0, 0))
             window.blit(assets['tela de inicio'], (0, 0))
+        
+        elif game == LORE:
+            window.fill((0, 0, 0))
+            if lore_count == 1:
+                window.blit(assets['lore1'], (0, 0))
+            elif lore_count == 2:
+                window.blit(assets['lore2'], (0, 0))
+            elif lore_count == 3:
+                window.blit(assets['lore3'], (0, 0))
+            elif lore_count == 4:
+                window.blit(assets['lore4'], (0, 0))
+            elif lore_count == 5:
+                window.blit(assets['lore5'], (0, 0))
+            elif lore_count == 6:
+                window.blit(assets['lore6'], (0, 0))
 
         elif game == GAME_OVER:
 
