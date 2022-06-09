@@ -38,3 +38,6 @@ Pygame
 
 ## ARQUIVO QUE SE INCIALIZA PARA JOGAR
 Game.py
+
+## Vídeo do Jogo 
+https://youtu.be/TBZE8nGqSAg
