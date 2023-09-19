@@ -1,5 +1,4 @@
 # Setup do mapa
-
 level_map = [
 
 '                                                                                                                                                                      FFF           ',
