@@ -5,6 +5,7 @@ from level_class import *       # Importa as Classes
 import pygame               # Importa biblioteca Pygame
 from settings import *
 from random import choice
+from funcoes import *
 
 # Inicializa o Pygame
 pygame.init()
