@@ -8,7 +8,6 @@ PLAYER = 'player'
 groups = {}  # Inicializa dicionário que conterá os grupos de sprites
 assets = {}
 
-
 # ===========  Carregando todos os sprites  =============
 # --- Fundo:
 assets['background'] = pygame.image.load('Assets/sprites/teste/fundo_completo1.png')

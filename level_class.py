@@ -4,6 +4,22 @@ from settings import level_map, screen_height, tile_size, screen_width
 from player_class import *
 from enemy_class import *
 from assets import *
+from funcoes import *
+
+def recarregaMunicao(sprite, level):
+    if len(sprite.banana_storage) < 3:
+            recharge_hits = pygame.sprite.spritecollide(sprite, level.recharge, True)
+            for hit in recharge_hits:
+                if len(sprite.banana_storage) > 0:
+                    for b in sprite.banana_storage:
+                        sprite.banana_storage.sprites()[-1].kill()
+                score += 1000
+                x = 30
+                for i in range(3):
+                    x += 30
+                    balas_restantes = Munition(x, 10)
+                    sprite.banana_storage.add(balas_restantes)
+                    sprite.groups["all_sprites"].add(balas_restantes)
 
 # Cria grupos de sprites
 all_bananas = pygame.sprite.Group()
@@ -29,7 +45,7 @@ class Level:
 
         # Lado do player para câmera
         self.side_x = screen_width/2
-        self.zawarudo = 0
+        self.camShift = 0
         self.minx = 0
         self.maxx = 11520
         self.p = None
@@ -251,8 +267,7 @@ class Level:
             player.dmg_score = True
     
     def cam_shift(self):
-        self.zawarudo -= self.world_shift
-        pass
+        self.camShift -= self.world_shift
 
     def cam_scroll(self):
         player = self.player.sprite
@@ -265,10 +280,10 @@ class Level:
             self.side_x = player.rect.x
         
         # Movimento da Camera
-        if self.side_x >= screen_width * 3/4 and self.direction_x > 0 and self.zawarudo < self.maxx - screen_width: #indo a direita
+        if self.side_x >= screen_width * 3/4 and self.direction_x > 0 and self.camShift < self.maxx - screen_width: #indo a direita
             self.world_shift = -8
             player.speedx = 0
-        elif self.side_x <= screen_width/4 and self.direction_x < 0 and self.zawarudo > self.minx: #indo a esquerda
+        elif self.side_x <= screen_width/4 and self.direction_x < 0 and self.camShift > self.minx: #indo a esquerda
             self.world_shift = 8
             player.speedx = 0
         else:
@@ -347,9 +362,12 @@ class Tile(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (size,size))
         self.rect = self.image.get_rect(topleft = position)  
         self.mask = pygame.mask.from_surface(self.image)
-        
-    def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
+    
+    def tileShift(self, x_shift):
         self.rect.x += x_shift
+
+    def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
+        self.tileShift(x_shift)
 
 class Tile_fundo(pygame.sprite.Sprite):
     def __init__(self, position, size):
@@ -359,9 +377,12 @@ class Tile_fundo(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (size,size))
         self.rect = self.image.get_rect(topleft = position)  
         self.mask = pygame.mask.from_surface(self.image)
-        
-    def update(self, x_shift):    
+    
+    def tileShift(self, x_shift):
         self.rect.x += x_shift
+
+    def update(self, x_shift):    
+        self.tileShift(x_shift)
 
 class Tile_t(pygame.sprite.Sprite):
     def __init__(self, position, size):
@@ -372,8 +393,11 @@ class Tile_t(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = position)  
         self.mask = pygame.mask.from_surface(self.image)
 
-    def update(self, x_shift):    
+    def tileShift(self, x_shift):
         self.rect.x += x_shift
+
+    def update(self, x_shift):    
+        self.tileShift(x_shift)
 
 class Tile_move(pygame.sprite.Sprite):
     def __init__(self, position, size):
@@ -404,8 +428,11 @@ class Tile_move(pygame.sprite.Sprite):
                 move_tile.rect.left = bloco.rect.right
                 move_tile.speedx = -move_tile.speedx
 
-    def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado (pygame é assim "press F")
-        self.rect.x += x_shift + self.speedx
+    def tileShift(self, x_shift):
+        self.rect.x += x_shift
+
+    def update(self, x_shift):    
+        self.tileShift(x_shift)
         self.tile_moviment()
 
 # ==============================================================================================================================================================================
@@ -419,21 +446,21 @@ class Recharge(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (size, size))
         self.rect = self.image.get_rect(topleft = position)
     
-    def update(self, x_shift):    # Quando player chegar a uma parte do level, o level mexe para o lado 
+    def tileShift(self, x_shift):
         self.rect.x += x_shift
+
+    def update(self, x_shift):    
+        self.tileShift(x_shift)
 
 # ==============================================================================================================================================================================
 
 # Classe do totem de finalização (nota na Delta)
-class Computer(pygame.sprite.Sprite):
+class Computer(Tile):
     def __init__(self, position, size):
-        super().__init__()
+        super().__init__(position, size)
 
         self.image = assets['computer']
         self.image = pygame.transform.scale(self.image, (size, size))
         self.rect = self.image.get_rect(topleft = position)
         self.mask = pygame.mask.from_surface(self.image)
-
-    def update(self, x_shift):  
-        self.rect.x += x_shift
     

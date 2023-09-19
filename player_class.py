@@ -1,5 +1,5 @@
 import pygame
-from settings import level_map, screen_height, tile_size, screen_width
+from settings import tile_size, screen_width
 from assets import *
 
 # Classe do Carlos, o Macaco

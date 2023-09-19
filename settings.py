@@ -1,11 +1,10 @@
 # Setup do mapa
-
 level_map = [
 
 '                                                                                                                                                                      FFF           ',
 '                                                                                                                     A                                     T     CT   FFF           ',
 '                              T  CT   XXX                                                         TC    T           XXX                                     XXXXXX    FFF           ',
-'                               XXX          XXXXX                 X                                XXXXX                                             TV    T          FF            ',
+'                               XXX          XXXXX                 X                              XXXXXX                                             TV    T          FF            ',
 '                X   X    XX                 FFFF    T     CTV    TF   X                   TV     T                      TV  T            T     CT                     FF          O ',
 ' M             XF   FX                     EFFF      XXXXXXX      F   F     X             X               X           X                  XXXXXXXEEEEXEEEE   x     X         X    XXX',
 'XXXX  T  CT   XFF   FFX      CT     E     EXFFFA  EXXFFFFFFFXXEEEEFEEEFC    FX      TV   T                   E   XXX  EEEEE    T   CXXXXXFFFFFFFFFFFFFFFF              XXX       FFF',
